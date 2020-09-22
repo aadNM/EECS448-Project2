@@ -1,6 +1,6 @@
 //var canvas = document.getElementById("canvas");
 //var c = canvas.getContext("2d");
-
+ 
 /**
  * @classdesc Game board is initialized with given height, width, totalShips
  * @constructor 
@@ -22,8 +22,14 @@ class Board
         this.turn;
         this.hitX;
         this.hitY;
+        this.validNum;
+        this.gotShips;
+        this.validCoords;
+        this.message;
+        this.validPlacements;
         
     }
+ 
     initboard(){
         this.hitX = -1;
         this.hitY = -1;
@@ -32,14 +38,14 @@ class Board
         this.width = 9;
         this.board = [];
         for (let i=0;i<9;i++){
-			this.board[i] = [];
-			for (let j = 0;j<9;j++){
+            this.board[i] = [];
+            for (let j = 0;j<9;j++){
                 this.board[i][j] = 0; // 0 represents water
-                console.log("Board initialized");
-			}
-		}
+            }
+        }
+        console.log("Board initialized");
     }
-
+ 
     /**
  * checks if the input coordinates are within the range 
  * @param {Number} - x - X coordinate 
@@ -50,6 +56,8 @@ class Board
         if(t==0){
             console.log("Checking only 1 coord");
             if(!(x < this.height && x < this.width)){
+                this.validCoords = false;
+                alert("There is an invalid coordinate! At least in one coordinate we only have one part!");
                 return false;
             }
         }else{
@@ -57,17 +65,22 @@ class Board
         // Check within board, return false if not
             if(!((x < this.height && x < this.width) && (y < this.height && y < this.width))){
                 console.log("NOT WITHIN THE BOARD");
+                this.validCoords = false;
+                alert("There is an invalid coordinate! At least one coordinate is not inside the board!");
                 return false;
             }
             // If its within the board, ship exists? return false if 1 
             if(this.board[x][y] == 1 ){
                 console.log("SHIP EXISTS");
+                this.validCoords = false;
+                alert("There is an invalid coordinate! At least in one coordinate has a ship being on top of another one!");
                 return false;
             }
         }
+        this.validCoords = true;
         return true;
     }
-
+ 
 /**
  * sets the hit x coordinate 
  * @param {Number} - x - The X coordinate to hit  
@@ -81,7 +94,7 @@ class Board
         }
         
     }
-
+ 
 /**
 * sets the hit  y coordinate  
 * @param {Number} - x - The Y coordinate to hit  
@@ -95,7 +108,7 @@ class Board
         }
             
     }
-
+ 
 /**
  * adds ship to the grid 
  * @param {Number} x - x coordinate of the borad
@@ -103,13 +116,18 @@ class Board
  * @param {Number} t - type of the ship
  */
     addShip(x,y,t){
+        this.validPlacements = true;
         console.log("ADDING SHIP");
         if(this.checkCoord(x,y,1)){
             this.board[x][y] = t;
             console.log("done");
         }
+        else{
+            this.validPlacements = false;
+        }
+        console.log("Hi:"+this.validPlacements );
     }
-
+ 
 /**
  * checks the board for placed ships 
  * @param {Number} - x - The X coordinate of the board
@@ -122,7 +140,7 @@ class Board
             return false;
         }
     }
-
+ 
 /**
  * if the ship is hit change the grid position to 9 
  * @param {Number}-  x - X coordinate of the board
@@ -138,9 +156,9 @@ class Board
             this.board[x][y] = 7; 
             alert("HIT AT " + x + " " + y); 
         }
-
+ 
     }
-
+ 
     /**
  * if the ship is missed change the grid position to 6 
  * @param {Number}-  x - X coordinate of the board
@@ -156,9 +174,9 @@ class Board
             this.board[x][y] = 6; 
             alert("MISS AT " + x + " " + y);
         }
-
+ 
     }
-
+ 
     shipIsDestroyed(shipType)
     {
         let destroyed = false; 
@@ -179,7 +197,7 @@ class Board
         return(destroyed); 
     }
 }
-
+ 
 /**
  * @classdesc  initialises the ship with the given x and y coordinates, the size of the ship, orientation and the type
  */
@@ -210,7 +228,7 @@ class Ships{
         
         this.yCoord = parseInt(y);
     }
-
+ 
 /**
  * Sets the ship size and type 
  * @param {Number} -  s - the given of the ship  
@@ -251,40 +269,103 @@ class Ships{
         }
         
     }
-
+ 
 }
-
+ 
 let p1 = new Board();
 let p2 = new Board();
-
+ 
 p1.initboard();
 p2.initboard();
-
+ 
 let p1S1 = new Ships();
 let p1S2 = new Ships();
 let p1S3 = new Ships();
 let p1S4 = new Ships();
 let p1S5 = new Ships();
-
+ 
 p1S1.setShipSize(1);
 p1S2.setShipSize(2);
 p1S3.setShipSize(3);
 p1S4.setShipSize(4);
 p1S5.setShipSize(5);
-
+ 
 let p2S1 = new Ships();
 let p2S2 = new Ships();
 let p2S3 = new Ships();
 let p2S4 = new Ships();
 let p2S5 = new Ships();
-
+ 
 p2S1.setShipSize(1);
 p2S2.setShipSize(2);
 p2S3.setShipSize(3);
 p2S4.setShipSize(4);
 p2S5.setShipSize(5);
-
-
+ 
+p1.turn = true;
+ 
+function initNumShips()
+{
+    var x = document.getElementById('numberShips').value;
+    if(Number(x) > 0 && Number(x) < 6)
+    {
+        this.totalShips = x;
+        this.validNum = true
+        console.log("valid");
+        document.getElementById('shipInput').hidden = true;
+        displayShipInputs();
+    }
+    else
+    {
+        this.validNum = false;
+        window.alert("Not a valid number! Try again.");
+        console.log("not valid");
+    }
+}
+ 
+function displayShipInputs(){
+    if(p1.turn)
+    {
+        document.getElementById('p1Ships').hidden = false;
+        if(this.totalShips >= 2)
+        {
+            document.getElementById('p1Two').hidden = false;
+        }
+        if(this.totalShips >= 3)
+        {
+            document.getElementById('p1Three').hidden = false;
+        }
+        if(this.totalShips >= 4)
+        {
+            document.getElementById('p1Four').hidden = false;
+        }
+        if(this.totalShips == 5)
+        {
+            document.getElementById('p1Five').hidden = false;
+        }
+    }
+    else{
+        document.getElementById('p1Ships').hidden = true;
+        document.getElementById('p2Ships').hidden = false;
+        if(this.totalShips >= 2)
+        {
+            document.getElementById('p2Two').hidden = false;
+        }
+        if(this.totalShips >= 3)
+        {
+            document.getElementById('p2Three').hidden = false;
+        }
+        if(this.totalShips >= 4)
+        {
+            document.getElementById('p2Four').hidden = false;
+        }
+        if(this.totalShips == 5)
+        {
+            document.getElementById('p2Five').hidden = false;
+        }
+    }
+}
+ 
 /**
  * Print function 
  * @param {Object}  - player - player object is the instance of board class 
@@ -306,11 +387,22 @@ function prettyPrint(player,t){
     }
     document.getElementById(t).innerHTML = printThis;
 }
-
+ 
 prettyPrint(p1,"p1div");
 prettyPrint(p2,"p2div");
-
-
+document.getElementById('p1Ships').hidden = true;
+document.getElementById('game').hidden = true;
+document.getElementById('p1Two').hidden = true;
+document.getElementById('p1Three').hidden = true;
+document.getElementById('p1Four').hidden = true;
+document.getElementById('p1Five').hidden = true;
+document.getElementById('p2Ships').hidden = true;
+document.getElementById('p2Two').hidden = true;
+document.getElementById('p2Three').hidden = true;
+document.getElementById('p2Four').hidden = true;
+document.getElementById('p2Five').hidden = true;
+ 
+ 
 /**
  * The function sets the different variables available to the board class after taking inputs for player 1
  */
@@ -323,26 +415,26 @@ function formUpdate(){
     p1S2.setX(document.getElementById('S2X').value);
     p1S2.setY(document.getElementById('S2Y').value);
     p1S2.setOrientation(document.getElementById('S2Orien').value);
-
+ 
     p1S3.setX(document.getElementById('S3X').value);
     p1S3.setY(document.getElementById('S3Y').value);
     p1S3.setOrientation(document.getElementById('S3Orien').value);
-
+ 
     p1S4.setX(document.getElementById('S4X').value);
     p1S4.setY(document.getElementById('S4Y').value);
     p1S4.setOrientation(document.getElementById('S4Orien').value);
-
+ 
     p1S5.setX(document.getElementById('S5X').value);
     p1S5.setY(document.getElementById('S5Y').value);
     p1S5.setOrientation(document.getElementById('S5Orien').value);
-
+ 
 }
-
+ 
 /**
  * The function sets the different variables available to the board class after taking inputs for player 2
  * 
  */
-
+ 
 function formUpdate1(){
     p2S1.setX(document.getElementById('2S1X').value);
     p2S1.setY(document.getElementById('2S1Y').value);
@@ -351,38 +443,58 @@ function formUpdate1(){
     p2S2.setX(document.getElementById('2S2X').value);
     p2S2.setY(document.getElementById('2S2Y').value);
     p2S2.setOrientation(document.getElementById('2S2Orien').value);
-
+ 
     p2S3.setX(document.getElementById('2S3X').value);
     p2S3.setY(document.getElementById('2S3Y').value);
     p2S3.setOrientation(document.getElementById('2S3Orien').value);
-
+ 
     p2S4.setX(document.getElementById('2S4X').value);
     p2S4.setY(document.getElementById('2S4Y').value);
     p2S4.setOrientation(document.getElementById('2S4Orien').value);
-
+ 
     p2S5.setX(document.getElementById('2S5X').value);
     p2S5.setY(document.getElementById('2S5Y').value);
     p2S5.setOrientation(document.getElementById('2S5Orien').value);
-
+ 
 }
-
+ 
 /**
  * sets ship for player 1 
  */
 function setShipsP1(){
-
+ 
     console.log("setting p1");
     
     p1S1.setShip(p1);
-    p1S2.setShip(p1);
-    p1S3.setShip(p1);
-    p1S4.setShip(p1);
-    p1S5.setShip(p1);
-    
-    prettyPrint(p1,"p1div");
-    document.getElementById('p1data').hidden = true;
-    document.getElementById('p1div').hidden = true;
-    document.getElementById('p1name').hidden = true; 
+    if(this.totalShips >= 2)
+    {
+        p1S2.setShip(p1);
+    }
+    if(this.totalShips >= 3)
+    {
+        p1S3.setShip(p1);
+    }
+    if(this.totalShips >= 4)
+    {
+        p1S4.setShip(p1);
+    }
+    if(this.totalShips == 5)
+    {
+        p1S5.setShip(p1);
+    }
+ 
+    if(this.validPlacements)
+    {
+        prettyPrint(p1,"p1div");
+        document.getElementById('p1Ships').hidden = true;
+        document.getElementById('p1data').hidden = true;
+        document.getElementById('p1div').hidden = true;
+        document.getElementById('p1name').hidden = true; 
+        p1.turn = false;
+        displayShipInputs();
+    }
+    else{
+    }
     
 }
 /**
@@ -398,18 +510,20 @@ function setShipsP2(){
     p2S4.setShip(p2);
     p2S5.setShip(p2);
     
-
+ 
 prettyPrint(p2,"p2div");
+document.getElementById('p2Ships').hidden = true;
 document.getElementById('p2data').hidden = true;
 document.getElementById('p2div').hidden = true;
-document.getElementById('p2name').hidden = true; 
-
-p1.turn = true;
-
+document.getElementById('p2name').hidden = true;
+p1.turn = true; 
+document.getElementById('game').hidden = false;
+ 
+ 
 document.getElementById('pturn').innerHTML = "Player 1 turn";
-
+ 
 }
-
+ 
 /**
  * get the hit coordinates and set for each player
  */
@@ -425,7 +539,7 @@ function getHit(){
     }
     
 }
-
+ 
 function gameOver(p1,p2)
 {
     if(p1.shipIsDestroyed(1) && p1.shipIsDestroyed(2) && p1.shipIsDestroyed(3) && p1.shipIsDestroyed(4) && p1.shipIsDestroyed(5))
@@ -441,7 +555,7 @@ function gameOver(p1,p2)
         return(false); 
     }
 }
-
+ 
 /**
  * control what happens for after we hit the ship
  */
@@ -459,14 +573,14 @@ function hitShip(){
             prettyPrint(p2,"p2div");
             p1.turn = false;
             p2.turn = true;
-
+ 
             document.getElementById('pturn').innerHTML = "Player 2 turn";
             // document.getElementById('p1div').hidden = true; // hides the table
             if(gameOver(p1,p2) == true)
             {
                 alert("game over"); 
             }
-
+ 
         }else{
             console.log(p2.hitX,p2.hitY);
             if(p1.checkBoard(p2.hitX,p2.hitY)){
@@ -479,14 +593,14 @@ function hitShip(){
             prettyPrint(p1,"p1div");
             p1.turn = true;
             p2.turn = false;
-
+ 
             document.getElementById('pturn').innerHTML = "Player 1 turn";
             document.getElementById('p1div').hidden = true; // hides the table
             if(gameOver(p1,p2) == true)
             {
                 alert("game over"); 
             }
-
+ 
         }
         document.getElementById('hitX').value = "";
         document.getElementById('hitY').value = "";
