@@ -3,3 +3,30 @@ canvas
     border: 5px solid #534C58;
     background-size: 100%; 
 }
+
+section.screen {
+    display: flex;
+    width: 100%;
+}
+
+.player1-screen, .player2-screen {
+    width: 50%;
+}
+
+.player-view {
+    border: 1px solid blue;
+    width: 68%;
+    text-align: center;
+}
+
+tr:first-child {
+    background-color: #59b9bd;
+    border-bottom: 1px solid; 
+    border-radius: 13%; 
+}
+
+td:first-child {
+    background-color: #59b9bd;
+    border-right: 1px solid;
+    border-radius: 13%;
+}

@@ -1,6 +1,21 @@
 //var canvas = document.getElementById("canvas");
 //var c = canvas.getContext("2d");
 
+function playersSet(){
+    var playVS = document.getElementsByName("manVSmachine");
+
+    for(i = 0; i < playVS.length; i++){
+        if (playVS[i].checked){
+            playMode = playVS[i].value;
+        }
+    }
+    console.log(playMode);
+    document.getElementById("manVS").hidden = true;
+    if(playMode == "vsMachine"){
+        p2 = robotPlayer;
+    }
+}
+
 /**
  * @classdesc Game board is initialized with given height, width, totalShips
  * @constructor 
@@ -24,20 +39,30 @@ class Board
         this.hitY;
         
     }
+    
     initboard(){
         this.hitX = -1;
         this.hitY = -1;
         this.turn = false;
-        this.height = 9;
-        this.width = 9;
+        this.height = 10;
+        this.width = 10;
         this.board = [];
-        for (let i=0;i<9;i++){
+        for (let i = 0; i<10; i++){
 			this.board[i] = [];
-			for (let j = 0;j<9;j++){
-                this.board[i][j] = 0; // 0 represents water
+			for (let j = 0; j<10; j++){
+                this.board[i][j] = '~'; // 0 represents water
                 console.log("Board initialized");
 			}
 		}
+        for(let i = 0; i < 10; i++){
+            this.board[i][0] = i;
+            if(i == 0){
+                this.board[0][i] = String.fromCharCode(32);
+            }else{
+                this.board[0][i] = String.fromCharCode(64 + i); 
+            }
+            
+        }
     }
 
     /**
@@ -116,7 +141,7 @@ class Board
  * @param {Number} - y - The Y coordinate of the board 
  */
     checkBoard(x,y){
-        if(this.board[x][y] == 1 || this.board[x][y] == 2 || this.board[x][y] == 3 || this.board[x][y] == 4 || this.board[x][y] == 5){
+        if(this.board[x][y] == 'S'){
             return true;
         }else{
             return false;
@@ -129,16 +154,16 @@ class Board
  * @param {Number}- y - Y coordinate of the board  
  */
     shipHit(x,y){
-        if(this.board[x][y] == 6 || this.board[x][y] == 7)
+       if(this.board[x][y] == 'X')
         {
-            alert("Index has already been fired at"); 
+            alert("Index has already been fired at."); 
+        }else if (this.board[x][y] == '~'){
+            this.board[x][y] = "0";
+        }else {
+            this.board[x][y] = 'X';
+            //alert("HIT AT " + x + " " + y); 
         }
-        else 
-        {
-            this.board[x][y] = 7; 
-            alert("HIT AT " + x + " " + y); 
-        }
-
+    
     }
 
     /**
@@ -146,7 +171,7 @@ class Board
  * @param {Number}-  x - X coordinate of the board
  * @param {Number}- y - Y coordinate of the board  
  */
-    shipMiss(x,y)
+   /* shipMiss(x,y)
     {
         if(this.board[x][y] == 6 || this.board[x][y] == 7)
         {
@@ -154,19 +179,19 @@ class Board
         }
         else{
             this.board[x][y] = 6; 
-            alert("MISS AT " + x + " " + y);
+           
         }
 
-    }
+    }*/
 
-    shipIsDestroyed(shipType)
+    shipsDestroyed()
     {
         let destroyed = false; 
-        for(let i = 0; i < 9; i++)
+        for(let i = 1; i < 10; i++)
         {
-            for(let j = 0; j < 9; j++)
+            for(let j = 1; j < 10; j++)
             {
-                if(this.board[i][j] == shipType) //checks every indicie to see if the ship is still there
+                if(this.board[i][j] == 'S') //checks every indicie to see if the ship is still there
                 {
                     return(false); 
                 }
@@ -232,19 +257,19 @@ class Ships{
  */
     setShip(player){
         if (this.size == 1){
-            player.addShip(this.xCoord,this.yCoord,this.type);
+            player.addShip(this.xCoord,this.yCoord,'S');
         }
         else {
             if(this.orien == "H"){
                     for(let i = 0; i < this.size; i++)
                 {
-                    player.addShip(this.xCoord,this.yCoord+i,this.type);
+                    player.addShip(this.xCoord,this.yCoord+i,'S');
                 }
             }
             else if (this.orien == "V"){
                 for(let i = 0; i < this.size; i++)
                 {
-                    player.addShip(this.xCoord + i,this.yCoord,this.type);
+                    player.addShip(this.xCoord + i,this.yCoord,'S');
                 }
             }
         
@@ -254,11 +279,19 @@ class Ships{
 
 }
 
+var playMode;
+
+let robotPlayer = new Board();
 let p1 = new Board();
 let p2 = new Board();
+let copy1 = new Board();
+let copy2 = new Board();
 
 p1.initboard();
 p2.initboard();
+copy1.initboard();
+copy2.initboard();
+
 
 let p1S1 = new Ships();
 let p1S2 = new Ships();
@@ -291,24 +324,24 @@ p2S5.setShipSize(5);
  * @param {Number} - t - the type of the ship 
  */
 function prettyPrint(player,t){
-    console.log("Pretty printing");
-    printThis = ""
-    for(var i = 0; i < player.height; i++){
-        printThis += " X" + i + " : ";
-        for(var j = 0; j < player.width; j++){
-            printThis += "&nbsp" + player.board[i][j] + "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";   
+   
+    var result = "<table class='player-view'>";
+    for(var i=0; i<player.height; i++) {
+        result += "<tr>";
+        for(var j=0; j<player.width; j++){
+            result += "<td>"+player.board[i][j]+"</td>";
         }
-        printThis += "<br>";
+        result += "</tr>";
     }
-    printThis += "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
-    for(var i = 0; i < player.width; i++){
-        printThis += " Y" + i + "&nbsp&nbsp&nbsp"
-    }
-    document.getElementById(t).innerHTML = printThis;
+    result += "</table>";
+
+    document.getElementById(t).innerHTML = result;
+
 }
 
 prettyPrint(p1,"p1div");
 prettyPrint(p2,"p2div");
+
 
 
 /**
@@ -316,7 +349,7 @@ prettyPrint(p2,"p2div");
  */
 function formUpdate(){
     p1S1.setX(document.getElementById('S1X').value);
-    document.getElementById('S1X').disabled = true;
+    //document.getElementById('S1X').disabled = true;
     p1S1.setY(document.getElementById('S1Y').value);
     p1S1.setOrientation(document.getElementById('S1Orien').value);
     
@@ -378,12 +411,34 @@ function setShipsP1(){
     p1S3.setShip(p1);
     p1S4.setShip(p1);
     p1S5.setShip(p1);
+    var p1Ships = document.getElementById("totalShips1").value;
+    for (i = 0; i < p1Ships; i++){
+        newEntryTitle = document.createElement('p');
+        newEntryTitle.innerHTML = "Ship " + i;
+        label = document.createElement('span')
+        label.innerHTML = "<span>Row number:</span>";
+        rowIndex = document.createElement('input');
+        rowIndex.innerHTML = "<input type='number' onchange='formUpdate()'>";
+        colIndex = document.createElement('input');
+        colIndex.innerHTML = "<input type='text' onchange='formUpdate("i")'>";
+        
+        document.getElementById("p1data").append(newEntryTitle);
+        document.getElementById("p1data").append(label);
+        document.getElementById("p1data").append(rowIndex);
+    }
     
     prettyPrint(p1,"p1div");
-    document.getElementById('p1data').hidden = true;
-    document.getElementById('p1div').hidden = true;
-    document.getElementById('p1name').hidden = true; 
-    
+
+    var delayInMilliseconds = 3000; //1 second
+
+    setTimeout(function() {
+      prettyPrint(copy1, "p1div");
+      prettyPrint(p2, "p2div");
+    }, delayInMilliseconds);
+    /*document.getElementById('p1data').hidden = false;
+    document.getElementById('p1div').hidden = false;
+    document.getElementById('p1name').hidden = false; 
+    */  
 }
 /**
  * sets the ship for player 2 
@@ -399,10 +454,18 @@ function setShipsP2(){
     p2S5.setShip(p2);
     
 
-prettyPrint(p2,"p2div");
-document.getElementById('p2data').hidden = true;
-document.getElementById('p2div').hidden = true;
-document.getElementById('p2name').hidden = true; 
+    prettyPrint(p2,"p2div");
+
+    var delayInMilliseconds = 3000; //1 second
+
+    setTimeout(function() {
+        prettyPrint(copy2, "p2div");
+        prettyPrint(p1, "p1div");
+        document.getElementById('game-play').hidden = false;
+    }, delayInMilliseconds);
+/*document.getElementById('p2data').hidden = false;
+document.getElementById('p2div').hidden = false;
+document.getElementById('p2name').hidden = false; */
 
 p1.turn = true;
 
@@ -428,11 +491,11 @@ function getHit(){
 
 function gameOver(p1,p2)
 {
-    if(p1.shipIsDestroyed(1) && p1.shipIsDestroyed(2) && p1.shipIsDestroyed(3) && p1.shipIsDestroyed(4) && p1.shipIsDestroyed(5))
+    if(p1.shipsDestroyed())
     {
         return(true); 
     }
-    else if(p2.shipIsDestroyed(1) && p2.shipIsDestroyed(2) && p2.shipIsDestroyed(3) && p2.shipIsDestroyed(4) && p2.shipIsDestroyed(5))
+    else if(p2.shipsDestroyed(1))
     {
         return(true); 
     }
@@ -442,21 +505,44 @@ function gameOver(p1,p2)
     }
 }
 
+function updateCopies(board1, board2){
+    for (let i = 1; i < 10; i++){
+        for (let j = 1; j < 10; j++){
+            if(board1[i][j] == 'X'){
+                copy1.board[i][j] == 'X';
+            }
+            if(board1[i][j] == '0'){
+                copy1.board[i][j] = '0';
+            }
+
+            if(board2[i][j] == 'X'){
+                copy2.board[i][j] == 'X';
+            }
+            if(board2[i][j] == '0'){
+                copy2.board[i][j] = '0';
+            }
+        }
+    }
+}
+
 /**
  * control what happens for after we hit the ship
  */
 function hitShip(){
+    updateCopies(p1.board, p2.board);
+
         if(p1.turn){
             // document.getElementById('p1div').hidden = false; // shows the table
-            console.log(p1.hitX,p1.hitY);
+            //alert(p1.hitX,p1.hitY);
             if(p2.checkBoard(p1.hitX,p1.hitY)){
-                console.log("Ship hit");
+                alert("Ship hit at [" + p1.hitX + ", " + p1.hitY + "]");
                 p2.shipHit(p1.hitX,p1.hitY);
             }else{
-                p2.shipMiss(p1.hitX, p1.hitY);
-                console.log("Better luck next chance!");
+                //p2.shipMiss(p1.hitX, p1.hitY);
+                 p2.shipHit(p1.hitX,p1.hitY);
+                alert("Miss at [" + p1.hitX + ", " + p1.hitY + "]\nBetter luck next chance!");
             }
-            prettyPrint(p2,"p2div");
+            //prettyPrint(p2,"p2div");
             p1.turn = false;
             p2.turn = true;
 
@@ -464,30 +550,55 @@ function hitShip(){
             // document.getElementById('p1div').hidden = true; // hides the table
             if(gameOver(p1,p2) == true)
             {
-                alert("game over"); 
+                alert("Player 1 won the game!!!!"); 
+                document.getElementById('game-play').hidden = true;
             }
+            var delayInMilliseconds = 3000; //1 second
+
+            setTimeout(function() {
+                prettyPrint(copy1, "p1div");
+                prettyPrint(p2, "p2div");
+            }, delayInMilliseconds);
+            
 
         }else{
-            console.log(p2.hitX,p2.hitY);
-            if(p1.checkBoard(p2.hitX,p2.hitY)){
-                console.log("Ship hit");
-                p1.shipHit(p2.hitX,p2.hitY);
-            }else{
-                p1.shipMiss(p2.hitX, p2.hitY);
-                console.log("Better luck next chance!");
-            }
-            prettyPrint(p1,"p1div");
-            p1.turn = true;
-            p2.turn = false;
+            if(playMode != "vsMachine"){
 
-            document.getElementById('pturn').innerHTML = "Player 1 turn";
-            document.getElementById('p1div').hidden = true; // hides the table
-            if(gameOver(p1,p2) == true)
-            {
-                alert("game over"); 
-            }
+                console.log(p2.hitX,p2.hitY);
+                if(p1.checkBoard(p2.hitX,p2.hitY)){
+                    alert("Ship hit at [" + p2.hitX + ", " + p2.hitY + "]");
+                    p1.shipHit(p2.hitX,p2.hitY);
+                }else{
+                    //p1.shipMiss(p2.hitX, p2.hitY);
+                     p1.shipHit(p2.hitX,p2.hitY);
+                    alert("Miss at [" + p2.hitX + ", " + p2.hitY + "]\nBetter luck next chance!");
+                }
+               // prettyPrint(p1,"p1div");
+                p1.turn = true;
+                p2.turn = false;
 
+                document.getElementById('pturn').innerHTML = "Player 1 turn";
+                document.getElementById('p1div').hidden = false; // hides the table
+                if(gameOver(p1,p2) == true)
+                {
+                    alert("Player 2 won the game!!!!"); 
+                    document.getElementById('game-play').hidden = true;
+                }
+                
+            }
+            var delayInMilliseconds = 3000; //1 second
+            setTimeout(function() {
+                prettyPrint(p1, "p1div");
+                prettyPrint(copy2, "p2div");
+            }, delayInMilliseconds);
         }
+
+        updateCopies(p1.board, p2.board);
         document.getElementById('hitX').value = "";
         document.getElementById('hitY').value = "";
 }
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("game-play").hidden = true;
+});
