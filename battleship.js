@@ -71,27 +71,34 @@ class Board
  * @param {Number} - y - Y coordinate 
  * @param {Number} - t - type  
  */
-    checkCoord(x,y=0,t=0){
-        if(t==0){
-            console.log("Checking only 1 coord");
-            if(!(x < this.height && x < this.width)){
-                return false;
-            }
-        }else{
-            console.log("Checking 2 coords");
-        // Check within board, return false if not
-            if(!((x < this.height && x < this.width) && (y < this.height && y < this.width))){
-                console.log("NOT WITHIN THE BOARD");
-                return false;
-            }
-            // If its within the board, ship exists? return false if 1 
-            if(this.board[x][y] == 1 ){
-                console.log("SHIP EXISTS");
-                return false;
-            }
-        }
-        return true;
-    }
+	checkCoord(x,y=0,t=0){
+		if(t==0){
+		    console.log("Checking only 1 coord");
+		    if(!(x < this.height && x < this.width)){
+		        this.validCoords = false;
+		        alert("There is an invalid coordinate! At least in one coordinate we only have one part!");
+		        return false;
+		    }
+		}else{
+		    console.log("Checking 2 coords");
+		// Check within board, return false if not
+		    if(!((x < this.height && x < this.width) && (y < this.height && y < this.width))){
+		        console.log("NOT WITHIN THE BOARD");
+		        this.validCoords = false;
+		        alert("There is an invalid coordinate! At least one coordinate is not inside the board!");
+		        return false;
+		    }
+		    // If its within the board, ship exists? return false if 1 
+		    if(this.board[x][y] == 1 ){
+		        console.log("SHIP EXISTS");
+		        this.validCoords = false;
+		        alert("There is an invalid coordinate! At least in one coordinate has a ship being on top of another one!");
+		        return false;
+		    }
+		}
+		this.validCoords = true;
+		return true;
+	}
 
 /**
  * sets the hit x coordinate 
@@ -128,11 +135,16 @@ class Board
  * @param {Number} t - type of the ship
  */
     addShip(x,y,t){
+        this.validPlacements = true;
         console.log("ADDING SHIP");
         if(this.checkCoord(x,y,1)){
             this.board[x][y] = t;
             console.log("done");
         }
+        else{
+            this.validPlacements = false;
+        }
+        console.log("Hi:"+this.validPlacements );
     }
 
 /**
@@ -317,6 +329,74 @@ p2S3.setShipSize(3);
 p2S4.setShipSize(4);
 p2S5.setShipSize(5);
 
+p1.turn = true;
+ 
+function initNumShips()
+{
+    var x = document.getElementById('numberShips').value;
+    if(Number(x) > 0 && Number(x) < 6)
+    {
+        this.totalShips = x;
+        this.validNum = true
+        console.log("valid");
+        document.getElementById('shipInput').hidden = true;
+       // if(numPlayer == 1){
+        	displayShipInputs();
+        //}else{
+        //	displayShipInputs();
+        //}
+        
+    }
+    else
+    {
+        this.validNum = false;
+        window.alert("Not a valid number! Try again.");
+        console.log("not valid");
+    }
+}
+ 
+function displayShipInputs(){
+    if(p1.turn)
+    {
+        document.getElementById('p1Ships').hidden = false;
+        if(this.totalShips >= 2)
+        {
+            document.getElementById('p1Two').hidden = false;
+        }
+        if(this.totalShips >= 3)
+        {
+            document.getElementById('p1Three').hidden = false;
+        }
+        if(this.totalShips >= 4)
+        {
+            document.getElementById('p1Four').hidden = false;
+        }
+        if(this.totalShips == 5)
+        {
+            document.getElementById('p1Five').hidden = false;
+        }
+    }
+    if(p2.turn){
+        document.getElementById('p1Ships').hidden = true;
+        document.getElementById('p2Ships').hidden = false;
+        if(this.totalShips >= 2)
+        {
+            document.getElementById('p2Two').hidden = false;
+        }
+        if(this.totalShips >= 3)
+        {
+            document.getElementById('p2Three').hidden = false;
+        }
+        if(this.totalShips >= 4)
+        {
+            document.getElementById('p2Four').hidden = false;
+        }
+        if(this.totalShips == 5)
+        {
+            document.getElementById('p2Five').hidden = false;
+        }
+    }
+}
 
 /**
  * Print function 
@@ -343,6 +423,17 @@ prettyPrint(p1,"p1div");
 prettyPrint(p2,"p2div");
 
 
+document.getElementById('p1Ships').hidden = true;
+//document.getElementById('game').hidden = true;
+document.getElementById('p1Two').hidden = true;
+document.getElementById('p1Three').hidden = true;
+document.getElementById('p1Four').hidden = true;
+document.getElementById('p1Five').hidden = true;
+document.getElementById('p2Ships').hidden = true;
+document.getElementById('p2Two').hidden = true;
+document.getElementById('p2Three').hidden = true;
+document.getElementById('p2Four').hidden = true;
+document.getElementById('p2Five').hidden = true;
 
 /**
  * The function sets the different variables available to the board class after taking inputs for player 1
@@ -403,43 +494,42 @@ function formUpdate1(){
  * sets ship for player 1 
  */
 function setShipsP1(){
-
+ 
     console.log("setting p1");
     
     p1S1.setShip(p1);
-    p1S2.setShip(p1);
-    p1S3.setShip(p1);
-    p1S4.setShip(p1);
-    p1S5.setShip(p1);
-    var p1Ships = document.getElementById("totalShips1").value;
-    for (i = 0; i < p1Ships; i++){
-        newEntryTitle = document.createElement('p');
-        newEntryTitle.innerHTML = "Ship " + i;
-        label = document.createElement('span')
-        label.innerHTML = "<span>Row number:</span>";
-        rowIndex = document.createElement('input');
-        rowIndex.innerHTML = "<input type='number' onchange='formUpdate()'>";
-        colIndex = document.createElement('input');
-        colIndex.innerHTML = "<input type='text' onchange='formUpdate("i")'>";
-        
-        document.getElementById("p1data").append(newEntryTitle);
-        document.getElementById("p1data").append(label);
-        document.getElementById("p1data").append(rowIndex);
+    if(this.totalShips >= 2)
+    {
+        p1S2.setShip(p1);
+    }
+    if(this.totalShips >= 3)
+    {
+        p1S3.setShip(p1);
+    }
+    if(this.totalShips >= 4)
+    {
+        p1S4.setShip(p1);
+    }
+    if(this.totalShips == 5)
+    {
+        p1S5.setShip(p1);
+    }
+ 
+    if(this.validPlacements)
+    {
+        prettyPrint(p1,"p1div");
+        document.getElementById('p1Ships').hidden = true;
+        document.getElementById('p1data').hidden = true;
+        document.getElementById('p1div').hidden = true;
+        document.getElementById('p1name').hidden = true; 
+        p1.turn = false;
+        displayShipInputs();
+    }
+    else{
     }
     
-    prettyPrint(p1,"p1div");
-
-    var delayInMilliseconds = 3000; //1 second
-
-    setTimeout(function() {
-      prettyPrint(copy1, "p1div");
-      prettyPrint(p2, "p2div");
-    }, delayInMilliseconds);
-    /*document.getElementById('p1data').hidden = false;
-    document.getElementById('p1div').hidden = false;
-    document.getElementById('p1name').hidden = false; 
-    */  
 }
+
 /**
  * sets the ship for player 2 
  */
@@ -453,24 +543,18 @@ function setShipsP2(){
     p2S4.setShip(p2);
     p2S5.setShip(p2);
     
-
-    prettyPrint(p2,"p2div");
-
-    var delayInMilliseconds = 3000; //1 second
-
-    setTimeout(function() {
-        prettyPrint(copy2, "p2div");
-        prettyPrint(p1, "p1div");
-        document.getElementById('game-play').hidden = false;
-    }, delayInMilliseconds);
-/*document.getElementById('p2data').hidden = false;
-document.getElementById('p2div').hidden = false;
-document.getElementById('p2name').hidden = false; */
-
-p1.turn = true;
-
+ 
+prettyPrint(p2,"p2div");
+document.getElementById('p2Ships').hidden = true;
+document.getElementById('p2data').hidden = true;
+document.getElementById('p2div').hidden = true;
+document.getElementById('p2name').hidden = true;
+p1.turn = true; 
+document.getElementById('game').hidden = false;
+ 
+ 
 document.getElementById('pturn').innerHTML = "Player 1 turn";
-
+ 
 }
 
 /**
@@ -563,7 +647,6 @@ function hitShip(){
 
         }else{
             if(playMode != "vsMachine"){
-
                 console.log(p2.hitX,p2.hitY);
                 if(p1.checkBoard(p2.hitX,p2.hitY)){
                     alert("Ship hit at [" + p2.hitX + ", " + p2.hitY + "]");

@@ -7,13 +7,24 @@
         
     <body>
         <div id="manVS">
-            <p>Select opponent: </p>
+            <h4>Select opponent: </h4>
             <input type="radio" id="vsMan" name="manVSmachine" value="vsMan">
             <label for="vsMan">Versus human</label><br>
             <input type="radio" id="vsMachine" name="manVSmachine" value="vsMachine">
             <label for="vsMachine">Versus machine</label><br>
             <button type="button" onclick="playersSet()">Submit</button> 
         </div>
+        <div id="Mode">
+            <h4>Select Mode: </h4>
+            <input type="radio" name="PlayLevel" id="easy" value="easy">
+            <label for="easy">Easy</label>
+            <input type="radio" name="PlayLevel" id="medium" value="medium">
+            <label for="medium">Medium</label>
+            <input type="radio" name="PlayLevel" id="hard" value="hard">
+            <label for="hard">Hard</label>
+        </div>
+
+
         <section class="screen">
             <div class="player1-screen">
                 <h2 id = "p1name">Player1</h2>
@@ -23,27 +34,93 @@
                 <h2 id = "p2name">Player2</h2>
                 <p id="p2div">p2</p>
             </div>
-            <script type="text/javascript" src ="battleship.js"> </script>
         </section>
 
         <section>
-            <div id="p1data">
-                <h4>Player 1</h4>
-                <label>Number of ships: (max 5)</label>
-                <input type="number" name="totalShips" id="totalShips1">
-                <button onclick="setShipsP1()">Submit</button>
-
-                <input type="submit" value="Submit" onclick="setShipsP1()"/>
+             <div id= 'shipInput'>
+                <p>How many ships do you want to have? (From 1 to 5):</p>
+                <input type="text" id="numberShips" onchange="initNumShips()">
+                <button>Enter</button>
             </div>
+        </section>
 
-            <div id="p2data">
-                <h4>Player 1</h4>
-                <label>Number of ships: (max 5)</label>
-                <input type="number" name="totalShips" id="totalShips2">
-                <button onclick="setShipsP2()">Submit</button>
-        
-                <input type="submit" value="Submit" onclick="setShipsP2()"/>
+        <section>
+            <div id= 'shipInput'>
+        <p>How many ships do you want to have? (From 1 to 5):</p>
+        <input type="text" id="numberShips" onchange="initNumShips()">
+        <button>Enter</button>
+    </div>
+ 
+    <div id="p1Ships">
+        Player One place your ships <br>
+        Valid X Coordinates are (A-I) &nbsp; Valid Y Coordinates are (1-9) &nbsp; Valid Orientations are H for horizontal and V for vertical<br>
+        <p id="p1data">
+                X Coordinate for Ship 1: <input type="text" id="S1X" name="Ship1X" onchange="formUpdate()"/>
+                Y Coordinate for Ship 1: <input type="text" id="S1Y" name="fname" onchange = "formUpdate()"/>
+                Orientation for Ship 1: <input type="text" id="S1Orien" name="fname" onchange = "formUpdate()"/> <br>
+ 
+            <div id="p1Two">
+                X Coordinate for Ship 2: <input type="text" id="S2X" name="Ship1X" onchange="formUpdate()"/>
+                Y Coordinate for Ship 2: <input type="text" id="S2Y" name="fname" onchange = "formUpdate()"/>
+                Orientation for Ship 2: <input type="text" id="S2Orien" name="fname" onchange = "formUpdate()"/> <br><br>
             </div>
+ 
+            <div id="p1Three">
+                X Coordinate for Ship 3: <input type="text" id="S3X" name="Ship1X" onchange="formUpdate()"/>
+                Y Coordinate for Ship 3: <input type="text" id="S3Y" name="fname" onchange = "formUpdate()"/>
+                Orientation for Ship 3: <input type="text" id="S3Orien" name="fname" onchange = "formUpdate()"/> <br><br>
+            </div>
+ 
+            <div id="p1Four">
+                X Coordinate for Ship 4: <input type="text" id="S4X" name="Ship1X" onchange="formUpdate()"/>
+                Y Coordinate for Ship 4: <input type="text" id="S4Y" name="fname" onchange = "formUpdate()"/>
+                Orientation for Ship 4: <input type="text" id="S4Orien" name="fname" onchange = "formUpdate()"/> <br><br>
+            </div>
+ 
+            <div id="p1Five">
+                X Coordinate for Ship 5: <input type="text" id="S5X" name="Ship1X" onchange="formUpdate()"/>
+                Y Coordinate for Ship 5: <input type="text" id="S5Y" name="fname" onchange = "formUpdate()" />
+                Orientation for Ship 5: <input type="text" id="S5Orien" name="fname" onchange = "formUpdate()"/> <br><br>
+            </div>
+ 
+            <input type="submit" value="Submit" onclick="setShipsP1()"/>
+            </p>
+    </div>
+    <div id="p2Ships">
+        Player Two place your ships
+        Valid X Coordinates are (A-I) &nbsp; Valid Y Coordinates are (1-9) &nbsp; Valid Orientations are H for horizontal and V for vertical<br>
+        <p id="p2data">
+            X Coordinate for Ship 1: <input type="text" id="2S1X" name="Ship1X" onchange="formUpdate1()"/>
+            Y Coordinate for Ship 1: <input type="text" id="2S1Y" name="fname" onchange = "formUpdate1()"/>
+            Orientation for Ship 1: <input type="text" id="2S1Orien" name="fname" onchange = "formUpdate1()"/> <br>
+ 
+            <div id="p2Two">
+                X Coordinate for Ship 2: <input type="text" id="2S2X" name="Ship1X" onchange="formUpdate1()"/>
+                Y Coordinate for Ship 2: <input type="text" id="2S2Y" name="fname" onchange = "formUpdate1()"/>
+                Orientation for Ship 2: <input type="text" id="2S2Orien" name="fname" onchange = "formUpdate1()"/> <br><br>
+            </div>
+ 
+            <div id="p2Three">
+                X Coordinate for Ship 3: <input type="text" id="2S3X" name="Ship1X" onchange="formUpdate1()"/>
+                Y Coordinate for Ship 3: <input type="text" id="2S3Y" name="fname" onchange = "formUpdate1()"/>
+                Orientation for Ship 3: <input type="text" id="2S3Orien" name="fname" onchange = "formUpdate1()"/> <br><br>
+            </div>
+ 
+            <div id="p2Four">
+                X Coordinate for Ship 4: <input type="text" id="2S4X" name="Ship1X" onchange="formUpdate1()"/>
+                Y Coordinate for Ship 4: <input type="text" id="2S4Y" name="fname" onchange = "formUpdate1()"/>
+                Orientation for Ship 4: <input type="text" id="2S4Orien" name="fname" onchange = "formUpdate1()"/> <br><br>
+            </div>
+ 
+            <div id="p2Five">
+                X Coordinate for Ship 5: <input type="text" id="2S5X" name="Ship1X" onchange="formUpdate1()"/>
+                Y Coordinate for Ship 5: <input type="text" id="2S5Y" name="fname" onchange = "formUpdate1()" />
+                Orientation for Ship 5: <input type="text" id="2S5Orien" name="fname" onchange = "formUpdate1()"/> <br><br>
+            </div>
+ 
+            <input type="submit" value="Submit" onclick="setShipsP2()"/>
+            </p>
+        </div>
         </section>
 
         <div id="game-play">
@@ -53,5 +130,6 @@
                 Y Coordinate to hit: <input type="text" id="hitY" name="fname" onchange = "getHit()"/>
                 <input type="submit" value="Submit" onclick="hitShip()"/>
         </div>
+    <script type="text/javascript" src ="battleship.js"> </script>
     </body>
 </html>
