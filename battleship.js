@@ -95,6 +95,7 @@ class Board
  * @param {Number} - y - Y coordinate 
  * @param {Number} - t - type  
  */
+<<<<<<< HEAD
     checkCoord(x,y=0,t=0){
         if(t==0){
             console.log("Checking only 1 coord");
@@ -124,6 +125,37 @@ class Board
         return true;
     }
  
+=======
+	checkCoord(x,y=0,t=0){
+		if(t==0){
+		    console.log("Checking only 1 coord");
+		    if(!(x < this.height && x < this.width)){
+		        this.validCoords = false;
+		        alert("There is an invalid coordinate! At least in one coordinate we only have one part!");
+		        return false;
+		    }
+		}else{
+		    console.log("Checking 2 coords");
+		// Check within board, return false if not
+		    if(!((x < this.height && x < this.width) && (y < this.height && y < this.width))){
+		        console.log("NOT WITHIN THE BOARD");
+		        this.validCoords = false;
+		        alert("There is an invalid coordinate! At least one coordinate is not inside the board!");
+		        return false;
+		    }
+		    // If its within the board, ship exists? return false if 1 
+		    if(this.board[x][y] == 1 ){
+		        console.log("SHIP EXISTS");
+		        this.validCoords = false;
+		        alert("There is an invalid coordinate! At least in one coordinate has a ship being on top of another one!");
+		        return false;
+		    }
+		}
+		this.validCoords = true;
+		return true;
+	}
+
+>>>>>>> merged1
 /**
  * sets the hit x coordinate 
  * @param {Number} - x - The X coordinate to hit  
@@ -373,7 +405,11 @@ p2S2.setShipSize(2);
 p2S3.setShipSize(3);
 p2S4.setShipSize(4);
 p2S5.setShipSize(5);
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> merged1
 p1.turn = true;
  
 function initNumShips()
@@ -385,7 +421,16 @@ function initNumShips()
         this.validNum = true
         console.log("valid");
         document.getElementById('shipInput').hidden = true;
+<<<<<<< HEAD
         displayShipInputs();
+=======
+       // if(numPlayer == 1){
+        	displayShipInputs();
+        //}else{
+        //	displayShipInputs();
+        //}
+        
+>>>>>>> merged1
     }
     else
     {
@@ -416,7 +461,11 @@ function displayShipInputs(){
             document.getElementById('p1Five').hidden = false;
         }
     }
+<<<<<<< HEAD
     else{
+=======
+    if(p2.turn){
+>>>>>>> merged1
         document.getElementById('p1Ships').hidden = true;
         document.getElementById('p2Ships').hidden = false;
         if(this.totalShips >= 2)
@@ -437,7 +486,11 @@ function displayShipInputs(){
         }
     }
 }
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> merged1
 /**
  * Print function 
  * @param {Object}  - player - player object is the instance of board class 
@@ -461,9 +514,16 @@ function prettyPrint(player,t){
  
 prettyPrint(p1,"p1div");
 prettyPrint(p2,"p2div");
+<<<<<<< HEAD
 <<<<<<< .merge_file_n7Yeyz
 document.getElementById('p1Ships').hidden = true;
 document.getElementById('game').hidden = true;
+=======
+
+
+document.getElementById('p1Ships').hidden = true;
+//document.getElementById('game').hidden = true;
+>>>>>>> merged1
 document.getElementById('p1Two').hidden = true;
 document.getElementById('p1Three').hidden = true;
 document.getElementById('p1Four').hidden = true;
@@ -473,6 +533,7 @@ document.getElementById('p2Two').hidden = true;
 document.getElementById('p2Three').hidden = true;
 document.getElementById('p2Four').hidden = true;
 document.getElementById('p2Five').hidden = true;
+<<<<<<< HEAD
  
  
 =======
@@ -480,6 +541,9 @@ document.getElementById('p2Five').hidden = true;
 
 
 >>>>>>> .merge_file_n9JYCW
+=======
+
+>>>>>>> merged1
 /**
  * The function sets the different variables available to the board class after taking inputs for player 1
  */
@@ -543,7 +607,10 @@ function setShipsP1(){
     console.log("setting p1");
     
     p1S1.setShip(p1);
+<<<<<<< HEAD
 <<<<<<< .merge_file_n7Yeyz
+=======
+>>>>>>> merged1
     if(this.totalShips >= 2)
     {
         p1S2.setShip(p1);
@@ -572,6 +639,7 @@ function setShipsP1(){
         displayShipInputs();
     }
     else{
+<<<<<<< HEAD
     }
     
 =======
@@ -608,7 +676,12 @@ function setShipsP1(){
     document.getElementById('p1name').hidden = false; 
     */  
 >>>>>>> .merge_file_n9JYCW
+=======
+    }
+    
+>>>>>>> merged1
 }
+
 /**
  * sets the ship for player 2 
  */
@@ -622,7 +695,10 @@ function setShipsP2(){
     p2S4.setShip(p2);
     p2S5.setShip(p2);
     
+<<<<<<< HEAD
 <<<<<<< .merge_file_n7Yeyz
+=======
+>>>>>>> merged1
  
 prettyPrint(p2,"p2div");
 document.getElementById('p2Ships').hidden = true;
@@ -633,6 +709,7 @@ p1.turn = true;
 document.getElementById('game').hidden = false;
  
  
+<<<<<<< HEAD
 =======
 
     prettyPrint(p2,"p2div");
@@ -651,6 +728,8 @@ document.getElementById('p2name').hidden = false; */
 p1.turn = true;
 
 >>>>>>> .merge_file_n9JYCW
+=======
+>>>>>>> merged1
 document.getElementById('pturn').innerHTML = "Player 1 turn";
  
 }
@@ -772,7 +851,6 @@ function hitShip(){
 
         }else{
             if(playMode != "vsMachine"){
-
                 console.log(p2.hitX,p2.hitY);
                 if(p1.checkBoard(p2.hitX,p2.hitY)){
                     alert("Ship hit at [" + p2.hitX + ", " + p2.hitY + "]");
