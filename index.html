@@ -2,12 +2,14 @@
     <header>
         <h1>Battleship</h1>
         <title>battleship</title>
+        <link rel="stylesheet" type="text/css" href="styles.css">
     </header>
     <head>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </head>
         
     <body>
+<<<<<<< .merge_file_LTwGJy
     <!--Ship Number-->
     <div id= 'shipInput'>
         <p>How many ships do you want to have? (From 1 to 5):</p>
@@ -91,12 +93,58 @@
             <p id="p2div">p2<h2 id = "p2name">Player2</h2></p>
             <script type="text/javascript" src ="battleship.js"> </script>
     
+=======
+        <div id="manVS">
+            <p>Select opponent: </p>
+            <input type="radio" id="vsMan" name="manVSmachine" value="vsMan">
+            <label for="vsMan">Versus human</label><br>
+            <input type="radio" id="vsMachine" name="manVSmachine" value="vsMachine">
+            <label for="vsMachine">Versus machine</label><br>
+            <button type="button" onclick="playersSet()">Submit</button> 
+        </div>
+        <section class="screen">
+            <div class="player1-screen">
+                <h2 id = "p1name">Player1</h2>
+                <p id="p1div">p1</p> 
+            </div>
+            <div class="player2-screen">
+                <h2 id = "p2name">Player2</h2>
+                <p id="p2div">p2</p>
+            </div>
+            <script type="text/javascript" src ="battleship.js"> </script>
+        </section>
+
+        <section>
+            <div id="p1data">
+                <h4>Player 1</h4>
+                <label>Number of ships: (max 5)</label>
+                <input type="number" name="totalShips" id="totalShips1">
+                <button onclick="setShipsP1()">Submit</button>
+
+                <input type="submit" value="Submit" onclick="setShipsP1()"/>
+            </div>
+
+            <div id="p2data">
+                <h4>Player 1</h4>
+                <label>Number of ships: (max 5)</label>
+                <input type="number" name="totalShips" id="totalShips2">
+                <button onclick="setShipsP2()">Submit</button>
+        
+                <input type="submit" value="Submit" onclick="setShipsP2()"/>
+            </div>
+        </section>
+
+        <div id="game-play">
+>>>>>>> .merge_file_f1F6JK
                 <!-- <input type="submit" value="START GAME!" onclick="preGameCheck()"/> -->
                 <p id="pturn"></p>
                 X Coordinate to hit: <input type="text" id="hitX" name="Ship1X" onchange="getHit()"/>
                 Y Coordinate to hit: <input type="text" id="hitY" name="fname" onchange = "getHit()"/>
                 <input type="submit" value="Submit" onclick="hitShip()"/>
+<<<<<<< .merge_file_LTwGJy
  
+=======
+>>>>>>> .merge_file_f1F6JK
         </div>
     </body>
 </html>
