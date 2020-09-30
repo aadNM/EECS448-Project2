@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <html>
     <header>
         <h1>Battleship</h1>
@@ -148,3 +149,107 @@
         </div>
     </body>
 </html>
+=======
+<html>
+    <header>
+        <h1>Battleship</h1>
+        <title>battleship</title>
+    </header>
+    <body>
+        <audio controls autoplay>
+            <source src="bensound-epic.mp3" type="audio/mp3">
+            <!-- Music: https://www.bensound.com -->
+        </audio>
+        <!-- <audio controls autoplay> -->
+            <!-- <source src="horse.ogg" type="audio/ogg"> -->
+            <!-- <source src="bensound-epic.mp3" type="audio/mp3">
+            Your browser does not support the audio element.
+          </audio> -->
+          
+        <!-- <script>
+        //https://www.w3schools.com/graphics/game_sound.asp
+            function sound(src) {
+                this.sound = document.createElement("audio");
+                this.sound.src = src;
+                this.sound.setAttribute("preload", "auto");
+                this.sound.setAttribute("controls", "none");
+                this.sound.style.display = "none";
+                document.body.appendChild(this.sound);
+                this.play = function(){
+                    this.sound.play();
+                }
+                this.stop = function(){
+                    this.sound.pause();
+                }
+            }      
+            var backgroundMusic;
+            
+            function GameStart() {
+              backgroundMusic = new sound("bensound-epic.mp3");
+              backgroundMusic.play();
+              //Music: https://www.bensound.com
+            } 
+        </script>     -->
+        <div>
+            <p id="p1div">p1<h2 id = "p1name">Player1</h2></p> 
+            <p id="p2div">p2<h2 id = "p2name">Player2</h2></p>
+            <script type="text/javascript" src ="battleship.js"> </script>
+            
+            <p id="p1data">
+            X Coordinate for Ship 1: <input type="text" id="S1X" name="Ship1X" onchange="formUpdate()"/>
+            Y Coordinate for Ship 1: <input type="text" id="S1Y" name="fname" onchange = "formUpdate()"/>
+            Orientation for Ship 1: <input type="text" id="S1Orien" name="fname" onchange = "formUpdate()"/> <br>
+
+            X Coordinate for Ship 2: <input type="text" id="S2X" name="Ship1X" onchange="formUpdate()"/>
+            Y Coordinate for Ship 2: <input type="text" id="S2Y" name="fname" onchange = "formUpdate()"/>
+            Orientation for Ship 2: <input type="text" id="S2Orien" name="fname" onchange = "formUpdate()"/> <br>
+
+            X Coordinate for Ship 3: <input type="text" id="S3X" name="Ship1X" onchange="formUpdate()"/>
+            Y Coordinate for Ship 3: <input type="text" id="S3Y" name="fname" onchange = "formUpdate()"/>
+            Orientation for Ship 3: <input type="text" id="S3Orien" name="fname" onchange = "formUpdate()"/> <br>
+
+            X Coordinate for Ship 4: <input type="text" id="S4X" name="Ship1X" onchange="formUpdate()"/>
+            Y Coordinate for Ship 4: <input type="text" id="S4Y" name="fname" onchange = "formUpdate()"/>
+            Orientation for Ship 4: <input type="text" id="S4Orien" name="fname" onchange = "formUpdate()"/> <br>
+
+            X Coordinate for Ship 5: <input type="text" id="S5X" name="Ship1X" onchange="formUpdate()"/>
+            Y Coordinate for Ship 5: <input type="text" id="S5Y" name="fname" onchange = "formUpdate()" />
+            Orientation for Ship 5: <input type="text" id="S5Orien" name="fname" onchange = "formUpdate()"/> <br>
+
+            <input type="submit" value="Submit" onclick="setShipsP1()"/>
+            </p>
+
+            <p id="p2data">
+                X Coordinate for Ship 1: <input type="text" id="2S1X" name="Ship1X" onchange="formUpdate1()"/>
+                Y Coordinate for Ship 1: <input type="text" id="2S1Y" name="fname" onchange = "formUpdate1()"/>
+                Orientation for Ship 1: <input type="text" id="2S1Orien" name="fname" onchange = "formUpdate1()"/> <br>
+    
+                X Coordinate for Ship 2: <input type="text" id="2S2X" name="Ship1X" onchange="formUpdate1()"/>
+                Y Coordinate for Ship 2: <input type="text" id="2S2Y" name="fname" onchange = "formUpdate1()"/>
+                Orientation for Ship 2: <input type="text" id="2S2Orien" name="fname" onchange = "formUpdate1()"/> <br>
+    
+                X Coordinate for Ship 3: <input type="text" id="2S3X" name="Ship1X" onchange="formUpdate1()"/>
+                Y Coordinate for Ship 3: <input type="text" id="2S3Y" name="fname" onchange = "formUpdate1()"/>
+                Orientation for Ship 3: <input type="text" id="2S3Orien" name="fname" onchange = "formUpdate1()"/> <br>
+    
+                X Coordinate for Ship 4: <input type="text" id="2S4X" name="Ship1X" onchange="formUpdate1()"/>
+                Y Coordinate for Ship 4: <input type="text" id="2S4Y" name="fname" onchange = "formUpdate1()"/>
+                Orientation for Ship 4: <input type="text" id="2S4Orien" name="fname" onchange = "formUpdate1()"/> <br>
+    
+                X Coordinate for Ship 5: <input type="text" id="2S5X" name="Ship1X" onchange="formUpdate1()"/>
+                Y Coordinate for Ship 5: <input type="text" id="2S5Y" name="fname" onchange = "formUpdate1()" />
+                Orientation for Ship 5: <input type="text" id="2S5Orien" name="fname" onchange = "formUpdate1()"/> <br>
+    
+                <input type="submit" value="Submit" onclick="setShipsP2()"/>
+                </p>
+    
+                <!-- <input type="submit" value="START GAME!" onclick="preGameCheck()"/> -->
+                <p id="pturn"></p>
+                X Coordinate to hit: <input type="text" id="hitX" name="Ship1X" onchange="getHit()"/>
+                Y Coordinate to hit: <input type="text" id="hitY" name="fname" onchange = "getHit()"/>
+                <input type="submit" value="Submit" onclick="hitShip()"/>
+
+        </div>
+    </body>
+</html>
+>>>>>>> e08bc4e039326883766306a2cc09d0948071141c
