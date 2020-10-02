@@ -9,7 +9,7 @@
     </head>
         
     <body>
-        <audio controls autoplay>
+        <audio autoplay controls loop>
             <source src="bensound-epic.mp3" type="audio/mp3">
             <!-- Music: https://www.bensound.com -->
         </audio>
@@ -67,10 +67,6 @@
         <input type="text" id="numberShips" onchange="initNumShips()">
         <button>Enter</button>
     </div>
-    <div id='game'>
-        <p id="p1div">p1<h2 id = "p1name">Player1</h2></p> 
-        <p id="p2div">p2<h2 id = "p2name">Player2</h2></p>
-        <script type="text/javascript" src ="battleship.js"> </script>
     <div id="p1Ships">
         Player One place your ships <br>
         Valid X Coordinates are (A-I) &nbsp; Valid Y Coordinates are (1-9) &nbsp; Valid Orientations are H for horizontal and V for vertical<br>
@@ -141,7 +137,10 @@
             <input type="submit" value="Submit" onclick="setShipsP2()"/>
             </p>
     </div>
-        <div id="game-play">
+    <div id='game'>
+        <p id="p1div">p1<h2 id = "p1name">Player1</h2></p> 
+        <p id="p2div">p2<h2 id = "p2name">Player2</h2></p>
+        <script type="text/javascript" src ="battleship.js"> </script>
                 <!-- <input type="submit" value="START GAME!" onclick="preGameCheck()"/> -->
                 <p id="pturn"></p>
                 X Coordinate to hit: <input type="text" id="hitX" name="Ship1X" onchange="getHit()"/>

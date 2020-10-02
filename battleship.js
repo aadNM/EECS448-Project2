@@ -10,6 +10,11 @@ function playersSet(){
     document.getElementById("manVS").hidden = true;
     if(playMode == "vsMachine"){
         p2 = robotPlayer;
+        document.getElementById('Mode').hidden = false;
+    }
+    if(playMode == "vsMan")
+    {
+        document.getElementById('shipInput').hidden = false;
     }
 }
 
@@ -339,12 +344,8 @@ function initNumShips()
         this.validNum = true
         console.log("valid");
         document.getElementById('shipInput').hidden = true;
-       // if(numPlayer == 1){
-        	displayShipInputs();
-        //}else{
-        //	displayShipInputs();
-        //}
-        
+        p1.turn = true;
+        displayShipInputs();
     }
     else
     {
@@ -352,6 +353,7 @@ function initNumShips()
         window.alert("Not a valid number! Try again.");
         console.log("not valid");
     }
+    console.log(p1.turn);
 }
  
 function displayShipInputs(){
@@ -421,6 +423,8 @@ function prettyPrint(player,t){
 prettyPrint(p1,"p1div");
 prettyPrint(p2,"p2div");
 
+document.getElementById('Mode').hidden = true;
+document.getElementById('shipInput').hidden = true;
 document.getElementById('game').hidden = true;
 document.getElementById('p1Ships').hidden = true;
 document.getElementById('p1Two').hidden = true;
