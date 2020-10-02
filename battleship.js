@@ -102,11 +102,13 @@ class Board
  * @param {Number} - t - type  
  */
 	checkCoord(x,y=0,t=0){
+        if(this.validCoords != false)
+        {
 		if(t==0){
 		    console.log("Checking only 1 coord");
 		    if(!(x < this.height && x < this.width)){
-		        this.validCoords = false;
-		        alert("There is an invalid coordinate! At least in one coordinate we only have one part!");
+		        //this.validCoords = false;
+		        //alert("There is an invalid coordinate! At least in one coordinate we only have one part!");
 		        return false;
 		    }
 		}else{
@@ -114,21 +116,25 @@ class Board
 		// Check within board, return false if not
 		    if(!((x < this.height && x < this.width) && (y < this.height && y < this.width))){
 		        console.log("NOT WITHIN THE BOARD");
-		        this.validCoords = false;
-		        alert("There is an invalid coordinate! At least one coordinate is not inside the board!");
+		        //this.validCoords = false;
+		        //alert("There is an invalid coordinate! At least one coordinate is not inside the board!");
 		        return false;
 		    }
 		    // If its within the board, ship exists? return false if 1 
 		    if(this.board[x][y] == 1 ){
 		        console.log("SHIP EXISTS");
-		        this.validCoords = false;
-		        alert("There is an invalid coordinate! At least in one coordinate has a ship being on top of another one!");
+		        //this.validCoords = false;
+		        //alert("There is an invalid coordinate! At least in one coordinate has a ship being on top of another one!");
 		        return false;
 		    }
 		}
-		this.validCoords = true;
+		//this.validCoords = true;
 		return true;
-	}
+    }
+    else{
+        alert("Invalid Input");
+    }
+}
 
 /**
  * sets the hit x coordinate 
@@ -462,6 +468,49 @@ document.getElementById('p2Three').hidden = true;
 document.getElementById('p2Four').hidden = true;
 document.getElementById('p2Five').hidden = true;
 
+function convertLetter(letter){
+    let num = 0;
+    if( letter.toUpperCase() == 'A')
+    {
+      num = 1;
+    }
+    else if( letter.toUpperCase() == 'B')
+    {
+      num = 2;
+    }
+    else if( letter.toUpperCase() == 'C')
+    {
+      num = 3;
+    }
+    else if( letter.toUpperCase() == 'D')
+    {
+      num = 4;
+    }
+    else if( letter.toUpperCase() == 'E')
+    {
+      num = 5;
+    }
+    else if( letter.toUpperCase() == 'F')
+    {
+      num = 6;
+    }
+    else if( letter.toUpperCase() == 'G')
+    {
+      num = 7;
+    }
+    else if( letter.toUpperCase() == 'H')
+    {
+      num = 8;
+    }
+    else if( letter.toUpperCase() == 'I')
+    {
+      num = 9;
+    }
+    else{
+      num = 0;
+    }
+    return (num);
+}
 /**
  * The function sets the different variables available to the board class after taking inputs for player 1
  */
@@ -516,12 +565,27 @@ function formUpdate1(){
     p2S5.setOrientation(document.getElementById('2S5Orien').value);
  
 }
- 
+ function setShips(){
+     if(this.validCoords)
+     {
+         if(p1.turn)
+         {
+             setShipsP1();
+         }
+         else if(p2.turn)
+         {
+             setShipsP2();
+         }
+     }
+     else
+     {
+         alert("You have an invalid coordinate! You need fix it before moving on!");
+     }
+ }
 /**
  * sets ship for player 1 
  */
 function setShipsP1(){
- 
     console.log("setting p1");
     
     p1S1.setShip(p1);
@@ -586,6 +650,7 @@ function setShipsP1(){
     document.getElementById('p1name').hidden = false; 
     */  
     }
+}
 
 /**
  * sets the ship for player 2 
@@ -754,7 +819,6 @@ function hitShip(){
 }
 
 
-document.addEventListener("DOMContentLoaded", () => {
-    document.getElementById("game-play").hidden = true;
-});
-}
+//document.addEventListener("DOMContentLoaded", () => {
+  //  document.getElementById("game-play").hidden = true;
+//});
