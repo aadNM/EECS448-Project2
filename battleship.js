@@ -17,6 +17,30 @@ function playersSet(){
         document.getElementById('shipInput').hidden = false;
     }
 }
+function modeSet(){
+    var mode = document.getElementsByName("PlayLevel");
+    for(i = 0; i < mode.length; i++){
+        if (mode[i].checked){
+            difficulty = mode[i].value;
+        }
+    }
+    console.log(difficulty);
+    document.getElementById("Mode").hidden = true;
+    document.getElementById('shipInput').hidden = false;
+    if(playMode == "Easy")
+    {
+        //Assign AI to easy mode or call easy mode function
+    }
+    else if(playMode == "Medium")
+    {
+        //Assign AI to medium mode or call medium mode function
+    }
+    else if (playMode == "Hard")
+    {
+        //Assign AI to hard mode or call hard mode function
+    }
+
+}
 
 /**
  * @classdesc Game board is initialized with given height, width, totalShips
@@ -297,6 +321,7 @@ class Ships{
 }
 
 var playMode;
+var difficulty;
 
 let robotPlayer = new Board();
 let p1 = new Board();
