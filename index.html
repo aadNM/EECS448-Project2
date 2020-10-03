@@ -398,14 +398,38 @@
             <input type="submit" value="Submit" onclick="setShipsP2()"/>
             </p>
     </div>
+    <div id="p1div">Player1</div>
+    <div id="p2div">Player2</div>
     <div id='game'>
-        <p id="p1div">p1<h2 id = "p1name">Player1</h2></p> 
-        <p id="p2div">p2<h2 id = "p2name">Player2</h2></p>
+        <!--<p id="p1div">p1<h2 id = "p1name">Player1</h2></p> 
+        <p id="p2div">p2<h2 id = "p2name">Player2</h2></p>-->
         <script type="text/javascript" src ="battleship.js"> </script>
                 <!-- <input type="submit" value="START GAME!" onclick="preGameCheck()"/> -->
                 <p id="pturn"></p>
-                X Coordinate to hit: <input type="text" id="hitX" name="Ship1X" onchange="getHit()"/>
-                Y Coordinate to hit: <input type="text" id="hitY" name="fname" onchange = "getHit()"/>
+                X Coordinate to hit: <select id="hitX" name="Ship1X" onchange="getHit()"/>
+                    <option selected disabled>Choose a X value</option>
+                        <option value="1">A</option>
+                        <option value="2">B</option>
+                        <option value="3">C</option>
+                        <option value="4">D</option>
+                        <option value="5">E</option>
+                        <option value="6">F</option>
+                        <option value="7">G</option>
+                        <option value="8">H</option>
+                        <option value="9">I</option>
+                    </select>
+                Y Coordinate to hit: <select id="hitY" name="fname" onchange = "getHit()"/>
+                    <option selected disabled>Choose a Y value</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                </select>
                 <input type="submit" value="Submit" onclick="hitShip()"/>
         </div>
 </html>
