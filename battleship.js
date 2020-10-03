@@ -133,13 +133,7 @@ class Board
  * @param {Number} - x - The X coordinate to hit  
  */
     setHitX(x){
-        if(this.checkCoord(x)){
             this.hitX = parseInt(x);
-        }
-        else{
-            return false;
-        }
-        
     }
  
 /**
@@ -147,13 +141,7 @@ class Board
 * @param {Number} - x - The Y coordinate to hit  
 */
     setHitY(y){
-        if(this.checkCoord(y)){
             this.hitY = parseInt(y);
-        }
-        else{
-            return false;
-        }
-            
     }
  
 /**
@@ -166,7 +154,7 @@ class Board
         validPlacements = true;
         console.log("ADDING SHIP");
         if(this.checkCoord(x,y,1)){
-            this.board[x][y] = t;
+            this.board[y][x] = t;
             console.log("done");
         }
         else{
@@ -181,9 +169,11 @@ class Board
  * @param {Number} - y - The Y coordinate of the board 
  */
     checkBoard(x,y){
-        if(this.board[x][y] == 'S'){
+        console.log("Check board");
+        if(this.board[y][x] == 'S'){
             return true;
-        }else{
+        }
+        else{
             return false;
         }
     }
@@ -194,13 +184,13 @@ class Board
  * @param {Number}- y - Y coordinate of the board  
  */
     shipHit(x,y){
-       if(this.board[x][y] == 'X')
+       if(this.board[y][x] == 'X')
         {
             alert("Index has already been fired at."); 
-        }else if (this.board[x][y] == '~'){
-            this.board[x][y] = "0";
+        }else if (this.board[y][x] == '~'){
+            this.board[y][x] = "0";
         }else {
-            this.board[x][y] = 'X';
+            this.board[y][x] = 'X';
             //alert("HIT AT " + x + " " + y); 
         }
     }
@@ -443,12 +433,11 @@ function prettyPrint(player,t){
 
 }
  
-//prettyPrint(p1,"p1div");
-//prettyPrint(p2,"p2div");
 
 document.getElementById('Mode').hidden = true;
 document.getElementById('shipInput').hidden = true;
 document.getElementById('game').hidden = true;
+//document.getElementById('game-Over').hidden = true;
 document.getElementById('p1div').hidden = true;
 document.getElementById('p2div').hidden = true;
 document.getElementById('p1Ships').hidden = true;
@@ -650,24 +639,20 @@ function setShipsP2(){
         document.getElementById('p2data').hidden = true;
         document.getElementById('p2div').hidden = false;
         prettyPrint(p2,"p2div");
+        updateCopies(p1.board, p2.board);
         setTimeout(function() {
         document.getElementById('p2div').hidden = true;
+        document.getElementById('p1div').hidden = true;
+        document.getElementById('p2Board').hidden = true;
+        document.getElementById('p1copy').hidden = true;
+        prettyPrint(p1,"p1BView");
+        prettyPrint(copy2, "p1CView");
+        console.log("Print");
         document.getElementById('game').hidden = false; 
+        document.getElementById('game-Over').hidden = true;
         p2.turn = false;
         p1.turn = true;}, 3000);
     }
- 
- 
-
-    prettyPrint(p2,"p2div");
-
-    var delayInMilliseconds = 3000; //1 second
-
-    setTimeout(function() {
-        prettyPrint(copy2, "p2div");
-        prettyPrint(p1, "p1div");
-        document.getElementById('game-play').hidden = false;
-    }, delayInMilliseconds);
 /*document.getElementById('p2data').hidden = false;
 document.getElementById('p2div').hidden = false;
 document.getElementById('p2name').hidden = false; */
@@ -737,17 +722,20 @@ function hitShip(){
     updateCopies(p1.board, p2.board);
 
         if(p1.turn){
+            p1.setHitX(document.getElementById('hitX').value);
+            p1.setHitY(document.getElementById('hitY').value);
+            console.log(p1.hitX);
             // document.getElementById('p1div').hidden = false; // shows the table
             //alert(p1.hitX,p1.hitY);
             if(p2.checkBoard(p1.hitX,p1.hitY)){
                 alert("Ship hit at [" + p1.hitX + ", " + p1.hitY + "]");
                 p2.shipHit(p1.hitX,p1.hitY);
+                copy2.shipHit(p1.hitX,p1.hitY)
             }else{
                 //p2.shipMiss(p1.hitX, p1.hitY);
-                 p2.shipHit(p1.hitX,p1.hitY);
+                 copy2.shipHit(p1.hitX,p1.hitY);
                 alert("Miss at [" + p1.hitX + ", " + p1.hitY + "]\nBetter luck next chance!");
             }
-            //prettyPrint(p2,"p2div");
             p1.turn = false;
             p2.turn = true;
  
@@ -755,38 +743,72 @@ function hitShip(){
             // document.getElementById('p1div').hidden = true; // hides the table
             if(gameOver(p1,p2) == true)
             {
-                alert("Player 1 won the game!!!!"); 
-                document.getElementById('game-play').hidden = true;
-            }
-            var delayInMilliseconds = 3000; //1 second
+                document.getElementById('p1Board').hidden = true;
+                document.getElementById('p2copy').hidden = true;
+                document.getElementById('p2Board').hidden = true;
+                document.getElementById('p1copy').hidden = true;
+                document.getElementById('game-Over').hidden = false;
+                document.getElementById('attack').hidden = true;
+                document.getElementById('p1win').hidden = true;
+                document.getElementById('p2win').hidden = false;
+                prettyPrint(p1,"p1FB");
+                prettyPrint(p2,"p2FB");
 
+            }
+            else{
             setTimeout(function() {
-                prettyPrint(copy1, "p1div");
-                prettyPrint(p2, "p2div");
-            }, delayInMilliseconds);
+                document.getElementById('p1Board').hidden = true;
+                document.getElementById('p2copy').hidden = true;
+                document.getElementById('p2Board').hidden = false;
+                document.getElementById('p1copy').hidden = false;
+                prettyPrint(p2,"p2BView");
+                prettyPrint(copy1, "p2CView");
+            }, 3000);
+        }
+
             
 
         }else{
             if(playMode != "vsMachine"){
+                p2.setHitX(document.getElementById('hitX').value);
+                p2.setHitY(document.getElementById('hitY').value);
                 console.log(p2.hitX,p2.hitY);
                 if(p1.checkBoard(p2.hitX,p2.hitY)){
                     alert("Ship hit at [" + p2.hitX + ", " + p2.hitY + "]");
                     p1.shipHit(p2.hitX,p2.hitY);
+                    copy1.shipHit(p2.hitX,p2.hitY);
                 }else{
                     //p1.shipMiss(p2.hitX, p2.hitY);
-                     p1.shipHit(p2.hitX,p2.hitY);
+                     copy1.shipHit(p2.hitX,p2.hitY);
                     alert("Miss at [" + p2.hitX + ", " + p2.hitY + "]\nBetter luck next chance!");
                 }
-               // prettyPrint(p1,"p1div");
                 p1.turn = true;
                 p2.turn = false;
 
                 document.getElementById('pturn').innerHTML = "Player 1 turn";
-                document.getElementById('p1div').hidden = false; // hides the table
+                //document.getElementById('p1div').hidden = false; // hides the table
                 if(gameOver(p1,p2) == true)
-                {
-                    alert("Player 2 won the game!!!!"); 
-                    document.getElementById('game-play').hidden = true;
+                { 
+                    document.getElementById('p1Board').hidden = true;
+                    document.getElementById('p2copy').hidden = true;
+                    document.getElementById('p2Board').hidden = true;
+                    document.getElementById('p1copy').hidden = true;
+                    document.getElementById('game-Over').hidden = false;
+                    document.getElementById('attack').hidden = true;
+                    document.getElementById('p1win').hidden = false;
+                    document.getElementById('p2win').hidden = true;
+                    prettyPrint(p1,"p1FB");
+                    prettyPrint(p2,"p2FB");
+                }
+                else{
+                    setTimeout(function() {
+                        document.getElementById('p1Board').hidden = false;
+                        document.getElementById('p2copy').hidden = false;
+                        document.getElementById('p2Board').hidden = true;
+                        document.getElementById('p1copy').hidden = true;
+                        prettyPrint(p1,"p1BView");
+                        prettyPrint(copy2, "p1CView");
+                    }, 3000);
                 }
                 
             }

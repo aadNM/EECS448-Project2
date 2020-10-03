@@ -249,7 +249,7 @@
                 <option value="8">H</option>
                 <option value="9">I</option>
             </select>
-            Y Coordinate for Ship 1: <select type="text" id="2S1Y" name="fname" onchange = "formUpdate1()">
+            Y Coordinate for Ship 1: <select id="2S1Y" name="fname" onchange = "formUpdate1()">
                 <option selected disabled>Choose a Y value</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
@@ -405,31 +405,61 @@
         <p id="p2div">p2<h2 id = "p2name">Player2</h2></p>-->
         <script type="text/javascript" src ="battleship.js"> </script>
                 <!-- <input type="submit" value="START GAME!" onclick="preGameCheck()"/> -->
-                <p id="pturn"></p>
-                X Coordinate to hit: <select id="hitX" name="Ship1X" onchange="getHit()"/>
-                    <option selected disabled>Choose a X value</option>
-                        <option value="1">A</option>
-                        <option value="2">B</option>
-                        <option value="3">C</option>
-                        <option value="4">D</option>
-                        <option value="5">E</option>
-                        <option value="6">F</option>
-                        <option value="7">G</option>
-                        <option value="8">H</option>
-                        <option value="9">I</option>
+                <div id="attack">
+                    <p id="pturn"></p>
+                    X Coordinate to hit: <select id="hitX" name="Ship1X">
+                        <option selected disabled>Choose a X value</option>
+                            <option value="1">A</option>
+                            <option value="2">B</option>
+                            <option value="3">C</option>
+                            <option value="4">D</option>
+                            <option value="5">E</option>
+                            <option value="6">F</option>
+                            <option value="7">G</option>
+                            <option value="8">H</option>
+                            <option value="9">I</option>
+                        </select>
+                    Y Coordinate to hit: <select id="hitY" name="Ship1Y">
+                        <option selected disabled>Choose a Y value</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
                     </select>
-                Y Coordinate to hit: <select id="hitY" name="fname" onchange = "getHit()"/>
-                    <option selected disabled>Choose a Y value</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                </select>
-                <input type="submit" value="Submit" onclick="hitShip()"/>
+                    <input type="submit" value="Submit" onclick="hitShip()"/>
+                </div>
+                <div id='p2copy'>
+                    <h2>Enemy's Board</h2>
+                    <div id='p1CView'></div>
+                </div>
+                <div id='p1Board'>
+                    <h2>Your Board</h2>
+                    <div id='p1BView'></div>
+                </div>
+                <div id='p1copy'>
+                    <h2>Enemy's Board</h2>
+                    <div id='p2CView'></div>
+                </div>
+                <div id='p2Board'>
+                    <h2>Your Board</h2>
+                    <div id='p2BView'></div>
+                </div>
+                <div id='game-Over'>
+                    <div id='p1win'>Congrats Player one you have won the game!</div>
+                    <div id='p2win'>Congrats Player two you have won the game!</div>
+                    <div id='p1FBoard'>
+                        <h2>Player 1's Final Board</h2>
+                        <div id='p1FB'></div>
+                    </div>
+                    <div id='p2FBoard'>
+                        <h2>Player 2's Final Board</h2>
+                        <div id='p2FB'></div>
+                    </div>
+                </div>
         </div>
 </html>
