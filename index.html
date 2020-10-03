@@ -72,8 +72,8 @@
         Player One place your ships <br>
         Valid X Coordinates are (A-I) &nbsp; Valid Y Coordinates are (1-9) &nbsp; Valid Orientations are H for horizontal and V for vertical<br>
         <p id="p1data">
-                X Coordinate for Ship 1: <select id="S1X" name="Ship1X" onchange="formUpdate()">
-                    <option selected disabled>Choose a X value</option>
+                X Coordinate for Ship 1: <select id="S1X" name="Ship1X" onchange="formUpdate()" required>
+                    <option selected disabled value="">Choose a X value</option>
                     <option value="1">A</option>
                     <option value="2">B</option>
                     <option value="3">C</option>
@@ -84,8 +84,8 @@
                     <option value="8">H</option>
                     <option value="9">I</option>
                 </select>
-                Y Coordinate for Ship 1: <select id="S1Y" name="fname" onchange = "formUpdate()">
-                    <option selected disabled>Choose a Y value</option>
+                Y Coordinate for Ship 1: <select id="S1Y" name="fname" onchange = "formUpdate()" required>
+                    <option selected disabled value="">Choose a Y value</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -96,15 +96,15 @@
                     <option value="8">8</option>
                     <option value="9">9</option>
                 </select>
-                Orientation for Ship 1: <select id="S1Orien" name="fname" onchange = "formUpdate()">
-                    <option selected disabled>Choose an orientation</option>
+                Orientation for Ship 1: <select id="S1Orien" name="fname" onchange = "formUpdate()" required>
+                    <option selected disabled value="">Choose an orientation</option>
                     <option value="H">H</option>
                     <option value="V">V</option> 
                 </select><br>
  
             <div id="p1Two">
-                X Coordinate for Ship 2: <select id="S2X" name="Ship1X" onchange="formUpdate()">
-                    <option selected disabled>Choose a X value</option>
+                X Coordinate for Ship 2: <select id="S2X" name="Ship1X" onchange="formUpdate()" required>
+                    <option selected disabled value="">Choose a X value</option>
                     <option value="1">A</option>
                     <option value="2">B</option>
                     <option value="3">C</option>
@@ -115,8 +115,8 @@
                     <option value="8">H</option>
                     <option value="9">I</option>
                 </select>
-                Y Coordinate for Ship 2: <select id="S2Y" name="fname" onchange = "formUpdate()">
-                    <option selected disabled>Choose a Y value</option>
+                Y Coordinate for Ship 2: <select id="S2Y" name="fname" onchange = "formUpdate()"required>
+                    <option selected disabled value="">Choose a Y value</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -127,7 +127,7 @@
                     <option value="8">8</option>
                     <option value="9">9</option>
                 </select>
-                Orientation for Ship 2: <select id="S2Orien" name="fname" onchange = "formUpdate()">
+                Orientation for Ship 2: <select id="S2Orien" name="fname" onchange = "formUpdate()"required>
                     <option selected disabled>Choose an orientation</option>
                     <option value="H">H</option>
                     <option value="V">V</option> 
@@ -135,8 +135,8 @@
             </div>
  
             <div id="p1Three">
-                X Coordinate for Ship 3: <select id="S3X" name="Ship1X" onchange="formUpdate()">
-                    <option selected disabled>Choose a X value</option>
+                X Coordinate for Ship 3: <select id="S3X" name="Ship1X" onchange="formUpdate()" required>
+                    <option selected disabled value="">Choose a X value</option>
                     <option value="1">A</option>
                     <option value="2">B</option>
                     <option value="3">C</option>
@@ -147,8 +147,8 @@
                     <option value="8">H</option>
                     <option value="9">I</option>
                 </select>
-                Y Coordinate for Ship 3: <select id="S3Y" name="fname" onchange = "formUpdate()">
-                    <option selected disabled>Choose a Y value</option>
+                Y Coordinate for Ship 3: <select id="S3Y" name="fname" onchange = "formUpdate()" required>
+                    <option selected disabled value="">Choose a Y value</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -159,16 +159,16 @@
                     <option value="8">8</option>
                     <option value="9">9</option>
                 </select>
-                Orientation for Ship 3: <select id="S3Orien" name="fname" onchange = "formUpdate()">
-                    <option selected disabled>Choose an orientation</option>
+                Orientation for Ship 3: <select id="S3Orien" name="fname" onchange = "formUpdate()" required>
+                    <option selected disabled value="">Choose an orientation</option>
                     <option value="H">H</option>
                     <option value="V">V</option> 
                 </select> <br><br>
             </div>
  
             <div id="p1Four">
-                X Coordinate for Ship 4: <select id="S4X" name="Ship1X" onchange="formUpdate()">
-                    <option selected disabled>Choose a X value</option>
+                X Coordinate for Ship 4: <select id="S4X" name="Ship1X" onchange="formUpdate()" required>
+                    <option selected disabled value="">Choose a X value</option>
                     <option value="1">A</option>
                     <option value="2">B</option>
                     <option value="3">C</option>
@@ -179,8 +179,8 @@
                     <option value="8">H</option>
                     <option value="9">I</option>
                 </select>
-                Y Coordinate for Ship 4: <select id="S4Y" name="fname" onchange = "formUpdate()">
-                    <option selected disabled>Choose a Y value</option>
+                Y Coordinate for Ship 4: <select id="S4Y" name="fname" onchange = "formUpdate()" required>
+                    <option selected disabled value="">Choose a Y value</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -191,16 +191,16 @@
                     <option value="8">8</option>
                     <option value="9">9</option>
                 </select>
-                Orientation for Ship 4: <select id="S4Orien" name="fname" onchange = "formUpdate()">
-                    <option selected disabled>Choose an orientation</option>
+                Orientation for Ship 4: <select id="S4Orien" name="fname" onchange = "formUpdate()" required>
+                    <option selected disabled value="">Choose an orientation</option>
                     <option value="H">H</option>
                     <option value="V">V</option> 
                 </select> <br><br>
             </div>
  
             <div id="p1Five">
-                X Coordinate for Ship 5: <select id="S5X" name="Ship1X" onchange="formUpdate()">
-                    <option selected disabled>Choose a X value</option>
+                X Coordinate for Ship 5: <select id="S5X" name="Ship1X" onchange="formUpdate()" required>
+                    <option selected disabled value="">Choose a X value</option>
                     <option value="1">A</option>
                     <option value="2">B</option>
                     <option value="3">C</option>
@@ -211,8 +211,8 @@
                     <option value="8">H</option>
                     <option value="9">I</option>
                 </select>
-                Y Coordinate for Ship 5: <select id="S5Y" name="fname" onchange = "formUpdate()">
-                    <option selected disabled>Choose a Y value</option>
+                Y Coordinate for Ship 5: <select id="S5Y" name="fname" onchange = "formUpdate()" required>
+                    <option selected disabled value="">Choose a Y value</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -223,22 +223,22 @@
                     <option value="8">8</option>
                     <option value="9">9</option>
                 </select>
-                Orientation for Ship 5: <select id="S5Orien" name="fname" onchange = "formUpdate()">
-                    <option selected disabled>Choose an orientation</option>
+                Orientation for Ship 5: <select id="S5Orien" name="fname" onchange = "formUpdate()" required>
+                    <option selected disabled value="">Choose an orientation</option>
                     <option value="H">H</option>
                     <option value="V">V</option> 
                 </select> <br><br>
             </div>
  
-            <input type="submit" value="Submit" onclick="setShipsP1()"/>
+            <input type="submit" value="Submit" onclick="setShips()"/>
             </p>
     </div>
     <div id="p2Ships">
         Player Two place your ships <br>
         Valid X Coordinates are (A-I) &nbsp; Valid Y Coordinates are (1-9) &nbsp; Valid Orientations are H for horizontal and V for vertical<br>
         <p id="p2data">
-            X Coordinate for Ship 1: <select id="2S1X" name="Ship1X" onchange="formUpdate1()">
-                <option selected disabled>Choose a X value</option>
+            X Coordinate for Ship 1: <select id="2S1X" name="Ship1X" onchange="formUpdate1()" required>
+                <option selected disabled value="">Choose a X value</option>
                 <option value="1">A</option>
                 <option value="2">B</option>
                 <option value="3">C</option>
@@ -249,8 +249,8 @@
                 <option value="8">H</option>
                 <option value="9">I</option>
             </select>
-            Y Coordinate for Ship 1: <select id="2S1Y" name="fname" onchange = "formUpdate1()">
-                <option selected disabled>Choose a Y value</option>
+            Y Coordinate for Ship 1: <select id="2S1Y" name="fname" onchange = "formUpdate1()" required>
+                <option selected disabled value="">Choose a Y value</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -261,15 +261,15 @@
                 <option value="8">8</option>
                 <option value="9">9</option>
             </select>
-            Orientation for Ship 1: <select id="2S1Orien" name="fname" onchange = "formUpdate1()"> 
-                <option selected disabled>Choose an orientation</option>
+            Orientation for Ship 1: <select id="2S1Orien" name="fname" onchange = "formUpdate1()" required> 
+                <option selected disabled value="">Choose an orientation</option>
                 <option value="H">H</option>
                 <option value="V">V</option> 
             </select><br>
  
             <div id="p2Two">
-                X Coordinate for Ship 2: <select id="2S2X" name="Ship1X" onchange="formUpdate1()">
-                    <option selected disabled>Choose a X value</option>
+                X Coordinate for Ship 2: <select id="2S2X" name="Ship1X" onchange="formUpdate1()" required>
+                    <option selected disabled value="">Choose a X value</option>
                     <option value="1">A</option>
                     <option value="2">B</option>
                     <option value="3">C</option>
@@ -280,8 +280,8 @@
                     <option value="8">H</option>
                     <option value="9">I</option>
                 </select>
-                Y Coordinate for Ship 2: <select id="2S2Y" name="fname" onchange = "formUpdate1()">
-                    <option selected disabled>Choose a Y value</option>
+                Y Coordinate for Ship 2: <select id="2S2Y" name="fname" onchange = "formUpdate1()" required>
+                    <option selected disabled value="">Choose a Y value</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -292,16 +292,16 @@
                     <option value="8">8</option>
                     <option value="9">9</option>
                 </select>
-                Orientation for Ship 2: <select id="2S2Orien" name="fname" onchange = "formUpdate1()">
-                    <option selected disabled>Choose an orientation</option>
+                Orientation for Ship 2: <select id="2S2Orien" name="fname" onchange = "formUpdate1()" required>
+                    <option selected disabled value="">Choose an orientation</option>
                     <option value="H">H</option>
                     <option value="V">V</option> 
                 </select> <br><br>
             </div>
  
             <div id="p2Three">
-                X Coordinate for Ship 3: <select id="2S3X" name="Ship1X" onchange="formUpdate1()">
-                    <option selected disabled>Choose a X value</option>
+                X Coordinate for Ship 3: <select id="2S3X" name="Ship1X" onchange="formUpdate1()" required>
+                    <option selected disabled value="">Choose a X value</option>
                     <option value="1">A</option>
                     <option value="2">B</option>
                     <option value="3">C</option>
@@ -312,8 +312,8 @@
                     <option value="8">H</option>
                     <option value="9">I</option>
                 </select>
-                Y Coordinate for Ship 3: <select id="2S3Y" name="fname" onchange = "formUpdate1()">
-                    <option selected disabled>Choose a Y value</option>
+                Y Coordinate for Ship 3: <select id="2S3Y" name="fname" onchange = "formUpdate1()" required>
+                    <option selected disabled value="">Choose a Y value</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -324,16 +324,16 @@
                     <option value="8">8</option>
                     <option value="9">9</option>
                 </select>
-                Orientation for Ship 3: <select id="2S3Orien" name="fname" onchange = "formUpdate1()">
-                    <option selected disabled>Choose an orientation</option>
+                Orientation for Ship 3: <select id="2S3Orien" name="fname" onchange = "formUpdate1()" required>
+                    <option selected disabled value="">Choose an orientation</option>
                     <option value="H">H</option>
                     <option value="V">V</option> 
                 </select> <br><br>
             </div>
  
             <div id="p2Four">
-                X Coordinate for Ship 4: <select id="2S4X" name="Ship1X" onchange="formUpdate1()">
-                    <option selected disabled>Choose a X value</option>
+                X Coordinate for Ship 4: <select id="2S4X" name="Ship1X" onchange="formUpdate1()" required>
+                    <option selected disabled value="">Choose a X value</option>
                     <option value="1">A</option>
                     <option value="2">B</option>
                     <option value="3">C</option>
@@ -344,8 +344,8 @@
                     <option value="8">H</option>
                     <option value="9">I</option>
                 </select>
-                Y Coordinate for Ship 4: <select id="2S4Y" name="fname" onchange = "formUpdate1()">
-                    <option selected disabled>Choose a Y value</option>
+                Y Coordinate for Ship 4: <select id="2S4Y" name="fname" onchange = "formUpdate1()" required>
+                    <option selected disabled value="">Choose a Y value</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -356,16 +356,16 @@
                     <option value="8">8</option>
                     <option value="9">9</option>
                 </select>
-                Orientation for Ship 4: <select id="2S4Orien" name="fname" onchange = "formUpdate1()">
-                    <option selected disabled>Choose an orientation</option>
+                Orientation for Ship 4: <select id="2S4Orien" name="fname" onchange = "formUpdate1()" required>
+                    <option selected disabled value="">Choose an orientation</option>
                     <option value="H">H</option>
                     <option value="V">V</option> 
                 </select> <br><br>
             </div>
  
             <div id="p2Five">
-                X Coordinate for Ship 5: <select id="2S5X" name="Ship1X" onchange="formUpdate1()">
-                    <option selected disabled>Choose a X value</option>
+                X Coordinate for Ship 5: <select id="2S5X" name="Ship1X" onchange="formUpdate1()" required>
+                    <option selected disabled value="">Choose a X value</option>
                     <option value="1">A</option>
                     <option value="2">B</option>
                     <option value="3">C</option>
@@ -376,8 +376,8 @@
                     <option value="8">H</option>
                     <option value="9">I</option>
                 </select>
-                Y Coordinate for Ship 5: <select id="2S5Y" name="fname" onchange = "formUpdate1()">
-                    <option selected disabled>Choose a Y value</option>
+                Y Coordinate for Ship 5: <select id="2S5Y" name="fname" onchange = "formUpdate1()" required>
+                    <option selected disabled value="">Choose a Y value</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -388,14 +388,14 @@
                     <option value="8">8</option>
                     <option value="9">9</option>
                 </select>
-                Orientation for Ship 5: <select id="2S5Orien" name="fname" onchange = "formUpdate1()">
-                    <option selected disabled>Choose an orientation</option>
+                Orientation for Ship 5: <select id="2S5Orien" name="fname" onchange = "formUpdate1()" required>
+                    <option selected disabled value="">Choose an orientation</option>
                     <option value="H">H</option>
                     <option value="V">V</option> 
                 </select> <br><br>
             </div>
  
-            <input type="submit" value="Submit" onclick="setShipsP2()"/>
+            <input type="submit" value="Submit" onclick="setShips()"/>
             </p>
     </div>
     <div id="p1div">Player1</div>
@@ -407,7 +407,7 @@
                 <!-- <input type="submit" value="START GAME!" onclick="preGameCheck()"/> -->
                 <div id="attack">
                     <p id="pturn"></p>
-                    X Coordinate to hit: <select id="hitX" name="Ship1X">
+                    X Coordinate to hit: <select id="hitX" name="Ship1X" required>
                         <option selected disabled>Choose a X value</option>
                             <option value="1">A</option>
                             <option value="2">B</option>
@@ -419,7 +419,7 @@
                             <option value="8">H</option>
                             <option value="9">I</option>
                         </select>
-                    Y Coordinate to hit: <select id="hitY" name="Ship1Y">
+                    Y Coordinate to hit: <select id="hitY" name="Ship1Y" required>
                         <option selected disabled>Choose a Y value</option>
                         <option value="1">1</option>
                         <option value="2">2</option>

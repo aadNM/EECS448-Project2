@@ -1,4 +1,5 @@
 var validPlacements;
+var validCoords;
 function playersSet(){
     var playVS = document.getElementsByName("manVSmachine");
 
@@ -66,7 +67,6 @@ class Board
         this.hitY;
         this.validNum;
         this.gotShips;
-        this.validCoords;
         this.message;
         
     }
@@ -498,26 +498,65 @@ function convertLetter(letter){
  * The function sets the different variables available to the board class after taking inputs for player 1
  */
 function formUpdate(){
-    p1S1.setX(document.getElementById('S1X').value);
-    //document.getElementById('S1X').disabled = true;
-    p1S1.setY(document.getElementById('S1Y').value);
-    p1S1.setOrientation(document.getElementById('S1Orien').value);
+    if(document.getElementById('S1X').value !=="" && document.getElementById('S1Y').value !=="" && document.getElementById('S1Orien').value !=="")
+    {
+        p1S1.setX(document.getElementById('S1X').value);
+        p1S1.setY(document.getElementById('S1Y').value);
+        p1S1.setOrientation(document.getElementById('S1Orien').value);
+        validCoords = true;
+    }
+    else
+    {
+        validCoords = false;
+    }
     
-    p1S2.setX(document.getElementById('S2X').value);
-    p1S2.setY(document.getElementById('S2Y').value);
-    p1S2.setOrientation(document.getElementById('S2Orien').value);
- 
-    p1S3.setX(document.getElementById('S3X').value);
-    p1S3.setY(document.getElementById('S3Y').value);
-    p1S3.setOrientation(document.getElementById('S3Orien').value);
- 
-    p1S4.setX(document.getElementById('S4X').value);
-    p1S4.setY(document.getElementById('S4Y').value);
-    p1S4.setOrientation(document.getElementById('S4Orien').value);
- 
-    p1S5.setX(document.getElementById('S5X').value);
-    p1S5.setY(document.getElementById('S5Y').value);
-    p1S5.setOrientation(document.getElementById('S5Orien').value);
+    if(document.getElementById('S2X').value !=="" && document.getElementById('S2Y').value !=="" && document.getElementById('S2Orien').value !=="")
+    {
+        p1S2.setX(document.getElementById('S2X').value);
+        p1S2.setY(document.getElementById('S2Y').value);
+        p1S2.setOrientation(document.getElementById('S2Orien').value);
+        validCoords = true;
+    }
+    else if (totalShips >= 2)
+    {
+        validCoords = false;
+    }
+
+    if(document.getElementById('S3X').value !=="" && document.getElementById('S3Y').value !=="" && document.getElementById('S3Orien').value !=="")
+    {
+        p1S3.setX(document.getElementById('S3X').value);
+        p1S3.setY(document.getElementById('S3Y').value);
+        p1S3.setOrientation(document.getElementById('S3Orien').value);
+        validCoords = true;
+    }
+    else if (totalShips >= 3)
+    {
+        validCoords = false;
+    }
+    
+    if(document.getElementById('S4X').value !=="" && document.getElementById('S4Y').value !=="" && document.getElementById('S4Orien').value !=="")
+    {
+        p1S4.setX(document.getElementById('S4X').value);
+        p1S4.setY(document.getElementById('S4Y').value);
+        p1S4.setOrientation(document.getElementById('S4Orien').value);
+        validCoords = true;
+    }
+    else if (totalShips >= 4)
+    {
+        validCoords = false;
+    }
+    
+    if(document.getElementById('S5X').value !=="" && document.getElementById('S5Y').value !=="" && document.getElementById('S5Orien').value !=="")
+    {
+        p1S5.setX(document.getElementById('S5X').value);
+        p1S5.setY(document.getElementById('S5Y').value);
+        p1S5.setOrientation(document.getElementById('S5Orien').value);
+        validCoords = true;
+    }
+    else if (totalShips == 5)
+    {
+        validCoords = false;
+    }
  
 }
  
@@ -527,29 +566,69 @@ function formUpdate(){
  */
  
 function formUpdate1(){
-    p2S1.setX(document.getElementById('2S1X').value);
-    p2S1.setY(document.getElementById('2S1Y').value);
-    p2S1.setOrientation(document.getElementById('2S1Orien').value);
+    if(document.getElementById('2S1X').value !=="" && document.getElementById('2S1Y').value !=="" && document.getElementById('2S1Orien').value !=="")
+    {
+        p2S1.setX(document.getElementById('2S1X').value);
+        p2S1.setY(document.getElementById('2S1Y').value);
+        p2S1.setOrientation(document.getElementById('2S1Orien').value);
+        validCoords = true;
+    }
+    else
+    {
+        validCoords = false;
+    }
     
-    p2S2.setX(document.getElementById('2S2X').value);
-    p2S2.setY(document.getElementById('2S2Y').value);
-    p2S2.setOrientation(document.getElementById('2S2Orien').value);
+    if(document.getElementById('2S2X').value !=="" && document.getElementById('2S2Y').value !=="" && document.getElementById('2S2Orien').value !=="")
+    {
+        p2S2.setX(document.getElementById('2S2X').value);
+        p2S2.setY(document.getElementById('2S2Y').value);
+        p2S2.setOrientation(document.getElementById('2S2Orien').value);
+        validCoords = true;
+    }
+    else if(totalShips >= 2)
+    {
+        validCoords = false;
+    }
  
-    p2S3.setX(document.getElementById('2S3X').value);
-    p2S3.setY(document.getElementById('2S3Y').value);
-    p2S3.setOrientation(document.getElementById('2S3Orien').value);
- 
-    p2S4.setX(document.getElementById('2S4X').value);
-    p2S4.setY(document.getElementById('2S4Y').value);
-    p2S4.setOrientation(document.getElementById('2S4Orien').value);
- 
-    p2S5.setX(document.getElementById('2S5X').value);
-    p2S5.setY(document.getElementById('2S5Y').value);
-    p2S5.setOrientation(document.getElementById('2S5Orien').value);
+    if(document.getElementById('2S3X').value !=="" && document.getElementById('2S3Y').value !=="" && document.getElementById('2S3Orien').value !=="")
+    {
+        p2S3.setX(document.getElementById('2S3X').value);
+        p2S3.setY(document.getElementById('2S3Y').value);
+        p2S3.setOrientation(document.getElementById('2S3Orien').value);
+        validCoords = true;
+    }
+    else if(totalShips >=3)
+    {
+        validCoords = false;
+    }
+    
+    if(document.getElementById('2S4X').value !=="" && document.getElementById('2S4Y').value !=="" && document.getElementById('2S4Orien').value !=="")
+    {
+        p2S4.setX(document.getElementById('2S4X').value);
+        p2S4.setY(document.getElementById('2S4Y').value);
+        p2S4.setOrientation(document.getElementById('2S4Orien').value);
+        validCoords = true;
+    }
+    else if(totalShips >= 4)
+    {
+        validCoords = false;
+    }
+
+    if(document.getElementById('2S5X').value !=="" && document.getElementById('2S5Y').value !=="" && document.getElementById('2S5Orien').value !=="")
+    {
+        p2S5.setX(document.getElementById('2S5X').value);
+        p2S5.setY(document.getElementById('2S5Y').value);
+        p2S5.setOrientation(document.getElementById('2S5Orien').value);
+        validCoords= true;
+    }
+    else if(totalShips == 5)
+    {
+        validCoords = false;
+    }
  
 }
  function setShips(){
-     if(this.validCoords)
+     if(validCoords)
      {
          if(p1.turn)
          {
@@ -749,8 +828,8 @@ function hitShip(){
                 document.getElementById('p1copy').hidden = true;
                 document.getElementById('game-Over').hidden = false;
                 document.getElementById('attack').hidden = true;
-                document.getElementById('p1win').hidden = true;
-                document.getElementById('p2win').hidden = false;
+                document.getElementById('p1win').hidden = false;
+                document.getElementById('p2win').hidden = true;
                 prettyPrint(p1,"p1FB");
                 prettyPrint(p2,"p2FB");
 
@@ -795,8 +874,8 @@ function hitShip(){
                     document.getElementById('p1copy').hidden = true;
                     document.getElementById('game-Over').hidden = false;
                     document.getElementById('attack').hidden = true;
-                    document.getElementById('p1win').hidden = false;
-                    document.getElementById('p2win').hidden = true;
+                    document.getElementById('p1win').hidden = true;
+                    document.getElementById('p2win').hidden = false;
                     prettyPrint(p1,"p1FB");
                     prettyPrint(p2,"p2FB");
                 }
