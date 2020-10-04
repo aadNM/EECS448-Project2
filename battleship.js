@@ -3,6 +3,11 @@ var validCoords;
 var validShot = true;
 var p1Ships = 0;
 var p2Ships = 0;
+let hitScore1 = 0;
+let hitScore2 = 0;
+let sunkScore1 = 0;
+let sunkScore2 = 0;
+let boom = String.fromCodePoint(0x1F525);
 function playersSet(){
     var playVS = document.getElementsByName("manVSmachine");
 
@@ -146,7 +151,7 @@ checkCoord(x,y,t,l,o)
     console.log( x + "xval" + y + "yval" + t + "tval" + l + "lval" + o + "oval");
     for (let i = 0; i < l; i++) 
     {
-        if(o.toUpperCase() == 'H')
+        if(o == 'H')
         {
             if((x+l) > 10)
             {
@@ -240,15 +245,18 @@ checkCoord(x,y,t,l,o)
  * @param {Number}- y - Y coordinate of the board  
  */
     shipHit(x,y){
-       if(this.board[y][x] == 'X')
+       if((this.board[y][x] == '0') || (this.board[y][x] == boom))
         {
-            validShot = false;
+         	//document.getElementById("hitY").selectedIndex = "-1";
+         	//document.getElementById("hitX").selectedIndex = "-1";
             alert("Index has already been fired at."); 
-        }else if (this.board[y][x] == '~'){
+            validShot = false;
+        }
+        if (this.board[y][x] == '~'){
             this.board[y][x] = '0';
             validShot = true;
         }else if (this.board[y][x] == 'S') {
-            this.board[y][x] = 'X';
+            this.board[y][x] = boom;
             validShot = true;
             //alert("HIT AT " + x + " " + y); 
         }
@@ -269,7 +277,6 @@ checkCoord(x,y,t,l,o)
             this.board[x][y] = 6; 
            
         }
-
     }*/
 
     shipsDestroyed()
@@ -517,7 +524,6 @@ function prettyPrint(player,t){
 document.getElementById('Mode').hidden = true;
 document.getElementById('shipInput').hidden = true;
 document.getElementById('game').hidden = true;
-//document.getElementById('game-Over').hidden = true;
 document.getElementById('p1div').hidden = true;
 document.getElementById('p2div').hidden = true;
 document.getElementById('p1Ships').hidden = true;
@@ -530,6 +536,20 @@ document.getElementById('p2Two').hidden = true;
 document.getElementById('p2Three').hidden = true;
 document.getElementById('p2Four').hidden = true;
 document.getElementById('p2Five').hidden = true;
+document.getElementById('score-board').hidden = true;
+document.getElementById('player1-score').hidden = true;
+document.getElementById('player2-score').hidden = true;
+
+
+function scoreUpdate(){
+	document.getElementById('total-hits-1').innerHTML = hitScore1;
+	document.getElementById('total-hits-2').innerHTML = hitScore2;
+	//document.getElementById('total-sunk-1').innerHTML = sunkScore1;
+	//document.getElementById('total-sunk-2').innerHTML = sunkScore2;
+}
+
+
+
 
 function convertLetter(letter){
     let num = 0;
@@ -746,9 +766,354 @@ function setShipsP1(){
     {
         p1S4.setShip1(p1);
     }
+    if(this.totalShips == 5 && p1Ships == 4)
+    {
+        p1S5.setShip1(p1);
+    }
+ 
+    if(validPlacements && p1Ships == totalShips)
+    {
+        console.log(validPlacements);
+        document.getElementById('p1Ships').hidden = true;
+        document.getElementById('p1data').hidden = true;
+        document.getElementById('p1div').hidden = false;
+        prettyPrint(p1,"p1div");
+        setTimeout(function() { 
+        p1.turn = false;
+        p2.turn = true;
+        document.getElementById('p1div').hidden = true;
+        if(playMode == 'vsMachine')
+        {
+            setShipsP2();
+        }
+        else
+        { 
+        displayShipInputs();
+        }}, 3500);
+    }
+    else
+    {
+        alert("You have an invalid placed ship");
+    }
 }
->>>>>>> origin/guhyounNam
-=======
+
+/**
+ * sets the ship for player 2 
+ */
+function setShipsP2(){
+    if(playMode == 'vsMachine')
+    {
+        setAIShips(p2);
+        if(this.validPlacements && p2Ships == totalShips)
+        {
+            document.getElementById('p2Ships').hidden = true;
+            document.getElementById('p2data').hidden = true;
+            document.getElementById('p2div').hidden = false;
+            prettyPrint(p2,"p2div");
+            //updateCopies(p1.board, p2.board);
+            setTimeout(function() {
+            document.getElementById('p2div').hidden = true;
+            document.getElementById('p1div').hidden = true;
+            document.getElementById('p2Board').hidden = true;
+            document.getElementById('p1copy').hidden = true;
+            prettyPrint(p1,"p1BView");
+            prettyPrint(copy2, "p1CView");
+            console.log("Print");
+            document.getElementById('game').hidden = false; 
+            document.getElementById('game-Over').hidden = true;
+	        document.getElementById('score-board').hidden = false;
+	        document.getElementById('player1-score').hidden = false;
+	        document.getElementById('player2-score').hidden = false;
+            p2.turn = false;
+            p1.turn = true;}, 3500);
+        }
+    }
+    
+    if(playMode != "vsMachine")
+    {
+    console.log("setting p2")
+    document.getElementById('p1div').hidden = true;
+    if(p2Ships == 0)
+    {
+        p2S1.setShip2(p2);
+    }
+    if(this.totalShips >= 2 && p2Ships == 1)
+    {
+        p2S2.setShip2(p2);
+    }
+    if(this.totalShips >= 3 && p2Ships == 2)
+    {
+        p2S3.setShip2(p2);
+    }
+    if(this.totalShips >= 4 && p2Ships == 3)
+    {
+        p2S4.setShip2(p2);
+    }
+    if(this.totalShips == 5 && p2Ships == 4)
+    {
+        p2S5.setShip2(p2);
+    }
+ 
+    if(this.validPlacements && p2Ships == totalShips)
+    {
+        document.getElementById('p2Ships').hidden = true;
+        document.getElementById('p2data').hidden = true;
+        document.getElementById('p2div').hidden = false;
+        prettyPrint(p2,"p2div");
+        //updateCopies(p1.board, p2.board);
+        setTimeout(function() {
+        document.getElementById('p2div').hidden = true;
+        document.getElementById('p1div').hidden = true;
+        document.getElementById('p2Board').hidden = true;
+        document.getElementById('p1copy').hidden = true;
+        prettyPrint(p1,"p1BView");
+        prettyPrint(copy2, "p1CView");
+        console.log("Print");
+        document.getElementById('game').hidden = false; 
+        document.getElementById('game-Over').hidden = true;
+        document.getElementById('score-board').hidden = false;
+        document.getElementById('player1-score').hidden = false;
+        document.getElementById('player2-score').hidden = false;
+        p2.turn = false;
+        p1.turn = true;}, 5000);
+    } else
+    {
+        alert("You have an invalid placed ship");
+    }
+/*document.getElementById('p2data').hidden = false;
+document.getElementById('p2div').hidden = false;
+document.getElementById('p2name').hidden = false; */
+
+//p1.turn = true;
+
+document.getElementById('pturn').innerHTML = "Player 1 turn";
+    }
+ 
+}
+ 
+function setAIShips(p2)
+    {
+        p2.initboard();
+        console.log("setting AI ships");
+        var chars = "HV";
+        while(p2Ships != this.totalShips)
+        {
+            if(p2Ships == 0)
+            {
+                let x = (Math.ceil(9 * Math.random()));
+                let y = (Math.ceil(9 * Math.random())); 
+                let o = chars.charAt(Math.floor(2*Math.random()));
+                p2S1.setX(x);
+                p2S1.setY(y);
+                p2S1.setOrientation(o);
+                p2S1.setShip2(p2);
+            }
+            if(this.totalShips >= 2 && p2Ships == 1)
+            {
+                let x = (Math.ceil(9 * Math.random()));
+                let y = (Math.ceil(9 * Math.random())); 
+                let o = chars.charAt(Math.floor(2*Math.random()));
+                p2S2.setX(x);
+                p2S2.setY(y);
+                p2S2.setOrientation(o);
+                p2S2.setShip2(p2);
+            }
+            if(this.totalShips >= 3 && p2Ships == 2)
+            {
+                p2S3.setX(Math.ceil(9 * Math.random()));
+                p2S3.setY(Math.ceil(9* Math.random()));
+                p2S3.setOrientation(chars.charAt(Math.floor(2*Math.random())));
+                p2S3.setShip2(p2);
+            }
+            if(this.totalShips >= 4 && p2Ships == 3)
+            {
+                p2S4.setX(Math.ceil(9 * Math.random()));
+                p2S4.setY(Math.ceil(9* Math.random()));
+                p2S4.setOrientation(chars.charAt(Math.floor(2*Math.random())));
+                p2S4.setShip2(p2);
+            }
+            if(this.totalShips == 5 && p2Ships == 4)
+            {
+                p2S5.setX(Math.ceil(9 * Math.random()));
+                p2S5.setY(Math.ceil(9* Math.random()));
+                p2S5.setOrientation(chars.charAt(Math.floor(2*Math.random())));
+                p2S5.setShip2(p2);
+            }
+        }
+        document.getElementById('p2div').hidden = false;
+        prettyPrint(p2,"p2div");
+    }
+
+/**
+ * get the hit coordinates and set for each player
+ */
+function getHit(){
+    if(p1.turn){
+        p1.setHitX(document.getElementById('hitX').value);
+        p1.setHitY(document.getElementById('hitY').value);
+    }
+    else{
+        p2.setHitX(document.getElementById('hitX').value);
+        p2.setHitY(document.getElementById('hitY').value);
+        
+    }
+    
+}
+ 
+function gameOver(p1,p2)
+{
+    if(p1.shipsDestroyed())
+    {
+        return(true); 
+    }
+    else if(p2.shipsDestroyed(1))
+    {
+        return(true); 
+    }
+    else 
+    {
+        return(false); 
+    }
+}
+
+function checkSunk(x,y) {
+	//if()
+}
+
+/**
+ * control what happens for after we hit the ship
+ */
+function hitShip(){
+	//console.log("Player 1: " + score1 + "\nPlayer 2: "+ score2);
+    updateCopies(p1.board, p2.board);
+
+        if(p1.turn && validShot){
+            p1.setHitX(document.getElementById('hitX').value);
+            p1.setHitY(document.getElementById('hitY').value);
+            console.log(p1.hitX);
+            
+            if(p2.checkBoard(p1.hitX,p1.hitY)){
+                alert("Ship hit at [" + p1.hitX + ", " + p1.hitY + "]");
+                p2.shipHit(p1.hitX,p1.hitY);
+                hitScore1 += 1;
+            
+            }else{
+                
+                p2.shipHit(p1.hitX,p1.hitY);
+                alert("Miss at [" + p1.hitX + ", " + p1.hitY + "]\nBetter luck next chance!");
+            }
+            updateCopies(p1.board, p2.board);
+            scoreUpdate(); 
+            if(validShot)
+            {
+                p1.turn = false;
+                p2.turn = true;
+                document.getElementById('pturn').innerHTML = "Player 2 turn";
+            //updateCopies(p1.board, p2.board);
+
+            // document.getElementById('p1div').hidden = true; // hides the table
+            if(gameOver(p1,p2) == true)
+            {
+                document.getElementById('p1Board').hidden = true;
+                document.getElementById('p2copy').hidden = true;
+                document.getElementById('p2Board').hidden = true;
+                document.getElementById('p1copy').hidden = true;
+                document.getElementById('game-Over').hidden = false;
+                document.getElementById('attack').hidden = true;
+                document.getElementById('p1win').hidden = false;
+                document.getElementById('p2win').hidden = true;
+                prettyPrint(p1,"p1FB");
+                prettyPrint(p2,"p2FB");
+
+            }
+            else{
+            setTimeout(function() {
+                console.log(difficulty);
+            if(difficulty == "Easy")
+                {
+                    easyMode();
+                    console.log('AI Shooting');
+                }
+            else if(difficulty == "Medium")
+                {
+                    mediumMode();
+                    console.log('AI Shooting');
+                }
+            else if(difficulty == "Hard")
+                {
+                    hardMode();
+                    console.log('AI Shooting');
+                }
+                document.getElementById('p1Board').hidden = true;
+                document.getElementById('p2copy').hidden = true;
+                document.getElementById('p2Board').hidden = false;
+                document.getElementById('p1copy').hidden = false;
+                prettyPrint(p2,"p2BView");
+                prettyPrint(copy1, "p2CView");
+            }, 5000);
+
+        }
+        
+        }
+		validShot = true;
+         
+
+        }else if(!p1.turn && validShot){
+            if(playMode != "vsMachine"){
+                p2.setHitX(document.getElementById('hitX').value);
+                p2.setHitY(document.getElementById('hitY').value);
+                console.log(p2.hitX,p2.hitY);
+                if(p1.checkBoard(p2.hitX,p2.hitY)){
+                    alert("Ship hit at [" + p2.hitX + ", " + p2.hitY + "]");
+                    p1.shipHit(p2.hitX,p2.hitY);
+                    hitScore2 += 1;
+
+                }else{
+                    p1.shipHit(p2.hitX,p2.hitY);
+                    alert("Miss at [" + p2.hitX + ", " + p2.hitY + "]\nBetter luck next chance!");
+                }
+                updateCopies(p1.board, p2.board);
+                scoreUpdate(); 
+                if(validShot)
+                {
+                p1.turn = true;
+                p2.turn = false;
+                document.getElementById('pturn').innerHTML = "Player 1 turn";
+                //document.getElementById('p1div').hidden = false; // hides the table
+                if(gameOver(p1,p2) == true)
+                { 
+                    document.getElementById('p1Board').hidden = true;
+                    document.getElementById('p2copy').hidden = true;
+                    document.getElementById('p2Board').hidden = true;
+                    document.getElementById('p1copy').hidden = true;
+                    document.getElementById('game-Over').hidden = false;
+                    document.getElementById('attack').hidden = true;
+                    document.getElementById('p1win').hidden = true;
+                    document.getElementById('p2win').hidden = false;
+                    prettyPrint(p1,"p1FB");
+                    prettyPrint(p2,"p2FB");
+                }
+                else{
+                    setTimeout(function() {
+                        document.getElementById('p1Board').hidden = false;
+                        document.getElementById('p2copy').hidden = false;
+                        document.getElementById('p2Board').hidden = true;
+                        document.getElementById('p1copy').hidden = true;
+                        prettyPrint(p1,"p1BView");
+                        prettyPrint(copy2, "p1CView");
+                    }, 5000);
+                }
+            }
+            validShot = true;   
+            }
+        }
+
+        updateCopies(p1.board, p2.board);
+        document.getElementById('hitX').value = "";
+        document.getElementById('hitY').value = "";
+}
+
+
 function easyMode() {
      let x = Math.ceil(Math.random() * 10); //randomly get number 0-9
      let y = Math.ceil(Math.random() * 10);
@@ -792,7 +1157,7 @@ function easyMode() {
                     document.getElementById('p1copy').hidden = true;
                     prettyPrint(p1,"p1BView");
                     prettyPrint(copy2, "p1CView");
-                }, 3000);
+                }, 5000);
             }
         }
     p2.turn = false;
@@ -899,10 +1264,9 @@ function hardMode() {
                    document.getElementById('p1copy').hidden = true;
                    prettyPrint(p1,"p1BView");
                    prettyPrint(copy2, "p1CView");
-               }, 3000);
+               }, 5000);
            }
        }
     p1.turn = true;
     p2.turn = false;
 }
->>>>>>> josh_updated
