@@ -34,15 +34,15 @@ function modeSet(){
     document.getElementById('shipInput').hidden = false;
     if(playMode == "Easy")
     {
-        //Assign AI to easy mode or call easy mode function
+
     }
     else if(playMode == "Medium")
     {
-        //Assign AI to medium mode or call medium mode function
+        mediumMode();
     }
     else if (playMode == "Hard")
     {
-        //Assign AI to hard mode or call hard mode function
+        hardMode();
     }
 
 }
@@ -88,7 +88,7 @@ class Board
         this.height;
         this.width;
         this.board;
-        this.totalShips;
+        this.totalShips = 0;
         this.turn;
         this.hitX;
         this.hitY;
@@ -131,6 +131,22 @@ class Board
 checkCoord(x,y,t,l,o)
 {
     console.log("Checking coords");
+    if (x === undefined) {       //if t=undefined, call tt
+        console.log(x)      //call t
+    }
+    if (y === undefined) {       //if t=undefined, call tt
+        console.log(y)      //call t
+    }
+    if (t === undefined) {       //if t=undefined, call tt
+        console.log(t)      //call t
+    }
+    if (l === undefined) {       //if t=undefined, call tt
+        console.log(l)      //call t
+    }
+    if (o === undefined) {       //if t=undefined, call tt
+        console.log(o)      //call t
+    }
+    console.log(this.board);
     console.log( x + "xval" + y + "yval" + t + "tval" + l + "lval" + o + "oval");
     for (let i = 0; i < l; i++) 
     {
@@ -334,7 +350,7 @@ class Ships{
     setShip1(player){
         console.log('check');
         console.log(this.orien)
-        if (player.checkCoord(this.xCoord, this.yCoord,'S,',this.size, this.orien))
+        if (player.checkCoord(this.xCoord, this.yCoord,'S',this.size, this.orien))
         {
             player.addShip(this.xCoord,this.yCoord,'S', this.size, this.orien);
             p1Ships ++;
@@ -349,7 +365,7 @@ class Ships{
     setShip2(player){
         console.log('check');
         console.log(this.orien)
-        if (player.checkCoord(this.xCoord, this.yCoord,'S,',this.size, this.orien))
+        if (player.checkCoord(this.xCoord, this.yCoord,'S',this.size, this.orien))
         {
             player.addShip(this.xCoord,this.yCoord,'S', this.size, this.orien);
             p2Ships ++;
@@ -359,7 +375,7 @@ class Ships{
         {
             validPlacements = false;
         }
-    }
+    } 
 }
 
 
@@ -749,8 +765,15 @@ function setShipsP1(){
         setTimeout(function() { 
         p1.turn = false;
         p2.turn = true;
-        document.getElementById('p1div').hidden = true; 
-        displayShipInputs();}, 3000);
+        document.getElementById('p1div').hidden = true;
+        if(playMode == 'vsMachine')
+        {
+            setShipsP2();
+        }
+        else
+        { 
+        displayShipInputs();
+        }}, 3000);
     }
     else
     {
@@ -762,7 +785,13 @@ function setShipsP1(){
  * sets the ship for player 2 
  */
 function setShipsP2(){
+    if(playMode == 'vsMachine')
+    {
+        setAIShips(p2);
+    }
     
+    if(playMode != "vsMachine")
+    {
     console.log("setting p2")
     document.getElementById('p1div').hidden = true;
     if(p2Ships == 0)
@@ -813,9 +842,63 @@ document.getElementById('p2name').hidden = false; */
 p1.turn = true;
 
 document.getElementById('pturn').innerHTML = "Player 1 turn";
+    }
  
 }
  
+function setAIShips(p2)
+    {
+        p2.initboard();
+        console.log("setting AI ships");
+        var chars = "HV";
+        while(p2Ships != this.totalShips)
+        {
+            if(p2Ships == 0)
+            {
+                let x = (Math.ceil(9 * Math.random()));
+                let y = (Math.ceil(9 * Math.random())); 
+                let o = chars.charAt(Math.floor(2*Math.random()));
+                p2S1.setX(x);
+                p2S1.setY(y);
+                p2S1.setOrientation(o);
+                p2S1.setShip2(p2);
+            }
+            if(this.totalShips >= 2 && p2Ships == 1)
+            {
+                let x = (Math.ceil(9 * Math.random()));
+                let y = (Math.ceil(9 * Math.random())); 
+                let o = chars.charAt(Math.floor(2*Math.random()));
+                p2S2.setX(x);
+                p2S2.setY(y);
+                p2S2.setOrientation(o);
+                p2S2.setShip2(p2);
+            }
+            if(this.totalShips >= 3 && p2Ships == 2)
+            {
+                p2S3.setX(Math.ceil(9 * Math.random()));
+                p2S3.setY(Math.ceil(9* Math.random()));
+                p2S3.setOrientation(chars.charAt(Math.floor(2*Math.random())));
+                p2S3.setShip2(p2);
+            }
+            if(this.totalShips >= 4 && p2Ships == 3)
+            {
+                p2S4.setX(Math.ceil(9 * Math.random()));
+                p2S4.setY(Math.ceil(9* Math.random()));
+                p2S4.setOrientation(chars.charAt(Math.floor(2*Math.random())));
+                p2S4.setShip2(p2);
+            }
+            if(this.totalShips == 5 && p2Ships == 4)
+            {
+                p2S5.setX(Math.ceil(9 * Math.random()));
+                p2S5.setY(Math.ceil(9* Math.random()));
+                p2S5.setOrientation(chars.charAt(Math.floor(2*Math.random())));
+                p2S5.setShip2(p2);
+            }
+        }
+        document.getElementById('p2div').hidden = false;
+        prettyPrint(p2,"p2div");
+    }
+
 /**
  * get the hit coordinates and set for each player
  */
@@ -967,6 +1050,81 @@ function hitShip(){
 }
 
 
-//document.addEventListener("DOMContentLoaded", () => {
-  //  document.getElementById("game-play").hidden = true;
-//});
+function easyMode() {
+    if (p2.turn) {
+        x = Math.floor(Math.random() * 10); //均衡抽取数字0-9
+        y = Math.floor(Math.random() * 10);
+        if (!checkPos(x, y)) {
+            x = Math.floor(Math.random() * 10);
+            y = Math.floor(Math.random() * 10);
+        }
+        shipHit(x, y);
+    }
+    p2.turn = false;
+    // turn change
+    if (win) {
+        console.log("congrats you win easy mod");
+    }
+}
+
+function mediumMode() {
+    if (p2.turn) {
+        lastHit = false;
+        Lx, Ly, x, y;
+        fuse = 0;
+        if (lastHit = false) {
+            x = Math.floor(Math.random() * 10); //randomly get number 0-9
+            y = Math.floor(Math.random() * 10);
+            while (!checkPos(pos[x][y])) {
+                x = Math.floor(Math.random() * 10);
+                y = Math.floor(Math.random() * 10);
+            }
+            shipHit(x, y);
+            if (shipHit(pos[x][y]) == 7 & 8 & 9) {
+                lastHit = true;
+                Lx = x;
+                Ly = y;
+            }
+        } else {
+            x = random(Lx - 1, Lx + 1);
+            y = random(Ly - 1, Ly + 1);
+            while (!checkPos(pos[x][y])) {
+                x = random(Lx - 1, Lx + 1);
+                y = random(Ly - 1, Ly + 1);
+                fuse++;
+                if (fuse == 25) {
+                    x = Math.floor(Math.random() * 10);
+                    y = Math.floor(Math.random() * 10);
+                    lastHit = false;
+                }
+            }
+            shipHit(x, y);
+            if (shipHit(pos[x][y]) == 7 & 8 & 9) {
+                lastHit = true;
+                Lx = x;
+                Ly = y;
+            }
+        }
+    }
+    p2.turn = false;
+    if (win) {
+        console.log("congrats you win medium mod!");
+    }
+}
+
+function hardMode() {
+    if (p2.turn) {
+        x = Math.floor(Math.random() * 10);
+        y = Math.floor(Math.random() * 10);
+        // "7 & 8 & 9" means there has ship
+        while (!checkPos(pos[x][y]) || (!shipHit(pos[x][y]) == 7 & 8 & 9)) {
+            x = Math.floor(Math.random() * 10);
+            y = Math.floor(Math.random() * 10);
+        }
+        shipHit(x, y);
+    }
+    p2.turn = false;
+    if (win) {
+        console.log("congrats you win hard mod!");
+    }
+}
