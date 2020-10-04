@@ -72,6 +72,7 @@
         Player One place your ships <br>
         Valid X Coordinates are (A-I) &nbsp; Valid Y Coordinates are (1-9) &nbsp; Valid Orientations are H for horizontal and V for vertical<br>
         <p id="p1data">
+            <div id="p1One">
                 X Coordinate for Ship 1: <select id="S1X" name="Ship1X" onchange="formUpdate()" required>
                     <option selected disabled value="">Choose a X value</option>
                     <option value="1">A</option>
@@ -101,6 +102,7 @@
                     <option value="H">H</option>
                     <option value="V">V</option> 
                 </select><br>
+            </div>
  
             <div id="p1Two">
                 X Coordinate for Ship 2: <select id="S2X" name="Ship1X" onchange="formUpdate()" required>
@@ -237,6 +239,7 @@
         Player Two place your ships <br>
         Valid X Coordinates are (A-I) &nbsp; Valid Y Coordinates are (1-9) &nbsp; Valid Orientations are H for horizontal and V for vertical<br>
         <p id="p2data">
+            <div id="p2One">
             X Coordinate for Ship 1: <select id="2S1X" name="Ship1X" onchange="formUpdate1()" required>
                 <option selected disabled value="">Choose a X value</option>
                 <option value="1">A</option>
@@ -266,6 +269,7 @@
                 <option value="H">H</option>
                 <option value="V">V</option> 
             </select><br>
+            </div>
  
             <div id="p2Two">
                 X Coordinate for Ship 2: <select id="2S2X" name="Ship1X" onchange="formUpdate1()" required>

@@ -1,5 +1,8 @@
 var validPlacements;
 var validCoords;
+var validShot = true;
+var p1Ships = 0;
+var p2Ships = 0;
 function playersSet(){
     var playVS = document.getElementsByName("manVSmachine");
 
@@ -43,6 +46,30 @@ function modeSet(){
     }
 
 }
+function updateCopies(board1, board2){
+    for (let i = 1; i < 10; i++){
+        for (let j = 1; j < 10; j++){
+            if(board1[i][j] == 'S'){
+                console.log("stupid");
+                copy1.board[i][j] == '~';
+            }
+            else{
+                console.log("stupid2");
+                copy1.board[i][j] = board1[i][j];
+            }
+
+            if(board2[i][j] == 'S'){
+                console.log("stupid3");
+                copy2.board[i][j] == '~';
+            }
+            else{
+                console.log("stupid4");
+                copy2.board[i][j] = board2[i][j];
+            }
+        }
+    }
+}
+
 
 /**
  * @classdesc Game board is initialized with given height, width, totalShips
@@ -94,39 +121,48 @@ class Board
             
         }
     }
- 
-    /**
+
+        /**
  * checks if the input coordinates are within the range 
  * @param {Number} - x - X coordinate 
  * @param {Number} - y - Y coordinate 
  * @param {Number} - t - type  
  */
-	checkCoord(x,y,t){
+checkCoord(x,y,t,l,o)
+{
+    console.log("Checking coords");
+    console.log( x + "xval" + y + "yval" + t + "tval" + l + "lval" + o + "oval");
+    for (let i = 0; i < l; i++) 
+    {
+        if(o.toUpperCase() == 'H')
         {
-		if(t==0){
-		    console.log("Checking only 1 coord");
-		    if(!(x < this.height && x < this.width)){
-		        //alert("There is an invalid coordinate! At least in one coordinate we only have one part!");
-		        return false;
-		    }
-		}else{
-		    console.log("Checking 2 coords");
-		// Check within board, return false if not
-		    if(!((x < this.height && x < this.width) && (y < this.height && y < this.width))){
-		        console.log("NOT WITHIN THE BOARD");
-		        //alert("There is an invalid coordinate! At least one coordinate is not inside the board!");
-		        return false;
-		    }
-		    // If its within the board, ship exists? return false if 1 
-		    if(this.board[x][y] == 'S' ){
-		        console.log("SHIP EXISTS");
-		        //alert("There is an invalid coordinate! At least in one coordinate has a ship being on top of another one!");
-		        return false;
-		    }
-		}
-		return true;
+            if((x+l) > 10)
+            {
+                console.log("Out of bounds (horizontally)")
+                return false;
+            }
+            else if (this.board[y][x+i] != '~')
+            {
+                console.log("Can't place on another ship");
+                return false;
+            }
+        }
+        else
+        {
+            if((y+l) > 10)
+            {
+                console.log("Out of bounds (vertically)")
+                return false;
+            }
+            else if (this.board[y+i][x] != '~')
+            {
+                console.log("Can't place on another ship");
+                return false;
+            }
+        }
+        return true;
     }
-    }
+}
 
 /**
  * sets the hit x coordinate 
@@ -150,15 +186,23 @@ class Board
  * @param {Number} y - y coordinate of the board
  * @param {Number} t - type of the ship
  */
-    addShip(x,y,t){
-        validPlacements = true;
+    addShip(x,y,t, length, or){
+        console.log(or);
         console.log("ADDING SHIP");
-        if(this.checkCoord(x,y,1)){
-            this.board[y][x] = t;
-            console.log("done");
-        }
-        else{
-            validPlacements = false;
+        if (this.checkCoord(x, y,t,length,or))
+        {
+            for (let i = 0; i < length; i++) 
+            {
+                if (or.toUpperCase() == 'H') 
+                {
+                    this.board[y][x+i] = t;
+                } 
+                else 
+                {
+                    this.board[y+i][x] = t;
+                }
+            }
+            validPlacements = true;
         }
         console.log("Hi:"+validPlacements );
     }
@@ -186,11 +230,14 @@ class Board
     shipHit(x,y){
        if(this.board[y][x] == 'X')
         {
+            validShot = false;
             alert("Index has already been fired at."); 
         }else if (this.board[y][x] == '~'){
-            this.board[y][x] = "0";
-        }else {
+            this.board[y][x] = '0';
+            validShot = true;
+        }else if (this.board[y][x] == 'S') {
             this.board[y][x] = 'X';
+            validShot = true;
             //alert("HIT AT " + x + " " + y); 
         }
     }
@@ -284,29 +331,37 @@ class Ships{
  * Sets the ship to the player
  * @param {Object} - player - the player object the instance of the board class  
  */
-    setShip(player){
-        if (this.size == 1){
-            player.addShip(this.xCoord,this.yCoord,'S');
+    setShip1(player){
+        console.log('check');
+        console.log(this.orien)
+        if (player.checkCoord(this.xCoord, this.yCoord,'S,',this.size, this.orien))
+        {
+            player.addShip(this.xCoord,this.yCoord,'S', this.size, this.orien);
+            p1Ships ++;
+            displayShipInputs();
+        }  
+        else
+        {
+            validPlacements = false;
         }
-        else {
-            if(this.orien == "H"){
-                    for(let i = 0; i < this.size; i++)
-                {
-                    player.addShip(this.xCoord,this.yCoord+i,'S');
-                }
-            }
-            else if (this.orien == "V"){
-                for(let i = 0; i < this.size; i++)
-                {
-                    player.addShip(this.xCoord + i,this.yCoord,'S');
-                }
-            }
-        
-        }
-        
     }
- 
+
+    setShip2(player){
+        console.log('check');
+        console.log(this.orien)
+        if (player.checkCoord(this.xCoord, this.yCoord,'S,',this.size, this.orien))
+        {
+            player.addShip(this.xCoord,this.yCoord,'S', this.size, this.orien);
+            p2Ships ++;
+            displayShipInputs();
+        }  
+        else
+        {
+            validPlacements = false;
+        }
+    }
 }
+
 
 var playMode;
 var difficulty;
@@ -372,41 +427,54 @@ function initNumShips()
 function displayShipInputs(){
     if(p1.turn)
     {
-        document.getElementById('p1Ships').hidden = false;
-        if(this.totalShips >= 2)
+        if(p1Ships == 0)
         {
+            document.getElementById('p1Ships').hidden = false;
+        }
+        if(this.totalShips >= 2 && p1Ships == 1)
+        {
+            document.getElementById('p1One').hidden = true;
             document.getElementById('p1Two').hidden = false;
         }
-        if(this.totalShips >= 3)
+        if(this.totalShips >= 3 && p1Ships == 2)
         {
+            document.getElementById('p1Two').hidden = true;
             document.getElementById('p1Three').hidden = false;
         }
-        if(this.totalShips >= 4)
+        if(this.totalShips >= 4 && p1Ships == 3)
         {
+            document.getElementById('p1Three').hidden = true;
             document.getElementById('p1Four').hidden = false;
         }
-        if(this.totalShips == 5)
+        if(this.totalShips == 5 && p1Ships == 4)
         {
+            document.getElementById('p1Four').hidden = true;
             document.getElementById('p1Five').hidden = false;
         }
     }
     else if(p2.turn){
-        document.getElementById('p1Ships').hidden = true;
-        document.getElementById('p2Ships').hidden = false;
-        if(this.totalShips >= 2)
+        if(p2Ships == 0)
         {
+            document.getElementById('p2Ships').hidden = false;
+        }
+        if(this.totalShips >= 2 && p2Ships == 1)
+        {
+            document.getElementById('p2One').hidden = true;
             document.getElementById('p2Two').hidden = false;
         }
-        if(this.totalShips >= 3)
+        if(this.totalShips >= 3 && p2Ships == 2)
         {
+            document.getElementById('p2Two').hidden = true;
             document.getElementById('p2Three').hidden = false;
         }
-        if(this.totalShips >= 4)
+        if(this.totalShips >= 4 && p2Ships == 3)
         {
+            document.getElementById('p2Three').hidden = true;
             document.getElementById('p2Four').hidden = false;
         }
-        if(this.totalShips == 5)
+        if(this.totalShips == 5 && p2Ships == 4)
         {
+            document.getElementById('p2Five').hidden = true;
             document.getElementById('p2Five').hidden = false;
         }
     }
@@ -505,7 +573,7 @@ function formUpdate(){
         p1S1.setOrientation(document.getElementById('S1Orien').value);
         validCoords = true;
     }
-    else
+    else if (p1Ships == 0)
     {
         validCoords = false;
     }
@@ -517,7 +585,7 @@ function formUpdate(){
         p1S2.setOrientation(document.getElementById('S2Orien').value);
         validCoords = true;
     }
-    else if (totalShips >= 2)
+    else if (totalShips >= 2 && p1Ships == 1)
     {
         validCoords = false;
     }
@@ -529,7 +597,7 @@ function formUpdate(){
         p1S3.setOrientation(document.getElementById('S3Orien').value);
         validCoords = true;
     }
-    else if (totalShips >= 3)
+    else if (totalShips >= 3 && p1Ships == 2)
     {
         validCoords = false;
     }
@@ -541,7 +609,7 @@ function formUpdate(){
         p1S4.setOrientation(document.getElementById('S4Orien').value);
         validCoords = true;
     }
-    else if (totalShips >= 4)
+    else if (totalShips >= 4 && p1Ships == 3)
     {
         validCoords = false;
     }
@@ -553,7 +621,7 @@ function formUpdate(){
         p1S5.setOrientation(document.getElementById('S5Orien').value);
         validCoords = true;
     }
-    else if (totalShips == 5)
+    else if (totalShips == 5 && p1Ships == 4)
     {
         validCoords = false;
     }
@@ -573,7 +641,7 @@ function formUpdate1(){
         p2S1.setOrientation(document.getElementById('2S1Orien').value);
         validCoords = true;
     }
-    else
+    else if(p2Ships == 0)
     {
         validCoords = false;
     }
@@ -585,7 +653,7 @@ function formUpdate1(){
         p2S2.setOrientation(document.getElementById('2S2Orien').value);
         validCoords = true;
     }
-    else if(totalShips >= 2)
+    else if(totalShips >= 2 && p2Ships == 1)
     {
         validCoords = false;
     }
@@ -597,7 +665,7 @@ function formUpdate1(){
         p2S3.setOrientation(document.getElementById('2S3Orien').value);
         validCoords = true;
     }
-    else if(totalShips >=3)
+    else if(totalShips >=3 && p2Ships == 2)
     {
         validCoords = false;
     }
@@ -609,7 +677,7 @@ function formUpdate1(){
         p2S4.setOrientation(document.getElementById('2S4Orien').value);
         validCoords = true;
     }
-    else if(totalShips >= 4)
+    else if(totalShips >= 4 && p2Ships == 3)
     {
         validCoords = false;
     }
@@ -621,7 +689,7 @@ function formUpdate1(){
         p2S5.setOrientation(document.getElementById('2S5Orien').value);
         validCoords= true;
     }
-    else if(totalShips == 5)
+    else if(totalShips == 5 && p2Ships == 4)
     {
         validCoords = false;
     }
@@ -650,26 +718,30 @@ function formUpdate1(){
 function setShipsP1(){
     console.log("setting p1");
     
-    p1S1.setShip(p1);
-    if(this.totalShips >= 2)
+    if(p1Ships == 0)
     {
-        p1S2.setShip(p1);
+        p1S1.setShip1(p1);
     }
-    if(this.totalShips >= 3)
+    if(this.totalShips >= 2 && p1Ships == 1)
     {
-        p1S3.setShip(p1);
+        p1S2.setShip1(p1);
     }
-    if(this.totalShips >= 4)
+    if(this.totalShips >= 3 && p1Ships == 2)
     {
-        p1S4.setShip(p1);
+        p1S3.setShip1(p1);
     }
-    if(this.totalShips == 5)
+    if(this.totalShips >= 4 && p1Ships == 3)
     {
-        p1S5.setShip(p1);
+        p1S4.setShip1(p1);
+    }
+    if(this.totalShips == 5 && p1Ships == 4)
+    {
+        p1S5.setShip1(p1);
     }
  
-    if(this.validPlacements)
+    if(validPlacements && p1Ships == totalShips)
     {
+        console.log(validPlacements);
         document.getElementById('p1Ships').hidden = true;
         document.getElementById('p1data').hidden = true;
         document.getElementById('p1div').hidden = false;
@@ -693,32 +765,34 @@ function setShipsP2(){
     
     console.log("setting p2")
     document.getElementById('p1div').hidden = true;
-    
-    p2S1.setShip(p2);
-    if(this.totalShips >= 2)
+    if(p2Ships == 0)
     {
-        p2S2.setShip(p2);
+        p2S1.setShip2(p2);
     }
-    if(this.totalShips >= 3)
+    if(this.totalShips >= 2 && p2Ships == 1)
     {
-        p2S3.setShip(p2);
+        p2S2.setShip2(p2);
     }
-    if(this.totalShips >= 4)
+    if(this.totalShips >= 3 && p2Ships == 2)
     {
-        p2S4.setShip(p2);
+        p2S3.setShip2(p2);
     }
-    if(this.totalShips == 5)
+    if(this.totalShips >= 4 && p2Ships == 3)
     {
-        p2S5.setShip(p2);
+        p2S4.setShip2(p2);
+    }
+    if(this.totalShips == 5 && p2Ships == 4)
+    {
+        p2S5.setShip2(p2);
     }
  
-    if(this.validPlacements)
+    if(this.validPlacements && p2Ships == totalShips)
     {
         document.getElementById('p2Ships').hidden = true;
         document.getElementById('p2data').hidden = true;
         document.getElementById('p2div').hidden = false;
         prettyPrint(p2,"p2div");
-        updateCopies(p1.board, p2.board);
+        //updateCopies(p1.board, p2.board);
         setTimeout(function() {
         document.getElementById('p2div').hidden = true;
         document.getElementById('p1div').hidden = true;
@@ -774,33 +848,13 @@ function gameOver(p1,p2)
     }
 }
 
-function updateCopies(board1, board2){
-    for (let i = 1; i < 10; i++){
-        for (let j = 1; j < 10; j++){
-            if(board1[i][j] == 'X'){
-                copy1.board[i][j] == 'X';
-            }
-            if(board1[i][j] == '0'){
-                copy1.board[i][j] = '0';
-            }
-
-            if(board2[i][j] == 'X'){
-                copy2.board[i][j] == 'X';
-            }
-            if(board2[i][j] == '0'){
-                copy2.board[i][j] = '0';
-            }
-        }
-    }
-}
-
 /**
  * control what happens for after we hit the ship
  */
 function hitShip(){
     updateCopies(p1.board, p2.board);
 
-        if(p1.turn){
+        if(p1.turn && validShot){
             p1.setHitX(document.getElementById('hitX').value);
             p1.setHitY(document.getElementById('hitY').value);
             console.log(p1.hitX);
@@ -809,16 +863,26 @@ function hitShip(){
             if(p2.checkBoard(p1.hitX,p1.hitY)){
                 alert("Ship hit at [" + p1.hitX + ", " + p1.hitY + "]");
                 p2.shipHit(p1.hitX,p1.hitY);
-                copy2.shipHit(p1.hitX,p1.hitY)
+                //copy2.shipHit(p1.hitX,p1.hitY)
             }else{
                 //p2.shipMiss(p1.hitX, p1.hitY);
-                 copy2.shipHit(p1.hitX,p1.hitY);
-                alert("Miss at [" + p1.hitX + ", " + p1.hitY + "]\nBetter luck next chance!");
+                 p2.shipHit(p1.hitX,p1.hitY);
+                 if(validShot)
+                 {
+                    alert("Miss at [" + p1.hitX + ", " + p1.hitY + "]\nBetter luck next chance!");
+                 }
+                 else
+                 {
+                     alert("Try again");
+                 }
             }
-            p1.turn = false;
-            p2.turn = true;
- 
-            document.getElementById('pturn').innerHTML = "Player 2 turn";
+            if(validShot)
+            {
+                p1.turn = false;
+                p2.turn = true;
+                document.getElementById('pturn').innerHTML = "Player 2 turn";
+            //updateCopies(p1.board, p2.board);
+
             // document.getElementById('p1div').hidden = true; // hides the table
             if(gameOver(p1,p2) == true)
             {
@@ -844,10 +908,12 @@ function hitShip(){
                 prettyPrint(copy1, "p2CView");
             }, 3000);
         }
+        validShot = true;
+        }
 
             
 
-        }else{
+        }else if(!p1.turn && validShot){
             if(playMode != "vsMachine"){
                 p2.setHitX(document.getElementById('hitX').value);
                 p2.setHitY(document.getElementById('hitY').value);
@@ -855,15 +921,16 @@ function hitShip(){
                 if(p1.checkBoard(p2.hitX,p2.hitY)){
                     alert("Ship hit at [" + p2.hitX + ", " + p2.hitY + "]");
                     p1.shipHit(p2.hitX,p2.hitY);
-                    copy1.shipHit(p2.hitX,p2.hitY);
+                    //copy1.shipHit(p2.hitX,p2.hitY);
                 }else{
                     //p1.shipMiss(p2.hitX, p2.hitY);
-                     copy1.shipHit(p2.hitX,p2.hitY);
+                     p1.shipHit(p2.hitX,p2.hitY);
                     alert("Miss at [" + p2.hitX + ", " + p2.hitY + "]\nBetter luck next chance!");
                 }
+                if(validShot)
+                {
                 p1.turn = true;
                 p2.turn = false;
-
                 document.getElementById('pturn').innerHTML = "Player 1 turn";
                 //document.getElementById('p1div').hidden = false; // hides the table
                 if(gameOver(p1,p2) == true)
@@ -889,13 +956,9 @@ function hitShip(){
                         prettyPrint(copy2, "p1CView");
                     }, 3000);
                 }
-                
             }
-            var delayInMilliseconds = 3000; //1 second
-            setTimeout(function() {
-                prettyPrint(p1, "p1div");
-                prettyPrint(copy2, "p2div");
-            }, delayInMilliseconds);
+            validShot = true;   
+            }
         }
 
         updateCopies(p1.board, p2.board);
