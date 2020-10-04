@@ -1,5 +1,9 @@
-audio{
+/*audio{
 	visibility: hidden;
+}*/
+
+body{
+    text-align: center;
 }
 
 section.screen {

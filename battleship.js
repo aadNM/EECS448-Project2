@@ -1,3 +1,4 @@
+// Initializing global variables
 var validPlacements;
 var validCoords;
 var validShot = true;
@@ -8,6 +9,15 @@ let hitScore2 = 0;
 let sunkScore1 = 0;
 let sunkScore2 = 0;
 let boom = String.fromCodePoint(0x1F525);
+
+/**
+ * Reacts to the players selection of opponent and sets the global variable playMode
+ * @pre None
+ * @post None
+ * @param None 
+ * @throws None
+ * @return None
+ */
 function playersSet(){
     var playVS = document.getElementsByName("manVSmachine");
 
@@ -27,6 +37,15 @@ function playersSet(){
         document.getElementById('shipInput').hidden = false;
     }
 }
+
+/**
+ * Reacts to the players selection of AI difficulty and sets the global variable difficulty
+ * @pre None
+ * @post None
+ * @param None 
+ * @throws None
+ * @return None
+ */
 function modeSet(){
     var mode = document.getElementsByName("PlayLevel");
     for(i = 0; i < mode.length; i++){
@@ -51,6 +70,16 @@ function modeSet(){
     }
 
 }
+
+/**
+ * Updates the copies of the players board that way they match the actual one
+ * @pre A copy of each of the players' board exists but doesn't match them
+ * @post Copy now matches the respective player's board
+ * @param board1 Player one's board
+ * @param board2 Player two's board
+ * @throws None
+ * @return None
+ */
 function updateCopies(board1, board2){
     for (let i = 1; i < 10; i++){
         for (let j = 1; j < 10; j++){
@@ -98,6 +127,15 @@ class Board
         this.message;
         
     }
+
+    /**
+     * Initializes a player's board
+     * @pre Player exists but they don't have a board
+     * @post Board created for the user
+     * @param None 
+     * @throws None
+     * @return None
+     */
     initboard(){
         this.hitX = -1;
         this.hitY = -1;
@@ -123,70 +161,91 @@ class Board
         }
     }
 
-        /**
- * checks if the input coordinates are within the range 
- * @param {Number} - x - X coordinate 
- * @param {Number} - y - Y coordinate 
- * @param {Number} - t - type  
- */
-checkCoord(x,y,t,l,o)
-{
-    console.log("Checking coords");
-    console.log( x + " xval " + y + " yval " + t + " tval " + l + " lval " + o + " oval");
-    for (let i = 0; i < l; i++) 
+    /**
+     * checks if the input coordinates are within the range
+     * @pre None
+     * @post None 
+     * @param {Number} - x - X coordinate 
+     * @param {Number} - y - Y coordinate 
+     * @param {Number} - t - type  
+     * @throws None
+     * @returns true if it's a valid coordinate and false otherwise
+     */
+    checkCoord(x,y,t,l,o)
     {
-        if(o == 'H')
+        console.log("Checking coords");
+        console.log( x + " xval " + y + " yval " + t + " tval " + l + " lval " + o + " oval");
+        for (let i = 0; i < l; i++) 
         {
-            if((x+l-1) > 9)
+            if(o == 'H')
             {
-                console.log("Out of bounds (horizontally)")
-                return false;
+                if((x+l-1) > 9)
+                {
+                    console.log("Out of bounds (horizontally)")
+                    validPlacements = false;
+                    return false;
+                }
+                else if (this.board[y][x+i] != '~')
+                {
+                    console.log("Can't place on another ship");
+                    validPlacements = false;
+                    return false;
+                }
             }
-            else if (this.board[y][x+i] != '~')
+            else
             {
-                console.log("Can't place on another ship");
-                return false;
+                if((y+l-1) > 9)
+                {
+                    console.log("Out of bounds (vertically)")
+                    validPlacements = false;
+                    return false;
+                }
+                else if (this.board[y+i][x] != '~')
+                {
+                    console.log("Can't place on another ship");
+                    validPlacements = false;
+                    return false;
+                }
             }
+            validPlacements = true;
+            return true;
         }
-        else
-        {
-            if((y+l-1) > 9)
-            {
-                console.log("Out of bounds (vertically)")
-                return false;
-            }
-            else if (this.board[y+i][x] != '~')
-            {
-                console.log("Can't place on another ship");
-                return false;
-            }
-        }
-        return true;
     }
-}
 
-/**
- * sets the hit x coordinate 
- * @param {Number} - x - The X coordinate to hit  
- */
+    /**
+     * sets the hit x coordinate 
+     * @pre None
+     * @post None
+     * @param {Number} - x - The X coordinate to hit
+     * @throws None
+     * @returns None  
+     */
     setHitX(x){
             this.hitX = parseInt(x);
     }
  
-/**
-* sets the hit  y coordinate  
-* @param {Number} - x - The Y coordinate to hit  
-*/
+    /**
+    * sets the hit  y coordinate
+    * @pre None
+    * @post None  
+    * @param {Number} - x - The Y coordinate to hit
+    * @throws None
+    * @returns None
+    */
     setHitY(y){
             this.hitY = parseInt(y);
     }
  
-/**
- * adds ship to the grid 
- * @param {Number} x - x coordinate of the borad
- * @param {Number} y - y coordinate of the board
- * @param {Number} t - type of the ship
- */
+    /**
+     * adds ship to the grid
+     * @pre A ship needs to be added to the board
+     * @post Ship has been placed if it is valid 
+     * @param {Number} x - x coordinate of the board
+     * @param {Number} y - y coordinate of the board
+     * @param {Number} t - type of the ship
+     * @throws None
+     * @returns None 
+     */
     addShip(x,y,t, length, or){
         console.log("ADDING SHIP");
         if (this.checkCoord(x, y,t,length,or))
@@ -202,15 +261,18 @@ checkCoord(x,y,t,l,o)
                     this.board[y+i][x] = t;
                 }
             }
-            validPlacements = true;
         }
     }
  
-/**
- * checks the board for placed ships 
- * @param {Number} - x - The X coordinate of the board
- * @param {Number} - y - The Y coordinate of the board 
- */
+    /**
+     * checks the board for placed ships
+     * @pre Need to see of a coordinate is a ship
+     * @post Tells the program if there is a ship
+     * @param {Number} - x - The X coordinate of the board
+     * @param {Number} - y - The Y coordinate of the board 
+     * @throws None
+     * @returns true if it the spot is a ship and false otherwise
+     */
     checkBoard(x,y){
         console.log("Check board");
         if(this.board[y][x] == 'S'){
@@ -221,11 +283,15 @@ checkCoord(x,y,t,l,o)
         }
     }
  
-/**
- * if the ship is hit change the grid position to 9 
- * @param {Number}-  x - X coordinate of the board
- * @param {Number}- y - Y coordinate of the board  
- */
+    /**
+     * if the ship is hit change the grid position to 9
+     * @pre Need to mark a spot after a shot
+     * @post Marks a spot accordinly if it's a miss or a hit
+     * @param {Number}-  x - X coordinate of the board
+     * @param {Number}- y - Y coordinate of the board 
+     * @throws None
+     * @returns None 
+     */
     shipHit(x,y){
        if((this.board[y][x] == '0') || (this.board[y][x] == boom))
         {
@@ -243,24 +309,15 @@ checkCoord(x,y,t,l,o)
             //alert("HIT AT " + x + " " + y); 
         }
     }
- 
-    /**
- * if the ship is missed change the grid position to 6 
- * @param {Number}-  x - X coordinate of the board
- * @param {Number}- y - Y coordinate of the board  
- */
-   /* shipMiss(x,y)
-    {
-        if(this.board[x][y] == 6 || this.board[x][y] == 7)
-        {
-            alert("Index has already been fired at");
-        }
-        else{
-            this.board[x][y] = 6; 
-           
-        }
-    }*/
 
+    /**
+     * Checks to see if all ships have been destroyed
+     * @pre There are ships that may have all been destroyed
+     * @post Tells the program if all ships have indeed been destroyed
+     * @param None 
+     * @throws None
+     * @return true if all of the ships have been destoryed and false otherwise
+     */
     shipsDestroyed()
     {
         let destroyed = false; 
@@ -296,42 +353,65 @@ class Ships{
     }
     
     /**
- * Sets the X coordinate of the ship 
- * @param {Number} - x - the X coordinate of the ship   
- */
+     * Sets the X coordinate of the ship 
+     * @pre Need to set an x coordinate for a ship
+     * @post Sets the x coordinate for a ship
+     * @param {Number} - x - the X coordinate of the ship 
+     * @throws None
+     * @returns None  
+     */
     setX(x){
         // if()
         this.xCoord = parseInt(x);
        
     }
+
     /**
- * Sets the Y coordinate of the ship 
- * @param {Number} - y - the Y coordinate of the ship  
- */
+     * Sets the Y coordinate of the ship
+     * @pre Need to set a y coordinate for a ship
+     * @post Sets the y coordinate for a ship 
+     * @param {Number} - y - the Y coordinate of the ship
+     * @throws None
+     * @returns None 
+     */
     setY(y){
         
         this.yCoord = parseInt(y);
     }
  
-/**
- * Sets the ship size and type 
- * @param {Number} -  s - the given of the ship  
- */
+    /**
+     * Sets the ship size and type
+     * @pre Need to set a ship's size and type
+     * @post Set a ship's size and type
+     * @param {Number} -  s - the given of the ship
+     * @throws None 
+     * @returns None
+     */
     setShipSize(s){
         this.size = parseInt(s);
         this.type = parseInt(s);
     }
-/**
- * Sets the orientation of the ship 
- * @param {String} - o - the orientation of the given ship (V/H) 
- */
+
+    /**
+     * Sets the orientation of the ship
+     * @pre Need to set the orientation of a ship
+     * @post Sets the orientation of a ship 
+     * @param {String} - o - the orientation of the given ship (V/H)
+     * @throws None
+     * @returns None 
+     */
     setOrientation(o){
         this.orien = o.toUpperCase();
     }
-/**
- * Sets the ship to the player
- * @param {Object} - player - the player object the instance of the board class  
- */
+
+    /**
+     * Sets the ship to the player one
+     * @pre Need to set a ship for player one
+     * @post Sets a ship for player one
+     * @param {Object} - player - the player object the instance of the board class 
+     * @throws None
+     * @returns None 
+     */
     setShip1(player){
         if (player.checkCoord(this.xCoord, this.yCoord,'S',this.size, this.orien))
         {
@@ -339,12 +419,16 @@ class Ships{
             p1Ships ++;
             displayShipInputs();
         }  
-        else
-        {
-            validPlacements = false;
-        }
     }
 
+    /**
+     * Sets the ship to the player two
+     * @pre Need to set a ship for player two
+     * @post Sets a ship for player two
+     * @param {Object} - player - the player object the instance of the board class 
+     * @throws None
+     * @return None
+     */
     setShip2(player){
         if (player.checkCoord(this.xCoord, this.yCoord,'S',this.size, this.orien))
         {
@@ -352,14 +436,10 @@ class Ships{
             p2Ships ++;
             displayShipInputs();
         }  
-        else
-        {
-            validPlacements = false;
-        }
     } 
 }
 
-
+//Initiailizing variables
 var playMode;
 var difficulty;
 
@@ -399,7 +479,15 @@ p2S3.setShipSize(3);
 p2S4.setShipSize(4);
 p2S5.setShipSize(5);
 p1.turn = true;
- 
+
+/**
+ * Reacts to the players selection of number of ships and sets the global variable totalShips
+ * @pre None
+ * @post None
+ * @param None 
+ * @throws None
+ * @return None
+ */
 function initNumShips()
 {
     var x = document.getElementById('numberShips').value;
@@ -420,6 +508,14 @@ function initNumShips()
     }
 }
  
+/**
+ * Controls what the player can see on the screen for ship placements
+ * @pre None
+ * @post None
+ * @param None 
+ * @throws None
+ * @return None
+ */
 function displayShipInputs(){
     if(p1.turn)
     {
@@ -477,9 +573,13 @@ function displayShipInputs(){
 }
 
 /**
- * Print function 
+ * Print function
+ * @pre Need to print an html board for the user to see
+ * @post Prints a view of a board to the user  
  * @param {Object}  - player - player object is the instance of board class 
- * @param {Number} - t - the type of the ship 
+ * @param {Number} - t - the type of the ship
+ * @throws None
+ * @returns None 
  */
 function prettyPrint(player,t){
    
@@ -497,7 +597,7 @@ function prettyPrint(player,t){
 
 }
  
-
+// Initializes hiding of HTML elements
 document.getElementById('Mode').hidden = true;
 document.getElementById('shipInput').hidden = true;
 document.getElementById('game').hidden = true;
@@ -518,6 +618,14 @@ document.getElementById('player1-score').hidden = true;
 document.getElementById('player2-score').hidden = true;
 
 
+/**
+ * Reacts to the number of hits for each player and updates a scoreboard
+ * @pre None
+ * @post None
+ * @param None 
+ * @throws None
+ * @return None
+ */
 function scoreUpdate(){
 	document.getElementById('total-hits-1').innerHTML = hitScore1;
 	document.getElementById('total-hits-2').innerHTML = hitScore2;
@@ -525,9 +633,14 @@ function scoreUpdate(){
 	//document.getElementById('total-sunk-2').innerHTML = sunkScore2;
 }
 
-
-
-
+/**
+ * Create a letter representation for a number value for an x coordinate
+ * @pre x coordinate value exists but we want it as a letter
+ * @post Turns the x coordinate value into a letter
+ * @param val the x coordinate's value 
+ * @throws None
+ * @return char that corresponds to a letter from A-I
+ */
 function converttoLetter(val){
     let char;
     if( val == 1)
@@ -571,8 +684,14 @@ function converttoLetter(val){
     }
     return (char);
 }
+
 /**
  * The function sets the different variables available to the board class after taking inputs for player 1
+ * @pre None
+ * @post None
+ * @param None
+ * @throws None
+ * @returns None
  */
 function formUpdate(){
     if(document.getElementById('S1X').value !=="" && document.getElementById('S1Y').value !=="" && document.getElementById('S1Orien').value !=="")
@@ -639,7 +758,11 @@ function formUpdate(){
  
 /**
  * The function sets the different variables available to the board class after taking inputs for player 2
- * 
+ * @pre None
+ * @post None
+ * @param None
+ * @throws None
+ * @returns None
  */
  
 function formUpdate1(){
@@ -704,6 +827,15 @@ function formUpdate1(){
     }
  
 }
+
+/**
+ * Reacts to the player's click on the submit button for ships and calls the respective player's set ship
+ * @pre None
+ * @post None
+ * @param None 
+ * @throws None
+ * @return None
+ */
  function setShips(){
      if(validCoords)
      {
@@ -721,34 +853,49 @@ function formUpdate1(){
          alert("You have an invalid coordinate! You need fix it before moving on!");
      }
  }
+
+ var pause;
 /**
  * sets ship for player 1 
+ * @pre None
+ * @post None
+ * @param None
+ * @throws None
+ * @returns None
  */
 function setShipsP1(){
+    pause = false;
     console.log("setting p1");
-    
     if(p1Ships == 0)
     {
         p1S1.setShip1(p1);
+        pause = true;
     }
-    if(this.totalShips >= 2 && p1Ships == 1)
+    if(this.totalShips >= 2 && p1Ships == 1 && pause == false)
     {
         p1S2.setShip1(p1);
+        pause = true;
     }
-    if(this.totalShips >= 3 && p1Ships == 2)
+    if(this.totalShips >= 3 && p1Ships == 2 && pause == false)
     {
         p1S3.setShip1(p1);
+        pause = true;
     }
-    if(this.totalShips >= 4 && p1Ships == 3)
+    if(this.totalShips >= 4 && p1Ships == 3 && pause == false)
     {
         p1S4.setShip1(p1);
+        pause = true;
     }
-    if(this.totalShips == 5 && p1Ships == 4)
+    if(this.totalShips == 5 && p1Ships == 4 && pause == false)
     {
         p1S5.setShip1(p1);
+        pause = true;
     }
- 
-    if(validPlacements && p1Ships == totalShips)
+    if(validPlacements != true)
+    {
+        alert("You have an invalid placed ship");
+    }
+    else if(validPlacements && p1Ships == totalShips)
     {
         document.getElementById('p1Ships').hidden = true;
         document.getElementById('p1data').hidden = true;
@@ -767,20 +914,22 @@ function setShipsP1(){
         displayShipInputs();
         }}, 3500);
     }
-    else
-    {
-        alert("You have an invalid placed ship");
-    }
 }
 
 /**
- * sets the ship for player 2 
+ * sets the ship for player 2
+ * @pre None
+ * @post None
+ * @param None
+ * @throws None
+ * @returns None 
  */
 function setShipsP2(){
+    pause = false
     if(playMode == 'vsMachine')
     {
         setAIShips(p2);
-        if(this.validPlacements && p2Ships == totalShips)
+        if(validPlacements && p2Ships == totalShips)
         {
             document.getElementById('p2Ships').hidden = true;
             document.getElementById('p2data').hidden = true;
@@ -811,25 +960,33 @@ function setShipsP2(){
     if(p2Ships == 0)
     {
         p2S1.setShip2(p2);
+        pause = true;
     }
-    if(this.totalShips >= 2 && p2Ships == 1)
+    if(this.totalShips >= 2 && p2Ships == 1 && pause == false)
     {
         p2S2.setShip2(p2);
+        pause = true;
     }
-    if(this.totalShips >= 3 && p2Ships == 2)
+    if(this.totalShips >= 3 && p2Ships == 2 && pause == false)
     {
         p2S3.setShip2(p2);
+        pause = true;
     }
-    if(this.totalShips >= 4 && p2Ships == 3)
+    if(this.totalShips >= 4 && p2Ships == 3 && pause == false)
     {
         p2S4.setShip2(p2);
+        pause = true;
     }
-    if(this.totalShips == 5 && p2Ships == 4)
+    if(this.totalShips == 5 && p2Ships == 4 && pause == false)
     {
         p2S5.setShip2(p2);
+        pause = true;
     }
- 
-    if(this.validPlacements && p2Ships == totalShips)
+    if(validPlacements != true)
+    {
+        alert("You have an invalid place ship");
+    }
+    else if(validPlacements && p2Ships == totalShips)
     {
         document.getElementById('p2Ships').hidden = true;
         document.getElementById('p2data').hidden = true;
@@ -850,10 +1007,7 @@ function setShipsP2(){
         document.getElementById('player2-score').hidden = false;
         p2.turn = false;
         p1.turn = true;}, 5000);
-    } else
-    {
-        alert("You have an invalid placed ship");
-    }
+    } 
 /*document.getElementById('p2data').hidden = false;
 document.getElementById('p2div').hidden = false;
 document.getElementById('p2name').hidden = false; */
@@ -864,25 +1018,36 @@ document.getElementById('pturn').innerHTML = "Player 1 turn";
     }
  
 }
- 
+
+/**
+ * Sets the AI ships by random placement
+ * @pre None
+ * @post None
+ * @param None 
+ * @throws None
+ * @return None
+ */ 
 function setAIShips(p2)
+{
+    p2.initboard();
+    console.log("setting AI ships");
+    var chars = "HV";
+    while(p2Ships != this.totalShips)
     {
-        p2.initboard();
-        console.log("setting AI ships");
-        var chars = "HV";
-        while(p2Ships != this.totalShips)
+        if(p2Ships == 0)
         {
-            if(p2Ships == 0)
-            {
-                let x = (Math.ceil(9 * Math.random()));
-                let y = (Math.ceil(9 * Math.random())); 
-                let o = chars.charAt(Math.floor(2*Math.random()));
-                p2S1.setX(x);
-                p2S1.setY(y);
-                p2S1.setOrientation(o);
-                p2S1.setShip2(p2);
-            }
-            if(this.totalShips >= 2 && p2Ships == 1)
+            let x = (Math.ceil(9 * Math.random()));
+            let y = (Math.ceil(9 * Math.random())); 
+            let o = chars.charAt(Math.floor(2*Math.random()));
+            p2S1.setX(x);
+            p2S1.setY(y);
+            p2S1.setOrientation(o);
+            p2S1.setShip2(p2);
+        }
+        if(this.totalShips >= 2 && p2Ships == 1)
+        {
+            validPlacements = false;
+            while(validPlacements == false)
             {
                 let x = (Math.ceil(9 * Math.random()));
                 let y = (Math.ceil(9 * Math.random())); 
@@ -892,34 +1057,61 @@ function setAIShips(p2)
                 p2S2.setOrientation(o);
                 p2S2.setShip2(p2);
             }
-            if(this.totalShips >= 3 && p2Ships == 2)
+        }
+        if(this.totalShips >= 3 && p2Ships == 2)
+        {
+            validPlacements = false;
+            while(validPlacements == false)
             {
-                p2S3.setX(Math.ceil(9 * Math.random()));
-                p2S3.setY(Math.ceil(9* Math.random()));
-                p2S3.setOrientation(chars.charAt(Math.floor(2*Math.random())));
+                let x = (Math.ceil(9 * Math.random()));
+                let y = (Math.ceil(9 * Math.random())); 
+                let o = chars.charAt(Math.floor(2*Math.random()));
+                p2S3.setX(x);
+                p2S3.setY(y);
+                p2S3.setOrientation(o);
                 p2S3.setShip2(p2);
             }
-            if(this.totalShips >= 4 && p2Ships == 3)
+        }
+        if(this.totalShips >= 4 && p2Ships == 3)
+        {
+            validPlacements = false;
+            while(validPlacements == false)
             {
-                p2S4.setX(Math.ceil(9 * Math.random()));
-                p2S4.setY(Math.ceil(9* Math.random()));
-                p2S4.setOrientation(chars.charAt(Math.floor(2*Math.random())));
+                let x = (Math.ceil(9 * Math.random()));
+                let y = (Math.ceil(9 * Math.random())); 
+                let o = chars.charAt(Math.floor(2*Math.random()));
+                p2S4.setX(x);
+                p2S4.setY(y);
+                p2S4.setOrientation(o);
                 p2S4.setShip2(p2);
             }
-            if(this.totalShips == 5 && p2Ships == 4)
+        }
+        if(this.totalShips == 5 && p2Ships == 4)
+        {
+            validPlacements = false;
+            while(validPlacements == false)
             {
-                p2S5.setX(Math.ceil(9 * Math.random()));
-                p2S5.setY(Math.ceil(9* Math.random()));
-                p2S5.setOrientation(chars.charAt(Math.floor(2*Math.random())));
+                let x = (Math.ceil(9 * Math.random()));
+                let y = (Math.ceil(9 * Math.random())); 
+                let o = chars.charAt(Math.floor(2*Math.random()));
+                p2S5.setX(x);
+                p2S5.setY(y);
+                p2S5.setOrientation(o);
                 p2S5.setShip2(p2);
             }
         }
-        document.getElementById('p2div').hidden = false;
-        prettyPrint(p2,"p2div");
     }
+    document.getElementById('p2div').hidden = false;
+    prettyPrint(p2,"p2div");
+}
 
 /**
  * get the hit coordinates and set for each player
+ * @pre None
+ * @post None
+ * @param None
+ * @throws None
+ * @returns None
  */
 function getHit(){
     if(p1.turn){
@@ -933,7 +1125,16 @@ function getHit(){
     }
     
 }
- 
+
+/**
+ * Calculates whether or not a player has won and now it is game over
+ * @pre There Exists boards with markings
+ * @post Figures out if a players ships have all been destroyed which means game over
+ * @param p1 player 1's board
+ * @param p2 player 2's board 
+ * @throws None
+ * @return true if all of a player's ships has been destroyed and false otherwise
+ */
 function gameOver(p1,p2)
 {
     if(p1.shipsDestroyed())
@@ -956,6 +1157,11 @@ function checkSunk(x,y) {
 
 /**
  * control what happens for after we hit the ship
+ * @pre None
+ * @post None
+ * @param None
+ * @throws None
+ * @returns None
  */
 function hitShip(){
 	//console.log("Player 1: " + score1 + "\nPlayer 2: "+ score2);
@@ -1093,7 +1299,14 @@ function hitShip(){
         document.getElementById('hitY').value = "";
 }
 
-
+/**
+ * Defines how the easy AI is to shoot player one's board
+ * @pre None
+ * @post None
+ * @param None 
+ * @throws None
+ * @return None
+ */
 function easyMode() {
      let x = Math.ceil(Math.random() * 10); //randomly get number 0-9
      let y = Math.ceil(Math.random() * 10);
@@ -1144,8 +1357,18 @@ function easyMode() {
     p2.turn = false;
     p1.turn = true;
 }
+
 var lastx = [];
 var lasty = [];
+
+/**
+ * Defines how the medium AI is to shoot player one's board
+ * @pre None
+ * @post None
+ * @param None 
+ * @throws None
+ * @return None
+ */
 function mediumMode() {
     console.log(lastx);
     if(lastx.length != 0)
@@ -1208,6 +1431,14 @@ function mediumMode() {
     p1.turn = true;
 }
 
+/**
+ * Defines how the hard AI is to shoot player one's board
+ * @pre None
+ * @post None
+ * @param None 
+ * @throws None
+ * @return None
+ */
 function hardMode() {
     var hx = 0;
     var hy = 0;
@@ -1270,10 +1501,21 @@ function hardMode() {
     p1.turn = true;
     p2.turn = false;
 }
+
 var right = false;
 var left = false;
 var up = false;
 var down = false;
+
+/**
+ * Defines how the medium AI is to shoot orthogonally if there is a hit
+ * @pre None
+ * @post None
+ * @param x last x coordinate that was a hit
+ * @param y last y coordinate that was a hit 
+ * @throws None
+ * @return None
+ */
 function orthogonal(x,y)
 {
     if (right == false)
@@ -1306,7 +1548,11 @@ function orthogonal(x,y)
             mediumMode();
         }
     }
-        else if (left == false)
+    else if (left == false)
+    {
+        let x = lastx[0] - 1;
+        let y = lasty[0];
+        if(lastx[0] != 1)
         {
             let x = lastx[0] - 1;
             let y = lasty[0];
@@ -1330,13 +1576,15 @@ function orthogonal(x,y)
                 }
                 left = true;
             }
-            else if (p1.board[y][x] == 'X' || p1.board[y][x] == '0' || lastx[0] == 1)
+            else
             {
-                left = true
-                mediumMode();
+                //p1.shipMiss(p2.hitX, p2.hitY);
+                p1.shipHit(p2.hitX,p2.hitY);
+                alert("Miss at [" + xchar + ", " + p2.hitY + "]\nBetter luck next chance!");
             }
+            left = true;
         }
-        else if (down == false)
+        else if (p1.board[y][x] == 'X' || p1.board[y][x] == '0' || lastx[0] == 1)
         {
             let x = lastx[0];
             let y = lasty[0] + 1;
@@ -1360,13 +1608,15 @@ function orthogonal(x,y)
                 }
                 down = true;
             }
-            else if (p1.board[y][x] == 'X' || p1.board[y][x] == '0' || lasty[0] == 9 )
+            else
             {
-             down = true;
-             mediumMode();   
+                //p1.shipMiss(p2.hitX, p2.hitY);
+                p1.shipHit(p2.hitX,p2.hitY);
+                alert("Miss at [" + xchar + ", " + p2.hitY + "]\nBetter luck next chance!");
             }
+            down = true;
         }
-        else if (up == false)
+        else if (p1.board[y][x] == 'X' || p1.board[y][x] == '0' || lasty[0] == 9 )
         {
             let x = lastx[0];
             let y = lasty[0] - 1;
@@ -1390,20 +1640,28 @@ function orthogonal(x,y)
                 }
                 up = true;
             }
-            else if (p1.board[y][x] == 'X' || p1.board[y][x] == '0' || lasty[0] == 1)
+            else
             {
-                up = true;
-                mediumMode(); 
+                //p1.shipMiss(p2.hitX, p2.hitY);
+                p1.shipHit(p2.hitX,p2.hitY);
+                alert("Miss at [" + xchar + ", " + p2.hitY + "]\nBetter luck next chance!");
             }
+            up = true;
         }
-        else if ( right && left && up && down)
+        else if (p1.board[y][x] == 'X' || p1.board[y][x] == '0' || lasty[0] == 1)
         {
-            right,left,up,down = false
-            console.log(lastx);
-            lastx.shift();
-            lasty.shift();
-            console.log(lastx);
-            console.log('reset');
-            mediumMode();
+            up = true;
+            mediumMode(); 
         }
+    }
+    else if ( right && left && up && down)
+    {
+        right,left,up,down = false
+        console.log(lastx);
+        lastx.shift();
+        lasty.shift();
+        console.log(lastx);
+        console.log('reset');
+        mediumMode();
+    }
 }
