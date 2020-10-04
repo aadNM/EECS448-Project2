@@ -1132,50 +1132,67 @@ function easyMode() {
     p2.turn = false;
     p1.turn = true;
 }
-
+var lastx = [];
+var lasty = [];
 function mediumMode() {
-    if (p2.turn) {
-        lastHit = false;
-        Lx, Ly, x, y;
-        fuse = 0;
-        if (lastHit = false) {
-            x = Math.floor(Math.random() * 10); //randomly get number 0-9
-            y = Math.floor(Math.random() * 10);
-            while (!checkPos(pos[x][y])) {
-                x = Math.floor(Math.random() * 10);
-                y = Math.floor(Math.random() * 10);
+    console.log(lastx);
+    if(lastx.length != 0)
+    {
+        console.log(lastx + "for orthogonal");
+        orthogonal(lastx[0],lasty[0]);
+    }
+    else
+    {
+        let mx = Math.ceil(Math.random() * 9); //randomly get number 0-9
+        let my = Math.ceil(Math.random() * 9);
+            p2.setHitX(mx);
+            p2.setHitY(my);
+            if(p1.checkBoard(p2.hitX,p2.hitY)){
+                lastx.push(mx);
+                lasty.push(my);
+                alert("Ship hit at [" + p2.hitX + ", " + p2.hitY + "]");
+                p1.shipHit(p2.hitX,p2.hitY);
+                //copy1.shipHit(p2.hitX,p2.hitY);
             }
-            shipHit(x, y);
-            if (shipHit(pos[x][y]) == 7 & 8 & 9) {
-                lastHit = true;
-                Lx = x;
-                Ly = y;
+            else
+            {
+                //p1.shipMiss(p2.hitX, p2.hitY);
+                p1.shipHit(p2.hitX,p2.hitY);
+                alert("Miss at [" + p2.hitX + ", " + p2.hitY + "]\nBetter luck next chance!");
             }
-        } else {
-            x = random(Lx - 1, Lx + 1);
-            y = random(Ly - 1, Ly + 1);
-            while (!checkPos(pos[x][y])) {
-                x = random(Lx - 1, Lx + 1);
-                y = random(Ly - 1, Ly + 1);
-                fuse++;
-                if (fuse == 25) {
-                    x = Math.floor(Math.random() * 10);
-                    y = Math.floor(Math.random() * 10);
-                    lastHit = false;
-                }
+    }
+        if(validShot)
+        {
+            p1.turn = true;
+            p2.turn = false;
+            document.getElementById('pturn').innerHTML = "Player 1 turn";
+            //document.getElementById('p1div').hidden = false; // hides the table
+            if(gameOver(p1,p2) == true)
+            { 
+                document.getElementById('p1Board').hidden = true;
+                document.getElementById('p2copy').hidden = true;
+                document.getElementById('p2Board').hidden = true;
+                document.getElementById('p1copy').hidden = true;
+                document.getElementById('game-Over').hidden = false;
+                document.getElementById('attack').hidden = true;
+                document.getElementById('p1win').hidden = true;
+                document.getElementById('p2win').hidden = false;
+                prettyPrint(p1,"p1FB");
+                prettyPrint(p2,"p2FB");
             }
-            shipHit(x, y);
-            if (shipHit(pos[x][y]) == 7 & 8 & 9) {
-                lastHit = true;
-                Lx = x;
-                Ly = y;
+            else{
+                setTimeout(function() {
+                    document.getElementById('p1Board').hidden = false;
+                    document.getElementById('p2copy').hidden = false;
+                    document.getElementById('p2Board').hidden = true;
+                    document.getElementById('p1copy').hidden = true;
+                    prettyPrint(p1,"p1BView");
+                    prettyPrint(copy2, "p1CView");
+                }, 3000);
             }
         }
-    }
     p2.turn = false;
-    if (win) {
-        console.log("congrats you win medium mod!");
-    }
+    p1.turn = true;
 }
 
 function hardMode() {
@@ -1238,4 +1255,137 @@ function hardMode() {
        }
     p1.turn = true;
     p2.turn = false;
+}
+var right = false;
+var left = false;
+var up = false;
+var down = false;
+function orthogonal(x,y)
+{
+    if (right == false)
+    {
+        let x = lastx[0] + 1;
+        let y = lasty[0];
+        if(lastx[0] != 9)
+        {
+            p2.setHitX(x);
+            p2.setHitY(y);
+            if(p1.checkBoard(p2.hitX,p2.hitY)){
+                    lastx.push(x);
+                    lasty.push(y);
+                    alert("Ship hit at [" + p2.hitX + ", " + p2.hitY + "]");
+                    p1.shipHit(p2.hitX,p2.hitY);
+                    //copy1.shipHit(p2.hitX,p2.hitY);
+            }
+            else
+            {
+                //p1.shipMiss(p2.hitX, p2.hitY);
+                p1.shipHit(p2.hitX,p2.hitY);
+                alert("Miss at [" + p2.hitX + ", " + p2.hitY + "]\nBetter luck next chance!");
+            }
+            right = true;
+        }
+        else if (p1.board[y][x] == 'X' || p1.board[y][x] == '0' || lastx[0] == 9)
+        {
+            right = true;
+            mediumMode();
+        }
+    }
+        else if (left == false)
+        {
+            let x = lastx[0] - 1;
+            let y = lasty[0];
+            if(lastx[0] != 1)
+            {
+                p2.setHitX(x);
+                p2.setHitY(y);
+                if(p1.checkBoard(p2.hitX,p2.hitY)){
+                    lastx.push(x);
+                    lasty.push(y);
+                    alert("Ship hit at [" + p2.hitX + ", " + p2.hitY + "]");
+                    p1.shipHit(p2.hitX,p2.hitY);
+                    //copy1.shipHit(p2.hitX,p2.hitY);
+                }
+                else
+                {
+                    //p1.shipMiss(p2.hitX, p2.hitY);
+                    p1.shipHit(p2.hitX,p2.hitY);
+                    alert("Miss at [" + p2.hitX + ", " + p2.hitY + "]\nBetter luck next chance!");
+                }
+                left = true;
+            }
+            else if (p1.board[y][x] == 'X' || p1.board[y][x] == '0' || lastx[0] == 1)
+            {
+                left = true
+                mediumMode();
+            }
+        }
+        else if (down == false)
+        {
+            let x = lastx[0];
+            let y = lasty[0] + 1;
+            if(lasty[0] != 9)
+            {
+                p2.setHitX(x);
+                p2.setHitY(y);
+                if(p1.checkBoard(p2.hitX,p2.hitY)){
+                    lastx.push(x);
+                    lasty.push(y);
+                    alert("Ship hit at [" + p2.hitX + ", " + p2.hitY + "]");
+                    p1.shipHit(p2.hitX,p2.hitY);
+                    //copy1.shipHit(p2.hitX,p2.hitY);
+                }
+                else
+                {
+                    //p1.shipMiss(p2.hitX, p2.hitY);
+                    p1.shipHit(p2.hitX,p2.hitY);
+                    alert("Miss at [" + p2.hitX + ", " + p2.hitY + "]\nBetter luck next chance!");
+                }
+                down = true;
+            }
+            else if (p1.board[y][x] == 'X' || p1.board[y][x] == '0' || lasty[0] == 9 )
+            {
+             down = true;
+             mediumMode();   
+            }
+        }
+        else if (up == false)
+        {
+            let x = lastx[0];
+            let y = lasty[0] - 1;
+            if(lasty[0] != 1)
+            {
+                p2.setHitX(x);
+                p2.setHitY(y);
+                if(p1.checkBoard(p2.hitX,p2.hitY)){
+                    lastx.push(x);
+                    lasty.push(y);
+                    alert("Ship hit at [" + p2.hitX + ", " + p2.hitY + "]");
+                    p1.shipHit(p2.hitX,p2.hitY);
+                    //copy1.shipHit(p2.hitX,p2.hitY);
+                }
+                else
+                {
+                    //p1.shipMiss(p2.hitX, p2.hitY);
+                    p1.shipHit(p2.hitX,p2.hitY);
+                    alert("Miss at [" + p2.hitX + ", " + p2.hitY + "]\nBetter luck next chance!");
+                }
+                up = true;
+            }
+            else if (p1.board[y][x] == 'X' || p1.board[y][x] == '0' || lasty[0] == 1)
+            {
+                up = true;
+                mediumMode(); 
+            }
+        }
+        else if ( right && left && up && down)
+        {
+            right,left,up,down = false
+            console.log(lastx);
+            lastx.shift();
+            lasty.shift();
+            console.log(lastx);
+            console.log('reset');
+            mediumMode();
+        }
 }
