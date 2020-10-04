@@ -1005,6 +1005,16 @@ function hitShip(){
                     easyMode();
                     console.log('AI Shooting');
                 }
+            else if(difficulty == "Medium")
+                {
+                    mediumMode();
+                    console.log('AI Shooting');
+                }
+            else if(difficulty == "Hard")
+                {
+                    hardMode();
+                    console.log('AI Shooting');
+                }
                 document.getElementById('p1Board').hidden = true;
                 document.getElementById('p2copy').hidden = true;
                 document.getElementById('p2Board').hidden = false;
@@ -1012,6 +1022,7 @@ function hitShip(){
                 prettyPrint(p2,"p2BView");
                 prettyPrint(copy1, "p2CView");
             }, 3000);
+
         }
         validShot = true;
         }
@@ -1168,18 +1179,63 @@ function mediumMode() {
 }
 
 function hardMode() {
-    if (p2.turn) {
-        x = Math.floor(Math.random() * 10);
-        y = Math.floor(Math.random() * 10);
-        // "7 & 8 & 9" means there has ship
-        while (!checkPos(pos[x][y]) || (!shipHit(pos[x][y]) == 7 & 8 & 9)) {
-            x = Math.floor(Math.random() * 10);
-            y = Math.floor(Math.random() * 10);
+    var hx = 0;
+    var hy = 0;
+    for (let i = 1; i < 10; i++){
+        for (let j = 1; j < 10; j++){
+            if(p1.board[i][j] == 'S'){
+                console.log(hx);
+                console.log(hy);
+                hx = j;
+                hy = i;
+                break;
+            }
         }
-        shipHit(x, y);
     }
+    console.log(hx + "+" + hy);
+       p2.setHitX(hx);
+       p2.setHitY(hy);
+       if(p1.checkBoard(p2.hitX,p2.hitY)){
+           alert("Ship hit at [" + p2.hitX + ", " + p2.hitY + "]");
+           p1.shipHit(p2.hitX,p2.hitY);
+           //copy1.shipHit(p2.hitX,p2.hitY);
+       }
+       else
+       {
+           //p1.shipMiss(p2.hitX, p2.hitY);
+           p1.shipHit(p2.hitX,p2.hitY);
+           alert("Miss at [" + p2.hitX + ", " + p2.hitY + "]\nBetter luck next chance!");
+       }
+       if(validShot)
+       {
+           p1.turn = true;
+           p2.turn = false;
+           document.getElementById('pturn').innerHTML = "Player 1 turn";
+           //document.getElementById('p1div').hidden = false; // hides the table
+           if(gameOver(p1,p2) == true)
+           { 
+               document.getElementById('p1Board').hidden = true;
+               document.getElementById('p2copy').hidden = true;
+               document.getElementById('p2Board').hidden = true;
+               document.getElementById('p1copy').hidden = true;
+               document.getElementById('game-Over').hidden = false;
+               document.getElementById('attack').hidden = true;
+               document.getElementById('p1win').hidden = true;
+               document.getElementById('p2win').hidden = false;
+               prettyPrint(p1,"p1FB");
+               prettyPrint(p2,"p2FB");
+           }
+           else{
+               setTimeout(function() {
+                   document.getElementById('p1Board').hidden = false;
+                   document.getElementById('p2copy').hidden = false;
+                   document.getElementById('p2Board').hidden = true;
+                   document.getElementById('p1copy').hidden = true;
+                   prettyPrint(p1,"p1BView");
+                   prettyPrint(copy2, "p1CView");
+               }, 3000);
+           }
+       }
+    p1.turn = true;
     p2.turn = false;
-    if (win) {
-        console.log("congrats you win hard mod!");
-    }
 }
