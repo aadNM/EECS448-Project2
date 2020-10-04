@@ -231,8 +231,8 @@ checkCoord(x,y,t,l,o)
         {
          	//document.getElementById("hitY").selectedIndex = "-1";
          	//document.getElementById("hitX").selectedIndex = "-1";
-            alert("Index has already been fired at."); 
             validShot = false;
+			alert("Index has already been fired at. Try Again"); 
         }
         if (this.board[y][x] == '~'){
             this.board[y][x] = '0';
@@ -974,7 +974,10 @@ function hitShip(){
             }else{
                 
                 p2.shipHit(p1.hitX,p1.hitY);
-                alert("Miss at [" + xchar + ", " + p1.hitY + "]\nBetter luck next chance!");
+				if(validShot)
+				{
+                alert("Miss at [" + xchar + ", " + p1.hitY + "]\nBetter luck next time!");
+				}
             }
             updateCopies(p1.board, p2.board);
             scoreUpdate(); 
@@ -1044,7 +1047,10 @@ function hitShip(){
 
                 }else{
                     p1.shipHit(p2.hitX,p2.hitY);
-                    alert("Miss at [" + xchar + ", " + p2.hitY + "]\nBetter luck next chance!");
+					if(validShot)
+					{
+                    alert("Miss at [" + xchar + ", " + p2.hitY + "]\nBetter luck next time!");
+					}
                 }
                 updateCopies(p1.board, p2.board);
                 scoreUpdate(); 
@@ -1103,7 +1109,7 @@ function easyMode() {
         {
             //p1.shipMiss(p2.hitX, p2.hitY);
             p1.shipHit(p2.hitX,p2.hitY);
-            alert("Miss at [" + xchar + ", " + p2.hitY + "]\nBetter luck next chance!");
+            alert("AI Missed at [" + xchar + ", " + p2.hitY + "]\nBetter luck next time!");
         }
         if(validShot)
         {
@@ -1165,7 +1171,7 @@ function mediumMode() {
             {
                 //p1.shipMiss(p2.hitX, p2.hitY);
                 p1.shipHit(p2.hitX,p2.hitY);
-                alert("Miss at [" + xchar + ", " + p2.hitY + "]\nBetter luck next chance!");
+                alert("AI Missed at [" + xchar + ", " + p2.hitY + "]\nBetter luck next time!");
             }
     }
         if(validShot)
@@ -1229,7 +1235,7 @@ function hardMode() {
        {
            //p1.shipMiss(p2.hitX, p2.hitY);
            p1.shipHit(p2.hitX,p2.hitY);
-           alert("Miss at [" + xchar + ", " + p2.hitY + "]\nBetter luck next chance!");
+           alert("AI Misses at [" + xchar + ", " + p2.hitY + "]\nBetter luck next time!");
        }
        if(validShot)
        {
@@ -1290,7 +1296,7 @@ function orthogonal(x,y)
             {
                 //p1.shipMiss(p2.hitX, p2.hitY);
                 p1.shipHit(p2.hitX,p2.hitY);
-                alert("Miss at [" + xchar + ", " + p2.hitY + "]\nBetter luck next chance!");
+                alert("AI Missed at [" + xchar + ", " + p2.hitY + "]\nBetter luck next time!");
             }
             right = true;
         }
@@ -1320,7 +1326,7 @@ function orthogonal(x,y)
                 {
                     //p1.shipMiss(p2.hitX, p2.hitY);
                     p1.shipHit(p2.hitX,p2.hitY);
-                    alert("Miss at [" + xchar + ", " + p2.hitY + "]\nBetter luck next chance!");
+                    alert("AI Missed at [" + xchar + ", " + p2.hitY + "]\nBetter luck next time!");
                 }
                 left = true;
             }
@@ -1350,7 +1356,7 @@ function orthogonal(x,y)
                 {
                     //p1.shipMiss(p2.hitX, p2.hitY);
                     p1.shipHit(p2.hitX,p2.hitY);
-                    alert("Miss at [" + xchar + ", " + p2.hitY + "]\nBetter luck next chance!");
+                    alert("AI Missed at [" + xchar + ", " + p2.hitY + "]\nBetter luck next time!");
                 }
                 down = true;
             }
@@ -1380,7 +1386,7 @@ function orthogonal(x,y)
                 {
                     //p1.shipMiss(p2.hitX, p2.hitY);
                     p1.shipHit(p2.hitX,p2.hitY);
-                    alert("Miss at [" + xchar + ", " + p2.hitY + "]\nBetter luck next chance!");
+                    alert("AI Missed at [" + xchar + ", " + p2.hitY + "]\nBetter luck next time!");
                 }
                 up = true;
             }
