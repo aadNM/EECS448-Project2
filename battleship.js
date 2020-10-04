@@ -182,11 +182,13 @@ class Board
                 if((x+l-1) > 9)
                 {
                     console.log("Out of bounds (horizontally)")
+                    validPlacements = false;
                     return false;
                 }
                 else if (this.board[y][x+i] != '~')
                 {
                     console.log("Can't place on another ship");
+                    validPlacements = false;
                     return false;
                 }
             }
@@ -195,14 +197,17 @@ class Board
                 if((y+l-1) > 9)
                 {
                     console.log("Out of bounds (vertically)")
+                    validPlacements = false;
                     return false;
                 }
                 else if (this.board[y+i][x] != '~')
                 {
                     console.log("Can't place on another ship");
+                    validPlacements = false;
                     return false;
                 }
             }
+            validPlacements = true;
             return true;
         }
     }
@@ -256,7 +261,6 @@ class Board
                     this.board[y+i][x] = t;
                 }
             }
-            validPlacements = true;
         }
     }
  
@@ -415,10 +419,6 @@ class Ships{
             p1Ships ++;
             displayShipInputs();
         }  
-        else
-        {
-            validPlacements = false;
-        }
     }
 
     /**
@@ -436,10 +436,6 @@ class Ships{
             p2Ships ++;
             displayShipInputs();
         }  
-        else
-        {
-            validPlacements = false;
-        }
     } 
 }
 
@@ -858,6 +854,7 @@ function formUpdate1(){
      }
  }
 
+ var pause;
 /**
  * sets ship for player 1 
  * @pre None
@@ -867,30 +864,38 @@ function formUpdate1(){
  * @returns None
  */
 function setShipsP1(){
+    pause = false;
     console.log("setting p1");
-    
     if(p1Ships == 0)
     {
         p1S1.setShip1(p1);
+        pause = true;
     }
-    if(this.totalShips >= 2 && p1Ships == 1)
+    if(this.totalShips >= 2 && p1Ships == 1 && pause == false)
     {
         p1S2.setShip1(p1);
+        pause = true;
     }
-    if(this.totalShips >= 3 && p1Ships == 2)
+    if(this.totalShips >= 3 && p1Ships == 2 && pause == false)
     {
         p1S3.setShip1(p1);
+        pause = true;
     }
-    if(this.totalShips >= 4 && p1Ships == 3)
+    if(this.totalShips >= 4 && p1Ships == 3 && pause == false)
     {
         p1S4.setShip1(p1);
+        pause = true;
     }
-    if(this.totalShips == 5 && p1Ships == 4)
+    if(this.totalShips == 5 && p1Ships == 4 && pause == false)
     {
         p1S5.setShip1(p1);
+        pause = true;
     }
- 
-    if(validPlacements && p1Ships == totalShips)
+    if(validPlacements != true)
+    {
+        alert("You have an invalid placed ship");
+    }
+    else if(validPlacements && p1Ships == totalShips)
     {
         document.getElementById('p1Ships').hidden = true;
         document.getElementById('p1data').hidden = true;
@@ -909,10 +914,6 @@ function setShipsP1(){
         displayShipInputs();
         }}, 3500);
     }
-    else
-    {
-        alert("You have an invalid placed ship");
-    }
 }
 
 /**
@@ -924,10 +925,11 @@ function setShipsP1(){
  * @returns None 
  */
 function setShipsP2(){
+    pause = false
     if(playMode == 'vsMachine')
     {
         setAIShips(p2);
-        if(this.validPlacements && p2Ships == totalShips)
+        if(validPlacements && p2Ships == totalShips)
         {
             document.getElementById('p2Ships').hidden = true;
             document.getElementById('p2data').hidden = true;
@@ -958,25 +960,33 @@ function setShipsP2(){
     if(p2Ships == 0)
     {
         p2S1.setShip2(p2);
+        pause = true;
     }
-    if(this.totalShips >= 2 && p2Ships == 1)
+    if(this.totalShips >= 2 && p2Ships == 1 && pause == false)
     {
         p2S2.setShip2(p2);
+        pause = true;
     }
-    if(this.totalShips >= 3 && p2Ships == 2)
+    if(this.totalShips >= 3 && p2Ships == 2 && pause == false)
     {
         p2S3.setShip2(p2);
+        pause = true;
     }
-    if(this.totalShips >= 4 && p2Ships == 3)
+    if(this.totalShips >= 4 && p2Ships == 3 && pause == false)
     {
         p2S4.setShip2(p2);
+        pause = true;
     }
-    if(this.totalShips == 5 && p2Ships == 4)
+    if(this.totalShips == 5 && p2Ships == 4 && pause == false)
     {
         p2S5.setShip2(p2);
+        pause = true;
     }
- 
-    if(this.validPlacements && p2Ships == totalShips)
+    if(validPlacements != true)
+    {
+        alert("You have an invalid place ship");
+    }
+    else if(validPlacements && p2Ships == totalShips)
     {
         document.getElementById('p2Ships').hidden = true;
         document.getElementById('p2data').hidden = true;
@@ -997,10 +1007,7 @@ function setShipsP2(){
         document.getElementById('player2-score').hidden = false;
         p2.turn = false;
         p1.turn = true;}, 5000);
-    } else
-    {
-        alert("You have an invalid placed ship");
-    }
+    } 
 /*document.getElementById('p2data').hidden = false;
 document.getElementById('p2div').hidden = false;
 document.getElementById('p2name').hidden = false; */
