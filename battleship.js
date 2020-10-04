@@ -1046,34 +1046,59 @@ function setAIShips(p2)
         }
         if(this.totalShips >= 2 && p2Ships == 1)
         {
-            let x = (Math.ceil(9 * Math.random()));
-            let y = (Math.ceil(9 * Math.random())); 
-            let o = chars.charAt(Math.floor(2*Math.random()));
-            p2S2.setX(x);
-            p2S2.setY(y);
-            p2S2.setOrientation(o);
-            p2S2.setShip2(p2);
+            validPlacements = false;
+            while(validPlacements == false)
+            {
+                let x = (Math.ceil(9 * Math.random()));
+                let y = (Math.ceil(9 * Math.random())); 
+                let o = chars.charAt(Math.floor(2*Math.random()));
+                p2S2.setX(x);
+                p2S2.setY(y);
+                p2S2.setOrientation(o);
+                p2S2.setShip2(p2);
+            }
         }
         if(this.totalShips >= 3 && p2Ships == 2)
         {
-            p2S3.setX(Math.ceil(9 * Math.random()));
-            p2S3.setY(Math.ceil(9* Math.random()));
-            p2S3.setOrientation(chars.charAt(Math.floor(2*Math.random())));
-            p2S3.setShip2(p2);
+            validPlacements = false;
+            while(validPlacements == false)
+            {
+                let x = (Math.ceil(9 * Math.random()));
+                let y = (Math.ceil(9 * Math.random())); 
+                let o = chars.charAt(Math.floor(2*Math.random()));
+                p2S3.setX(x);
+                p2S3.setY(y);
+                p2S3.setOrientation(o);
+                p2S3.setShip2(p2);
+            }
         }
         if(this.totalShips >= 4 && p2Ships == 3)
         {
-            p2S4.setX(Math.ceil(9 * Math.random()));
-            p2S4.setY(Math.ceil(9* Math.random()));
-            p2S4.setOrientation(chars.charAt(Math.floor(2*Math.random())));
-            p2S4.setShip2(p2);
+            validPlacements = false;
+            while(validPlacements == false)
+            {
+                let x = (Math.ceil(9 * Math.random()));
+                let y = (Math.ceil(9 * Math.random())); 
+                let o = chars.charAt(Math.floor(2*Math.random()));
+                p2S4.setX(x);
+                p2S4.setY(y);
+                p2S4.setOrientation(o);
+                p2S4.setShip2(p2);
+            }
         }
         if(this.totalShips == 5 && p2Ships == 4)
         {
-            p2S5.setX(Math.ceil(9 * Math.random()));
-            p2S5.setY(Math.ceil(9* Math.random()));
-            p2S5.setOrientation(chars.charAt(Math.floor(2*Math.random())));
-            p2S5.setShip2(p2);
+            validPlacements = false;
+            while(validPlacements == false)
+            {
+                let x = (Math.ceil(9 * Math.random()));
+                let y = (Math.ceil(9 * Math.random())); 
+                let o = chars.charAt(Math.floor(2*Math.random()));
+                p2S5.setX(x);
+                p2S5.setY(y);
+                p2S5.setOrientation(o);
+                p2S5.setShip2(p2);
+            }
         }
     }
     document.getElementById('p2div').hidden = false;
