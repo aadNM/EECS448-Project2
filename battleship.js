@@ -531,48 +531,48 @@ document.getElementById('p2Three').hidden = true;
 document.getElementById('p2Four').hidden = true;
 document.getElementById('p2Five').hidden = true;
 
-function convertLetter(letter){
-    let num = 0;
-    if( letter.toUpperCase() == 'A')
+function converttoLetter(val){
+    let char;
+    if( val == 1)
     {
-      num = 1;
+      char = 'A';
     }
-    else if( letter.toUpperCase() == 'B')
+    else if(val == 2)
     {
-      num = 2;
+      char = 'B';
     }
-    else if( letter.toUpperCase() == 'C')
+    else if(val == 3)
     {
-      num = 3;
+      char = 'C';
     }
-    else if( letter.toUpperCase() == 'D')
+    else if(val == 4)
     {
-      num = 4;
+      char = 'D';
     }
-    else if( letter.toUpperCase() == 'E')
+    else if(val == 5)
     {
-      num = 5;
+      char = 'E';
     }
-    else if( letter.toUpperCase() == 'F')
+    else if(val == 6)
     {
-      num = 6;
+      char = 'F';
     }
-    else if( letter.toUpperCase() == 'G')
+    else if(val == 7)
     {
-      num = 7;
+      char = 'G';
     }
-    else if( letter.toUpperCase() == 'H')
+    else if(val == 8)
     {
-      num = 8;
+      char = 'H';
     }
-    else if( letter.toUpperCase() == 'I')
+    else if(val == 9)
     {
-      num = 9;
+      char = 'I';
     }
     else{
-      num = 0;
+      char = '0';
     }
-    return (num);
+    return (char);
 }
 /**
  * The function sets the different variables available to the board class after taking inputs for player 1
@@ -956,11 +956,12 @@ function hitShip(){
         if(p1.turn && validShot){
             p1.setHitX(document.getElementById('hitX').value);
             p1.setHitY(document.getElementById('hitY').value);
+            xchar = converttoLetter(p1.hitX);
             console.log(p1.hitX);
             // document.getElementById('p1div').hidden = false; // shows the table
             //alert(p1.hitX,p1.hitY);
             if(p2.checkBoard(p1.hitX,p1.hitY)){
-                alert("Ship hit at [" + p1.hitX + ", " + p1.hitY + "]");
+                alert("Ship hit at [" + xchar + ", " + p1.hitY + "]");
                 p2.shipHit(p1.hitX,p1.hitY);
                 //copy2.shipHit(p1.hitX,p1.hitY)
             }else{
@@ -968,7 +969,7 @@ function hitShip(){
                  p2.shipHit(p1.hitX,p1.hitY);
                  if(validShot)
                  {
-                    alert("Miss at [" + p1.hitX + ", " + p1.hitY + "]\nBetter luck next chance!");
+                    alert("Miss at [" + xchar + ", " + p1.hitY + "]\nBetter luck next chance!");
                  }
                  else
                  {
@@ -1033,15 +1034,16 @@ function hitShip(){
             if(playMode != "vsMachine"){
                 p2.setHitX(document.getElementById('hitX').value);
                 p2.setHitY(document.getElementById('hitY').value);
+                xchar = converttoLetter(p2.hitX);
                 console.log(p2.hitX,p2.hitY);
                 if(p1.checkBoard(p2.hitX,p2.hitY)){
-                    alert("Ship hit at [" + p2.hitX + ", " + p2.hitY + "]");
+                    alert("Ship hit at [" + xchar + ", " + p2.hitY + "]");
                     p1.shipHit(p2.hitX,p2.hitY);
                     //copy1.shipHit(p2.hitX,p2.hitY);
                 }else{
                     //p1.shipMiss(p2.hitX, p2.hitY);
                      p1.shipHit(p2.hitX,p2.hitY);
-                    alert("Miss at [" + p2.hitX + ", " + p2.hitY + "]\nBetter luck next chance!");
+                    alert("Miss at [" + xchar + ", " + p2.hitY + "]\nBetter luck next chance!");
                 }
                 if(validShot)
                 {
@@ -1088,8 +1090,9 @@ function easyMode() {
      let y = Math.ceil(Math.random() * 10);
         p2.setHitX(x);
         p2.setHitY(y);
+        xchar = converttoLetter(x);
         if(p1.checkBoard(p2.hitX,p2.hitY)){
-            alert("Ship hit at [" + p2.hitX + ", " + p2.hitY + "]");
+            alert("Ship hit at [" + xchar + ", " + p2.hitY + "]");
             p1.shipHit(p2.hitX,p2.hitY);
             //copy1.shipHit(p2.hitX,p2.hitY);
         }
@@ -1097,7 +1100,7 @@ function easyMode() {
         {
             //p1.shipMiss(p2.hitX, p2.hitY);
             p1.shipHit(p2.hitX,p2.hitY);
-            alert("Miss at [" + p2.hitX + ", " + p2.hitY + "]\nBetter luck next chance!");
+            alert("Miss at [" + xchar + ", " + p2.hitY + "]\nBetter luck next chance!");
         }
         if(validShot)
         {
@@ -1147,10 +1150,11 @@ function mediumMode() {
         let my = Math.ceil(Math.random() * 9);
             p2.setHitX(mx);
             p2.setHitY(my);
+            xchar = converttoLetter(mx);
             if(p1.checkBoard(p2.hitX,p2.hitY)){
                 lastx.push(mx);
                 lasty.push(my);
-                alert("Ship hit at [" + p2.hitX + ", " + p2.hitY + "]");
+                alert("Ship hit at [" + xchar + ", " + p2.hitY + "]");
                 p1.shipHit(p2.hitX,p2.hitY);
                 //copy1.shipHit(p2.hitX,p2.hitY);
             }
@@ -1158,7 +1162,7 @@ function mediumMode() {
             {
                 //p1.shipMiss(p2.hitX, p2.hitY);
                 p1.shipHit(p2.hitX,p2.hitY);
-                alert("Miss at [" + p2.hitX + ", " + p2.hitY + "]\nBetter luck next chance!");
+                alert("Miss at [" + xchar + ", " + p2.hitY + "]\nBetter luck next chance!");
             }
     }
         if(validShot)
@@ -1212,8 +1216,9 @@ function hardMode() {
     console.log(hx + "+" + hy);
        p2.setHitX(hx);
        p2.setHitY(hy);
+       xchar = converttoLetter(hx);
        if(p1.checkBoard(p2.hitX,p2.hitY)){
-           alert("Ship hit at [" + p2.hitX + ", " + p2.hitY + "]");
+           alert("Ship hit at [" + xchar + ", " + p2.hitY + "]");
            p1.shipHit(p2.hitX,p2.hitY);
            //copy1.shipHit(p2.hitX,p2.hitY);
        }
@@ -1221,7 +1226,7 @@ function hardMode() {
        {
            //p1.shipMiss(p2.hitX, p2.hitY);
            p1.shipHit(p2.hitX,p2.hitY);
-           alert("Miss at [" + p2.hitX + ", " + p2.hitY + "]\nBetter luck next chance!");
+           alert("Miss at [" + xchar + ", " + p2.hitY + "]\nBetter luck next chance!");
        }
        if(validShot)
        {
@@ -1270,10 +1275,11 @@ function orthogonal(x,y)
         {
             p2.setHitX(x);
             p2.setHitY(y);
+            xchar = converttoLetter(x);
             if(p1.checkBoard(p2.hitX,p2.hitY)){
                     lastx.push(x);
                     lasty.push(y);
-                    alert("Ship hit at [" + p2.hitX + ", " + p2.hitY + "]");
+                    alert("Ship hit at [" + xchar + ", " + p2.hitY + "]");
                     p1.shipHit(p2.hitX,p2.hitY);
                     //copy1.shipHit(p2.hitX,p2.hitY);
             }
@@ -1281,7 +1287,7 @@ function orthogonal(x,y)
             {
                 //p1.shipMiss(p2.hitX, p2.hitY);
                 p1.shipHit(p2.hitX,p2.hitY);
-                alert("Miss at [" + p2.hitX + ", " + p2.hitY + "]\nBetter luck next chance!");
+                alert("Miss at [" + xchar + ", " + p2.hitY + "]\nBetter luck next chance!");
             }
             right = true;
         }
@@ -1299,10 +1305,11 @@ function orthogonal(x,y)
             {
                 p2.setHitX(x);
                 p2.setHitY(y);
+                xchar = converttoLetter(x);
                 if(p1.checkBoard(p2.hitX,p2.hitY)){
                     lastx.push(x);
                     lasty.push(y);
-                    alert("Ship hit at [" + p2.hitX + ", " + p2.hitY + "]");
+                    alert("Ship hit at [" + xchar + ", " + p2.hitY + "]");
                     p1.shipHit(p2.hitX,p2.hitY);
                     //copy1.shipHit(p2.hitX,p2.hitY);
                 }
@@ -1310,7 +1317,7 @@ function orthogonal(x,y)
                 {
                     //p1.shipMiss(p2.hitX, p2.hitY);
                     p1.shipHit(p2.hitX,p2.hitY);
-                    alert("Miss at [" + p2.hitX + ", " + p2.hitY + "]\nBetter luck next chance!");
+                    alert("Miss at [" + xchar + ", " + p2.hitY + "]\nBetter luck next chance!");
                 }
                 left = true;
             }
@@ -1328,10 +1335,11 @@ function orthogonal(x,y)
             {
                 p2.setHitX(x);
                 p2.setHitY(y);
+                xchar = converttoLetter(x);
                 if(p1.checkBoard(p2.hitX,p2.hitY)){
                     lastx.push(x);
                     lasty.push(y);
-                    alert("Ship hit at [" + p2.hitX + ", " + p2.hitY + "]");
+                    alert("Ship hit at [" + xchar + ", " + p2.hitY + "]");
                     p1.shipHit(p2.hitX,p2.hitY);
                     //copy1.shipHit(p2.hitX,p2.hitY);
                 }
@@ -1339,7 +1347,7 @@ function orthogonal(x,y)
                 {
                     //p1.shipMiss(p2.hitX, p2.hitY);
                     p1.shipHit(p2.hitX,p2.hitY);
-                    alert("Miss at [" + p2.hitX + ", " + p2.hitY + "]\nBetter luck next chance!");
+                    alert("Miss at [" + xchar + ", " + p2.hitY + "]\nBetter luck next chance!");
                 }
                 down = true;
             }
@@ -1357,10 +1365,11 @@ function orthogonal(x,y)
             {
                 p2.setHitX(x);
                 p2.setHitY(y);
+                xchar = converttoLetter(x);
                 if(p1.checkBoard(p2.hitX,p2.hitY)){
                     lastx.push(x);
                     lasty.push(y);
-                    alert("Ship hit at [" + p2.hitX + ", " + p2.hitY + "]");
+                    alert("Ship hit at [" + xchar + ", " + p2.hitY + "]");
                     p1.shipHit(p2.hitX,p2.hitY);
                     //copy1.shipHit(p2.hitX,p2.hitY);
                 }
@@ -1368,7 +1377,7 @@ function orthogonal(x,y)
                 {
                     //p1.shipMiss(p2.hitX, p2.hitY);
                     p1.shipHit(p2.hitX,p2.hitY);
-                    alert("Miss at [" + p2.hitX + ", " + p2.hitY + "]\nBetter luck next chance!");
+                    alert("Miss at [" + xchar + ", " + p2.hitY + "]\nBetter luck next chance!");
                 }
                 up = true;
             }
