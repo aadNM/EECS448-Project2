@@ -16,7 +16,7 @@ function playersSet(){
             playMode = playVS[i].value;
         }
     }
-    console.log(playMode);
+    console.log("Mode:" + playMode);
     document.getElementById("manVS").hidden = true;
     if(playMode == "vsMachine"){
         p2 = robotPlayer;
@@ -34,7 +34,7 @@ function modeSet(){
             difficulty = mode[i].value;
         }
     }
-    console.log(difficulty);
+    console.log(" AI difficulty: " + difficulty);
     document.getElementById("Mode").hidden = true;
     document.getElementById('shipInput').hidden = false;
     if(playMode == "Easy")
@@ -132,28 +132,12 @@ class Board
 checkCoord(x,y,t,l,o)
 {
     console.log("Checking coords");
-    if (x === undefined) {       //if t=undefined, call tt
-        console.log(x)      //call t
-    }
-    if (y === undefined) {       //if t=undefined, call tt
-        console.log(y)      //call t
-    }
-    if (t === undefined) {       //if t=undefined, call tt
-        console.log(t)      //call t
-    }
-    if (l === undefined) {       //if t=undefined, call tt
-        console.log(l)      //call t
-    }
-    if (o === undefined) {       //if t=undefined, call tt
-        console.log(o)      //call t
-    }
-    console.log(this.board);
-    console.log( x + "xval" + y + "yval" + t + "tval" + l + "lval" + o + "oval");
+    console.log( x + " xval " + y + " yval " + t + " tval " + l + " lval " + o + " oval");
     for (let i = 0; i < l; i++) 
     {
         if(o == 'H')
         {
-            if((x+l) > 10)
+            if((x+l-1) > 9)
             {
                 console.log("Out of bounds (horizontally)")
                 return false;
@@ -166,7 +150,7 @@ checkCoord(x,y,t,l,o)
         }
         else
         {
-            if((y+l) > 10)
+            if((y+l-1) > 9)
             {
                 console.log("Out of bounds (vertically)")
                 return false;
@@ -204,7 +188,6 @@ checkCoord(x,y,t,l,o)
  * @param {Number} t - type of the ship
  */
     addShip(x,y,t, length, or){
-        console.log(or);
         console.log("ADDING SHIP");
         if (this.checkCoord(x, y,t,length,or))
         {
@@ -221,7 +204,6 @@ checkCoord(x,y,t,l,o)
             }
             validPlacements = true;
         }
-        console.log("Hi:"+validPlacements );
     }
  
 /**
@@ -351,8 +333,6 @@ class Ships{
  * @param {Object} - player - the player object the instance of the board class  
  */
     setShip1(player){
-        console.log('check');
-        console.log(this.orien)
         if (player.checkCoord(this.xCoord, this.yCoord,'S',this.size, this.orien))
         {
             player.addShip(this.xCoord,this.yCoord,'S', this.size, this.orien);
@@ -366,8 +346,6 @@ class Ships{
     }
 
     setShip2(player){
-        console.log('check');
-        console.log(this.orien)
         if (player.checkCoord(this.xCoord, this.yCoord,'S',this.size, this.orien))
         {
             player.addShip(this.xCoord,this.yCoord,'S', this.size, this.orien);
@@ -440,7 +418,6 @@ function initNumShips()
         window.alert("Not a valid number! Try again.");
         console.log("not valid");
     }
-    console.log(p1.turn);
 }
  
 function displayShipInputs(){
@@ -773,7 +750,6 @@ function setShipsP1(){
  
     if(validPlacements && p1Ships == totalShips)
     {
-        console.log(validPlacements);
         document.getElementById('p1Ships').hidden = true;
         document.getElementById('p1data').hidden = true;
         document.getElementById('p1div').hidden = false;
@@ -818,7 +794,6 @@ function setShipsP2(){
             document.getElementById('p1copy').hidden = true;
             prettyPrint(p1,"p1BView");
             prettyPrint(copy2, "p1CView");
-            console.log("Print");
             document.getElementById('game').hidden = false; 
             document.getElementById('game-Over').hidden = true;
 	        document.getElementById('score-board').hidden = false;
@@ -868,7 +843,6 @@ function setShipsP2(){
         document.getElementById('p1copy').hidden = true;
         prettyPrint(p1,"p1BView");
         prettyPrint(copy2, "p1CView");
-        console.log("Print");
         document.getElementById('game').hidden = false; 
         document.getElementById('game-Over').hidden = true;
         document.getElementById('score-board').hidden = false;
@@ -991,7 +965,6 @@ function hitShip(){
             p1.setHitX(document.getElementById('hitX').value);
             p1.setHitY(document.getElementById('hitY').value);
             xchar = converttoLetter(p1.hitX);
-            console.log(p1.hitX);
             
             if(p2.checkBoard(p1.hitX,p1.hitY)){
                 alert("Ship hit at [" + xchar + ", " + p1.hitY + "]");
@@ -1029,7 +1002,6 @@ function hitShip(){
             }
             else{
             setTimeout(function() {
-                console.log(difficulty);
             if(difficulty == "Easy")
                 {
                     easyMode();
