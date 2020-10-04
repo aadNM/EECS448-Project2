@@ -334,7 +334,8 @@ let p1 = new Board();
 let p2 = new Board();
 let copy1 = new Board();
 let copy2 = new Board();
-
+int p1Score=0;
+int p2Score=0;
 p1.initboard();
 p2.initboard();
 copy1.initboard();
