@@ -50,20 +50,16 @@ function updateCopies(board1, board2){
     for (let i = 1; i < 10; i++){
         for (let j = 1; j < 10; j++){
             if(board1[i][j] == 'S'){
-                console.log("stupid");
                 copy1.board[i][j] == '~';
             }
             else{
-                console.log("stupid2");
                 copy1.board[i][j] = board1[i][j];
             }
 
             if(board2[i][j] == 'S'){
-                console.log("stupid3");
                 copy2.board[i][j] == '~';
             }
             else{
-                console.log("stupid4");
                 copy2.board[i][j] = board2[i][j];
             }
         }
@@ -788,6 +784,26 @@ function setShipsP2(){
     if(playMode == 'vsMachine')
     {
         setAIShips(p2);
+        if(this.validPlacements && p2Ships == totalShips)
+        {
+            document.getElementById('p2Ships').hidden = true;
+            document.getElementById('p2data').hidden = true;
+            document.getElementById('p2div').hidden = false;
+            prettyPrint(p2,"p2div");
+            //updateCopies(p1.board, p2.board);
+            setTimeout(function() {
+            document.getElementById('p2div').hidden = true;
+            document.getElementById('p1div').hidden = true;
+            document.getElementById('p2Board').hidden = true;
+            document.getElementById('p1copy').hidden = true;
+            prettyPrint(p1,"p1BView");
+            prettyPrint(copy2, "p1CView");
+            console.log("Print");
+            document.getElementById('game').hidden = false; 
+            document.getElementById('game-Over').hidden = true;
+            p2.turn = false;
+            p1.turn = true;}, 3000);
+        }
     }
     
     if(playMode != "vsMachine")
@@ -983,6 +999,12 @@ function hitShip(){
             }
             else{
             setTimeout(function() {
+                console.log(difficulty);
+            if(difficulty == "Easy")
+                {
+                    easyMode();
+                    console.log('AI Shooting');
+                }
                 document.getElementById('p1Board').hidden = true;
                 document.getElementById('p2copy').hidden = true;
                 document.getElementById('p2Board').hidden = false;
@@ -1051,20 +1073,53 @@ function hitShip(){
 
 
 function easyMode() {
-    if (p2.turn) {
-        x = Math.floor(Math.random() * 10); //均衡抽取数字0-9
-        y = Math.floor(Math.random() * 10);
-        if (!checkPos(x, y)) {
-            x = Math.floor(Math.random() * 10);
-            y = Math.floor(Math.random() * 10);
+     let x = Math.ceil(Math.random() * 10); //randomly get number 0-9
+     let y = Math.ceil(Math.random() * 10);
+        p2.setHitX(x);
+        p2.setHitY(y);
+        if(p1.checkBoard(p2.hitX,p2.hitY)){
+            alert("Ship hit at [" + p2.hitX + ", " + p2.hitY + "]");
+            p1.shipHit(p2.hitX,p2.hitY);
+            //copy1.shipHit(p2.hitX,p2.hitY);
         }
-        shipHit(x, y);
-    }
+        else
+        {
+            //p1.shipMiss(p2.hitX, p2.hitY);
+            p1.shipHit(p2.hitX,p2.hitY);
+            alert("Miss at [" + p2.hitX + ", " + p2.hitY + "]\nBetter luck next chance!");
+        }
+        if(validShot)
+        {
+            p1.turn = true;
+            p2.turn = false;
+            document.getElementById('pturn').innerHTML = "Player 1 turn";
+            //document.getElementById('p1div').hidden = false; // hides the table
+            if(gameOver(p1,p2) == true)
+            { 
+                document.getElementById('p1Board').hidden = true;
+                document.getElementById('p2copy').hidden = true;
+                document.getElementById('p2Board').hidden = true;
+                document.getElementById('p1copy').hidden = true;
+                document.getElementById('game-Over').hidden = false;
+                document.getElementById('attack').hidden = true;
+                document.getElementById('p1win').hidden = true;
+                document.getElementById('p2win').hidden = false;
+                prettyPrint(p1,"p1FB");
+                prettyPrint(p2,"p2FB");
+            }
+            else{
+                setTimeout(function() {
+                    document.getElementById('p1Board').hidden = false;
+                    document.getElementById('p2copy').hidden = false;
+                    document.getElementById('p2Board').hidden = true;
+                    document.getElementById('p1copy').hidden = true;
+                    prettyPrint(p1,"p1BView");
+                    prettyPrint(copy2, "p1CView");
+                }, 3000);
+            }
+        }
     p2.turn = false;
-    // turn change
-    if (win) {
-        console.log("congrats you win easy mod");
-    }
+    p1.turn = true;
 }
 
 function mediumMode() {
