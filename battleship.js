@@ -912,8 +912,33 @@ function setShipsP1(){
         else
         { 
         displayShipInputs();
-        }}, 3500);
+        }}, 3000);
     }
+    let wait;
+    do
+    {
+        wait = true
+        if(playMode == 'vsMachine' && p1Ships == totalShips && wait)
+        {
+            setTimeout(function(){
+            document.getElementById('aiturn').innerHTML = "AI's turn";
+            },2800);
+            setTimeout(function(){
+                document.getElementById('aiturn').hidden = true;
+            wait = false
+            }, 6000);
+        }
+        else (wait == false)
+        {
+        setTimeout(function(){
+            if(p1Ships == totalShips)
+            {
+                //document.getElementById('aiturn').hidden = true;
+            }
+            document.getElementById('pturn').innerHTML = "Player one turn";},5000);
+            break;
+        }
+    }while(wait == false);
 }
 
 /**
@@ -933,8 +958,7 @@ function setShipsP2(){
         {
             document.getElementById('p2Ships').hidden = true;
             document.getElementById('p2data').hidden = true;
-            document.getElementById('p2div').hidden = false;
-            prettyPrint(p2,"p2div");
+            document.getElementById('p2div').hidden = true;
             //updateCopies(p1.board, p2.board);
             setTimeout(function() {
             document.getElementById('p2div').hidden = true;
@@ -1006,15 +1030,23 @@ function setShipsP2(){
         document.getElementById('player1-score').hidden = false;
         document.getElementById('player2-score').hidden = false;
         p2.turn = false;
-        p1.turn = true;}, 5000);
+        p1.turn = true;}, 3500);
     } 
 /*document.getElementById('p2data').hidden = false;
 document.getElementById('p2div').hidden = false;
 document.getElementById('p2name').hidden = false; */
 
 //p1.turn = true;
-
-document.getElementById('pturn').innerHTML = "Player 1 turn";
+    setTimeout(function(){
+        if(playMode == 'vsMan')
+        {
+        document.getElementById('pturn').innerHTML = "Player 1 turn";
+        }
+        else
+        {
+            document.getElementById('pturn').innerHTML = "AI's turn";
+        }
+    },3500);
     }
  
 }
@@ -1101,8 +1133,7 @@ function setAIShips(p2)
             }
         }
     }
-    document.getElementById('p2div').hidden = false;
-    prettyPrint(p2,"p2div");
+    document.getElementById('p2div').hidden = true;
 }
 
 /**
@@ -1191,7 +1222,13 @@ function hitShip(){
             {
                 p1.turn = false;
                 p2.turn = true;
-                document.getElementById('pturn').innerHTML = "Player 2 turn";
+                if(playMode == 'vsMan')
+                {
+                    document.getElementById('pturn').innerHTML = "Player 2 turn";
+                }
+                else{
+                    document.getElementById('pturn').innerHTML = "AI's turn";
+                }
             //updateCopies(p1.board, p2.board);
 
             // document.getElementById('p1div').hidden = true; // hides the table
@@ -1213,25 +1250,33 @@ function hitShip(){
             setTimeout(function() {
             if(difficulty == "Easy")
                 {
-                    easyMode();
+                    setTimeout(function(){easyMode();},3000);
                     console.log('AI Shooting');
                 }
             else if(difficulty == "Medium")
                 {
-                    mediumMode();
+                    setTimeout(function(){mediumMode();},3000);
                     console.log('AI Shooting');
                 }
             else if(difficulty == "Hard")
                 {
-                    hardMode();
+                    setTimeout(function(){hardMode();},3000);
                     console.log('AI Shooting');
                 }
-                document.getElementById('p1Board').hidden = true;
-                document.getElementById('p2copy').hidden = true;
-                document.getElementById('p2Board').hidden = false;
-                document.getElementById('p1copy').hidden = false;
-                prettyPrint(p2,"p2BView");
-                prettyPrint(copy1, "p2CView");
+                if(playMode == 'vsMachine')
+                {
+                    document.getElementById('p1Board').hidden = true;
+                    document.getElementById('p2copy').hidden = true;  
+                }
+                else
+                {
+                    document.getElementById('p1Board').hidden = true;
+                    document.getElementById('p2copy').hidden = true;
+                    document.getElementById('p2Board').hidden = false;
+                    document.getElementById('p1copy').hidden = false;
+                    prettyPrint(p2,"p2BView");
+                    prettyPrint(copy1, "p2CView");
+                }
             }, 5000);
 
         }
@@ -1308,8 +1353,8 @@ function hitShip(){
  * @return None
  */
 function easyMode() {
-     let x = Math.ceil(Math.random() * 10); //randomly get number 0-9
-     let y = Math.ceil(Math.random() * 10);
+     let x = Math.ceil(Math.random() * 9); //randomly get number 0-9
+     let y = Math.ceil(Math.random() * 9);
         p2.setHitX(x);
         p2.setHitY(y);
         xchar = converttoLetter(x);
@@ -1323,7 +1368,7 @@ function easyMode() {
         {
             //p1.shipMiss(p2.hitX, p2.hitY);
             p1.shipHit(p2.hitX,p2.hitY);
-            alert("AI Missed at [" + xchar + ", " + p2.hitY + "]\nBetter luck next time!");
+            alert("AI Missed at [" + xchar + ", " + p2.hitY + "]");
         }
         scoreUpdate();
         if(validShot)
@@ -1397,7 +1442,7 @@ function mediumMode() {
             {
                 //p1.shipMiss(p2.hitX, p2.hitY);
                 p1.shipHit(p2.hitX,p2.hitY);
-                alert("AI Missed at [" + xchar + ", " + p2.hitY + "]\nBetter luck next time!");
+                alert("AI Missed at [" + xchar + ", " + p2.hitY + "]");
             }
     }
     scoreUpdate();
@@ -1471,7 +1516,7 @@ function hardMode() {
        {
            //p1.shipMiss(p2.hitX, p2.hitY);
            p1.shipHit(p2.hitX,p2.hitY);
-           alert("AI Misses at [" + xchar + ", " + p2.hitY + "]\nBetter luck next time!");
+           alert("AI Misses at [" + xchar + ", " + p2.hitY + "]");
        }
        scoreUpdate();
        if(validShot)
@@ -1544,7 +1589,7 @@ function orthogonal(x,y)
             {
                 //p1.shipMiss(p2.hitX, p2.hitY);
                 p1.shipHit(p2.hitX,p2.hitY);
-                alert("AI Missed at [" + xchar + ", " + p2.hitY + "]\nBetter luck next time!");
+                alert("AI Missed at [" + xchar + ", " + p2.hitY + "]");
             }
             right = true;
         }
@@ -1578,7 +1623,7 @@ function orthogonal(x,y)
                 {
                     //p1.shipMiss(p2.hitX, p2.hitY);
                     p1.shipHit(p2.hitX,p2.hitY);
-                    alert("AI Missed at [" + xchar + ", " + p2.hitY + "]\nBetter luck next time!");
+                    alert("AI Missed at [" + xchar + ", " + p2.hitY + "]");
                 }
                 left = true;
             }
@@ -1610,7 +1655,7 @@ function orthogonal(x,y)
                 {
                     //p1.shipMiss(p2.hitX, p2.hitY);
                     p1.shipHit(p2.hitX,p2.hitY);
-                    alert("AI Missed at [" + xchar + ", " + p2.hitY + "]\nBetter luck next time!");
+                    alert("AI Missed at [" + xchar + ", " + p2.hitY + "]");
                 }
                 down = true;
             }
@@ -1642,7 +1687,7 @@ function orthogonal(x,y)
                 {
                     //p1.shipMiss(p2.hitX, p2.hitY);
                     p1.shipHit(p2.hitX,p2.hitY);
-                    alert("AI Missed at [" + xchar + ", " + p2.hitY + "]\nBetter luck next time!");
+                    alert("AI Missed at [" + xchar + ", " + p2.hitY + "]");
                 }
                 up = true;
             }
