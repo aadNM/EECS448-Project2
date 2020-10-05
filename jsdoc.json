@@ -1,3 +1,3 @@
 {
-    "doc": "jsdoc -d docs --configure jsdoc.json battleship.js"
+    "doc": "jsdoc -d docs --configure jsdoc.json main.js"
 }
