@@ -1237,6 +1237,7 @@ function hitShip(){
                 document.getElementById('p1Board').hidden = true;
                 document.getElementById('p2copy').hidden = true;
                 document.getElementById('p2Board').hidden = true;
+                
                 document.getElementById('p1copy').hidden = true;
                 document.getElementById('game-Over').hidden = false;
                 document.getElementById('attack').hidden = true;
