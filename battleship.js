@@ -1510,6 +1510,7 @@ function mediumMode()
 }
 
 
+
 /**
  * Defines how the hard AI is to shoot player one's board
  * @pre None
@@ -1604,7 +1605,7 @@ function orthogonal(x,y)
     {
         let x = lastx[0] + 1;
         let y = lasty[0];
-        if(lastx[0] != 9 &&  p1.board[y][x] != boom)
+        if(lastx[0] != 9 && p1.board[y][x] != boom && p1.board[y][x] != '0')
         {
             p2.setHitX(x);
             p2.setHitY(y);
@@ -1637,11 +1638,11 @@ function orthogonal(x,y)
     {
         let x = lastx[0] - 1;
         let y = lasty[0];
-        if(lastx[0] != 1 &&  p1.board[y][x] != boom)
+        if(lastx[0] != 1 && p1.board[y][x] != boom && p1.board[y][x] != '0')
         {
             let x = lastx[0] - 1;
             let y = lasty[0];
-            if(lastx[0] != 1)
+            if(lastx[0] != 1 && p1.board[y][x] != boom && p1.board[y][x] != '0')
             {
                 p2.setHitX(x);
                 p2.setHitY(y);
@@ -1676,7 +1677,7 @@ function orthogonal(x,y)
         {
             let x = lastx[0];
             let y = lasty[0] + 1;
-            if(lasty[0] != 9)
+            if(lasty[0] != 9 && p1.board[y][x] != boom && p1.board[y][x] != '0')
             {
                 p2.setHitX(x);
                 p2.setHitY(y);
@@ -1717,7 +1718,7 @@ function orthogonal(x,y)
     {
         let x = lastx[0];
         let y = lasty[0] - 1;
-        if(lasty[0] != 1 &&  p1.board[y][x] != boom)
+        if(lasty[0] != 1 &&  p1.board[y][x] != boom && p1.board[y][x] != '0')
         {
             p2.setHitX(x);
             p2.setHitY(y);
