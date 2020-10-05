@@ -1361,7 +1361,6 @@ function easyMode() {
         if(p1.checkBoard(p2.hitX,p2.hitY)){
             alert("AI hit a ship at [" + xchar + ", " + p2.hitY + "]");
             p1.shipHit(p2.hitX,p2.hitY);
-            hitScore2 +=1;
             //copy1.shipHit(p2.hitX,p2.hitY);
         }
         else
@@ -1370,7 +1369,6 @@ function easyMode() {
             p1.shipHit(p2.hitX,p2.hitY);
             alert("AI Missed at [" + xchar + ", " + p2.hitY + "]");
         }
-        scoreUpdate();
         if(validShot)
         {
             p1.turn = true;
@@ -1435,7 +1433,6 @@ function mediumMode() {
                 lasty.push(my);
                 alert("AI hit a ship at [" + xchar + ", " + p2.hitY + "]");
                 p1.shipHit(p2.hitX,p2.hitY);
-                hitScore2 +=1;
                 //copy1.shipHit(p2.hitX,p2.hitY);
             }
             else
@@ -1445,7 +1442,6 @@ function mediumMode() {
                 alert("AI Missed at [" + xchar + ", " + p2.hitY + "]");
             }
     }
-    scoreUpdate();
         if(validShot)
         {
             p1.turn = true;
@@ -1509,7 +1505,6 @@ function hardMode() {
        if(p1.checkBoard(p2.hitX,p2.hitY)){
            alert("AI hit a ship at [" + xchar + ", " + p2.hitY + "]");
            p1.shipHit(p2.hitX,p2.hitY);
-           hitScore2 +=1;
            //copy1.shipHit(p2.hitX,p2.hitY);
        }
        else
@@ -1518,7 +1513,6 @@ function hardMode() {
            p1.shipHit(p2.hitX,p2.hitY);
            alert("AI Misses at [" + xchar + ", " + p2.hitY + "]");
        }
-       scoreUpdate();
        if(validShot)
        {
            p1.turn = true;
