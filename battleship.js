@@ -1284,7 +1284,7 @@ function hitShip(){
                         document.getElementById('p1copy').hidden = true;
                         prettyPrint(p1,"p1BView");
                         prettyPrint(copy2, "p1CView");
-                    }, 2000);
+                    }, 1000);
                 }
             }
             validShot = true;   
@@ -1313,6 +1313,7 @@ function easyMode() {
         if(p1.checkBoard(p2.hitX,p2.hitY)){
             alert("AI hit a ship at [" + xchar + ", " + p2.hitY + "]");
             p1.shipHit(p2.hitX,p2.hitY);
+            hitScore2 += 1;
             //copy1.shipHit(p2.hitX,p2.hitY);
         }
         else
@@ -1351,6 +1352,7 @@ function easyMode() {
                 }, 5000);
             }
         }
+    scoreUpdate(); 
     p2.turn = false;
     p1.turn = true;
 }
@@ -1384,9 +1386,9 @@ function mediumMode() {
        if(firedX.length > 0){
             console.log("more fire!");
             for (let i = 0; i < firedX.length; i++){
-                console.log("loop fire....");
+                //console.log("loop fire....");
                 if(mx == firedX[i] && my == firedY[i]){
-                    console.log("used (" + mx + ", " + my + ")");
+                    //console.log("used (" + mx + ", " + my + ")");
                     mx = Math.ceil(Math.random() * 9); //randomly get number 0-9
                     my = Math.ceil(Math.random() * 9); 
                 }
@@ -1406,6 +1408,7 @@ function mediumMode() {
             lasty.push(my);
             alert("AI hit a ship at [" + xchar + ", " + p2.hitY + "]");
             p1.shipHit(p2.hitX,p2.hitY);
+            hitScore2 += 1;
             //copy1.shipHit(p2.hitX,p2.hitY);
         }
         else
@@ -1442,9 +1445,10 @@ function mediumMode() {
                 document.getElementById('p1copy').hidden = true;
                 prettyPrint(p1,"p1BView");
                 prettyPrint(copy2, "p1CView");
-            }, 2000);
+            }, 1000);
         }
     }
+    scoreUpdate(); 
     p2.turn = false;
     p1.turn = true;
 }
@@ -1478,6 +1482,7 @@ function hardMode() {
        if(p1.checkBoard(p2.hitX,p2.hitY)){
            alert("AI hit a ship at [" + xchar + ", " + p2.hitY + "]");
            p1.shipHit(p2.hitX,p2.hitY);
+           hitScore2 += 1;
            //copy1.shipHit(p2.hitX,p2.hitY);
        }
        else
@@ -1518,6 +1523,7 @@ function hardMode() {
        }
     p1.turn = true;
     p2.turn = false;
+    scoreUpdate(); 
 }
 
 var right = false;
@@ -1540,7 +1546,7 @@ function orthogonal(x,y)
     {
         let x = lastx[0] + 1;
         let y = lasty[0];
-        if(lastx[0] != 9 &&  p1.board[y][x] != boom)
+        if(lastx[0] != 9 &&  (p1.board[y][x] != boom || p1.board[y][x] == '0'))
         {
             p2.setHitX(x);
             p2.setHitY(y);
@@ -1550,6 +1556,7 @@ function orthogonal(x,y)
                     lasty.push(y);
                     alert("AI hit a ship at [" + xchar + ", " + p2.hitY + "]");
                     p1.shipHit(p2.hitX,p2.hitY);
+                    hitScore2 += 1;
                     //copy1.shipHit(p2.hitX,p2.hitY);
             }
             else
@@ -1572,7 +1579,7 @@ function orthogonal(x,y)
     {
         let x = lastx[0] - 1;
         let y = lasty[0];
-        if(lastx[0] != 1 &&  p1.board[y][x] != boom)
+        if(lastx[0] != 1 && (p1.board[y][x] != boom || p1.board[y][x] == '0'))
         {
             p2.setHitX(x);
             p2.setHitY(y);
@@ -1582,6 +1589,7 @@ function orthogonal(x,y)
                 lasty.push(y);
                 alert("AI hit a ship at [" + xchar + ", " + p2.hitY + "]");
                 p1.shipHit(p2.hitX,p2.hitY);
+                hitScore2 += 1;
                 //copy1.shipHit(p2.hitX,p2.hitY);
             }
             else
@@ -1604,7 +1612,7 @@ function orthogonal(x,y)
     {
         let x = lastx[0];
         let y = lasty[0] + 1;
-        if(lasty[0] != 9 &&  p1.board[y][x] != boom)
+        if(lasty[0] != 9 && (p1.board[y][x] != boom || p1.board[y][x] == '0'))
         {
             p2.setHitX(x);
             p2.setHitY(y);
@@ -1614,6 +1622,7 @@ function orthogonal(x,y)
                 lasty.push(y);
                 alert("AI hit a ship at [" + xchar + ", " + p2.hitY + "]");
                 p1.shipHit(p2.hitX,p2.hitY);
+                hitScore2 += 1;
                 //copy1.shipHit(p2.hitX,p2.hitY);
             }
             else
@@ -1636,7 +1645,7 @@ function orthogonal(x,y)
     {
         let x = lastx[0];
         let y = lasty[0] - 1;
-        if(lasty[0] != 1 &&  p1.board[y][x] != boom)
+        if(lasty[0] != 1 && (p1.board[y][x] != boom || p1.board[y][x] == '0'))
         {
             p2.setHitX(x);
             p2.setHitY(y);
@@ -1646,6 +1655,7 @@ function orthogonal(x,y)
                 lasty.push(y);
                 alert("AI hit a ship at [" + xchar + ", " + p2.hitY + "]");
                 p1.shipHit(p2.hitX,p2.hitY);
+                hitScore2 += 1;
                 //copy1.shipHit(p2.hitX,p2.hitY);
             }
             else
