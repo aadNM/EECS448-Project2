@@ -14,5 +14,7 @@
 Run `npm install -g jsdoc`
 
 # Works Cited
+This project used the following websites:
+- [W3 Schools: A website to teach coding.](https://www.w3schools.com/graphics/game_sound.asp)
 This project uses the following packages:
 - [JSDocs: An API documentation generator for JavaScript.](https://github.com/jsdoc/jsdoc)
