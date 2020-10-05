@@ -1362,6 +1362,7 @@ function easyMode() {
         if(p1.checkBoard(p2.hitX,p2.hitY)){
             alert("AI hit a ship at [" + xchar + ", " + p2.hitY + "]");
             p1.shipHit(p2.hitX,p2.hitY);
+            hitScore2 +=1;
             //copy1.shipHit(p2.hitX,p2.hitY);
         }
         else
@@ -1402,6 +1403,7 @@ function easyMode() {
         }
     p2.turn = false;
     p1.turn = true;
+    scoreUpdate();
 }
 
 var lastx = [];
@@ -1434,6 +1436,7 @@ function mediumMode() {
                 lasty.push(my);
                 alert("AI hit a ship at [" + xchar + ", " + p2.hitY + "]");
                 p1.shipHit(p2.hitX,p2.hitY);
+                hitScore2 +=1;
                 //copy1.shipHit(p2.hitX,p2.hitY);
             }
             else
@@ -1475,6 +1478,7 @@ function mediumMode() {
         }
     p2.turn = false;
     p1.turn = true;
+    scoreUpdate();
 }
 
 /**
@@ -1506,6 +1510,7 @@ function hardMode() {
        if(p1.checkBoard(p2.hitX,p2.hitY)){
            alert("AI hit a ship at [" + xchar + ", " + p2.hitY + "]");
            p1.shipHit(p2.hitX,p2.hitY);
+           hitScore2 +=1;
            //copy1.shipHit(p2.hitX,p2.hitY);
        }
        else
@@ -1546,6 +1551,7 @@ function hardMode() {
        }
     p1.turn = true;
     p2.turn = false;
+    scoreUpdate();
 }
 
 var right = false;
@@ -1578,6 +1584,7 @@ function orthogonal(x,y)
                     lasty.push(y);
                     alert("AI hit a ship at [" + xchar + ", " + p2.hitY + "]");
                     p1.shipHit(p2.hitX,p2.hitY);
+                    hitScore2 +=1;
                     //copy1.shipHit(p2.hitX,p2.hitY);
             }
             else
@@ -1612,6 +1619,7 @@ function orthogonal(x,y)
                     lasty.push(y);
                     alert("Ship hit at [" + xchar + ", " + p2.hitY + "]");
                     p1.shipHit(p2.hitX,p2.hitY);
+                    hitScore2 +=1;
                     //copy1.shipHit(p2.hitX,p2.hitY);
                 }
                 else
@@ -1644,6 +1652,7 @@ function orthogonal(x,y)
                     lasty.push(y);
                     alert("Ship hit at [" + xchar + ", " + p2.hitY + "]");
                     p1.shipHit(p2.hitX,p2.hitY);
+                    hitScore2 +=1;
                     //copy1.shipHit(p2.hitX,p2.hitY);
                 }
                 else
@@ -1710,4 +1719,5 @@ function orthogonal(x,y)
         console.log('reset');
         mediumMode();
     }
+    scoreUpdate();
 }
