@@ -1314,8 +1314,9 @@ function easyMode() {
         p2.setHitY(y);
         xchar = converttoLetter(x);
         if(p1.checkBoard(p2.hitX,p2.hitY)){
-            alert("Ship hit at [" + xchar + ", " + p2.hitY + "]");
+            alert("AI hit a ship at [" + xchar + ", " + p2.hitY + "]");
             p1.shipHit(p2.hitX,p2.hitY);
+            hitScore2 +=1;
             //copy1.shipHit(p2.hitX,p2.hitY);
         }
         else
@@ -1324,6 +1325,7 @@ function easyMode() {
             p1.shipHit(p2.hitX,p2.hitY);
             alert("AI Missed at [" + xchar + ", " + p2.hitY + "]\nBetter luck next time!");
         }
+        scoreUpdate();
         if(validShot)
         {
             p1.turn = true;
@@ -1386,8 +1388,9 @@ function mediumMode() {
             if(p1.checkBoard(p2.hitX,p2.hitY)){
                 lastx.push(mx);
                 lasty.push(my);
-                alert("Ship hit at [" + xchar + ", " + p2.hitY + "]");
+                alert("AI hit a ship at [" + xchar + ", " + p2.hitY + "]");
                 p1.shipHit(p2.hitX,p2.hitY);
+                hitScore2 +=1;
                 //copy1.shipHit(p2.hitX,p2.hitY);
             }
             else
@@ -1397,6 +1400,7 @@ function mediumMode() {
                 alert("AI Missed at [" + xchar + ", " + p2.hitY + "]\nBetter luck next time!");
             }
     }
+    scoreUpdate();
         if(validShot)
         {
             p1.turn = true;
@@ -1458,8 +1462,9 @@ function hardMode() {
        p2.setHitY(hy);
        xchar = converttoLetter(hx);
        if(p1.checkBoard(p2.hitX,p2.hitY)){
-           alert("Ship hit at [" + xchar + ", " + p2.hitY + "]");
+           alert("AI hit a ship at [" + xchar + ", " + p2.hitY + "]");
            p1.shipHit(p2.hitX,p2.hitY);
+           hitScore2 +=1;
            //copy1.shipHit(p2.hitX,p2.hitY);
        }
        else
@@ -1468,6 +1473,7 @@ function hardMode() {
            p1.shipHit(p2.hitX,p2.hitY);
            alert("AI Misses at [" + xchar + ", " + p2.hitY + "]\nBetter luck next time!");
        }
+       scoreUpdate();
        if(validShot)
        {
            p1.turn = true;
@@ -1530,7 +1536,7 @@ function orthogonal(x,y)
             if(p1.checkBoard(p2.hitX,p2.hitY)){
                     lastx.push(x);
                     lasty.push(y);
-                    alert("Ship hit at [" + xchar + ", " + p2.hitY + "]");
+                    alert("AI hit a ship at [" + xchar + ", " + p2.hitY + "]");
                     p1.shipHit(p2.hitX,p2.hitY);
                     //copy1.shipHit(p2.hitX,p2.hitY);
             }
@@ -1580,7 +1586,7 @@ function orthogonal(x,y)
             {
                 //p1.shipMiss(p2.hitX, p2.hitY);
                 p1.shipHit(p2.hitX,p2.hitY);
-                alert("Miss at [" + xchar + ", " + p2.hitY + "]\nBetter luck next chance!");
+                alert("AI missed at [" + xchar + ", " + p2.hitY + "]");
             }
             left = true;
         }
@@ -1612,7 +1618,7 @@ function orthogonal(x,y)
             {
                 //p1.shipMiss(p2.hitX, p2.hitY);
                 p1.shipHit(p2.hitX,p2.hitY);
-                alert("Miss at [" + xchar + ", " + p2.hitY + "]\nBetter luck next chance!");
+                alert("AI missed at [" + xchar + ", " + p2.hitY + "]");
             }
             down = true;
         }
@@ -1644,7 +1650,7 @@ function orthogonal(x,y)
             {
                 //p1.shipMiss(p2.hitX, p2.hitY);
                 p1.shipHit(p2.hitX,p2.hitY);
-                alert("Miss at [" + xchar + ", " + p2.hitY + "]\nBetter luck next chance!");
+                alert("AI missed at [" + xchar + ", " + p2.hitY + "]");
             }
             up = true;
         }
