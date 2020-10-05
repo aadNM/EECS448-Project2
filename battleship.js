@@ -1,4 +1,5 @@
 // Initializing global variables
+var hitSoundeffect;
 var validPlacements;
 var validCoords;
 var validShot = true;
@@ -20,6 +21,7 @@ let boom = String.fromCodePoint(0x1F525);
  */
 function playersSet(){
     var playVS = document.getElementsByName("manVSmachine");
+    hitSoundeffect = new sound("Explosion+7.mp3");
 
     for(i = 0; i < playVS.length; i++){
         if (playVS[i].checked){
@@ -306,6 +308,7 @@ class Board
         }else if (this.board[y][x] == 'S') {
             this.board[y][x] = boom;
             validShot = true;
+            hitSoundeffect.play();
             //alert("HIT AT " + x + " " + y); 
         }
     }
