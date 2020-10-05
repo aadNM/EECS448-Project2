@@ -13,6 +13,7 @@ section.screen {
 
 .player1-screen, .player2-screen {
     width: 50%;
+    text-align: center;
 }
 
 .player-view {
