@@ -9,6 +9,7 @@ let hitScore2 = 0;
 let sunkScore1 = 0;
 let sunkScore2 = 0;
 let boom = String.fromCodePoint(0x1F525);
+var hitSoundeffect;
 
 /**
  * Reacts to the players selection of opponent and sets the global variable playMode
@@ -20,6 +21,7 @@ let boom = String.fromCodePoint(0x1F525);
  */
 function playersSet(){
     var playVS = document.getElementsByName("manVSmachine");
+    hitSoundeffect = new sound("Explosion+7.mp3");
 
     for(i = 0; i < playVS.length; i++){
         if (playVS[i].checked){
@@ -306,6 +308,7 @@ class Board
         }else if (this.board[y][x] == 'S') {
             this.board[y][x] = boom;
             validShot = true;
+            hitSoundeffect.play();
             //alert("HIT AT " + x + " " + y); 
         }
     }
@@ -1243,6 +1246,7 @@ function hitShip(){
                 document.getElementById('attack').hidden = true;
                 document.getElementById('p1win').hidden = false;
                 document.getElementById('p2win').hidden = true;
+                document.getElementById('aiwin').hidden = true;
                 prettyPrint(p1,"p1FB");
                 prettyPrint(p2,"p2FB");
 
@@ -1321,7 +1325,10 @@ function hitShip(){
                     document.getElementById('game-Over').hidden = false;
                     document.getElementById('attack').hidden = true;
                     document.getElementById('p1win').hidden = true;
-                    document.getElementById('p2win').hidden = false;
+                    if(playMode == 'vsMan')
+                    {
+                        document.getElementById('p2win').hidden = false;
+                    }
                     prettyPrint(p1,"p1FB");
                     prettyPrint(p2,"p2FB");
                 }
@@ -1386,7 +1393,8 @@ function easyMode() {
                 document.getElementById('game-Over').hidden = false;
                 document.getElementById('attack').hidden = true;
                 document.getElementById('p1win').hidden = true;
-                document.getElementById('p2win').hidden = false;
+                document.getElementById('p2win').hidden = true;
+                document.getElementById('aiwin').hidden = false;
                 prettyPrint(p1,"p1FB");
                 prettyPrint(p2,"p2FB");
             }
@@ -1417,12 +1425,15 @@ var lasty = [];
  * @throws None
  * @return None
  */
-function mediumMode() {
+function mediumMode() 
+{
     console.log(lastx);
     if(lastx.length != 0)
     {
         console.log(lastx + "for orthogonal");
         orthogonal(lastx[0],lasty[0]);
+        console.log(firedX);
+        console.log(firedY);
     }
     else
     {
@@ -1439,47 +1450,65 @@ function mediumMode() {
                 hitScore2 +=1;
                 //copy1.shipHit(p2.hitX,p2.hitY);
             }
-            else
-            {
-                //p1.shipMiss(p2.hitX, p2.hitY);
-                p1.shipHit(p2.hitX,p2.hitY);
-                alert("AI Missed at [" + xchar + ", " + p2.hitY + "]");
+        }
+        
+        p2.setHitX(mx);
+        p2.setHitY(my);
+        firedX.push(mx);
+        firedY.push(my);
+        console.log(firedX);
+        console.log(firedY);
+
+        xchar = converttoLetter(mx);
+        if(p1.checkBoard(p2.hitX,p2.hitY)){
+            lastx.push(mx);
+            lasty.push(my);
+            alert("AI hit a ship at [" + xchar + ", " + p2.hitY + "]");
+            p1.shipHit(p2.hitX,p2.hitY);
+            //copy1.shipHit(p2.hitX,p2.hitY);
+        }
+        else
+        {
+            //p1.shipMiss(p2.hitX, p2.hitY);
+            p1.shipHit(p2.hitX,p2.hitY);
+            alert("AI missed at [" + xchar + ", " + p2.hitY + "]");
             }
     }
-        if(validShot)
-        {
-            p1.turn = true;
-            p2.turn = false;
-            document.getElementById('pturn').innerHTML = "Player 1 turn";
-            //document.getElementById('p1div').hidden = false; // hides the table
-            if(gameOver(p1,p2) == true)
-            { 
-                document.getElementById('p1Board').hidden = true;
-                document.getElementById('p2copy').hidden = true;
+    if(validShot)
+    {
+        p1.turn = true;
+        p2.turn = false;
+        document.getElementById('pturn').innerHTML = "Player 1 turn";
+        //document.getElementById('p1div').hidden = false; // hides the table
+        if(gameOver(p1,p2) == true)
+        { 
+            document.getElementById('p1Board').hidden = true;
+            document.getElementById('p2copy').hidden = true;
+            document.getElementById('p2Board').hidden = true;
+            document.getElementById('p1copy').hidden = true;
+            document.getElementById('game-Over').hidden = false;
+            document.getElementById('attack').hidden = true;
+            document.getElementById('p1win').hidden = true;
+            document.getElementById('p2win').hidden = false;
+            prettyPrint(p1,"p1FB");
+            prettyPrint(p2,"p2FB");
+        }
+        else{
+            setTimeout(function() {
+                document.getElementById('p1Board').hidden = false;
+                document.getElementById('p2copy').hidden = false;
                 document.getElementById('p2Board').hidden = true;
                 document.getElementById('p1copy').hidden = true;
-                document.getElementById('game-Over').hidden = false;
-                document.getElementById('attack').hidden = true;
-                document.getElementById('p1win').hidden = true;
-                document.getElementById('p2win').hidden = false;
-                prettyPrint(p1,"p1FB");
-                prettyPrint(p2,"p2FB");
-            }
-            else{
-                setTimeout(function() {
-                    document.getElementById('p1Board').hidden = false;
-                    document.getElementById('p2copy').hidden = false;
-                    document.getElementById('p2Board').hidden = true;
-                    document.getElementById('p1copy').hidden = true;
-                    prettyPrint(p1,"p1BView");
-                    prettyPrint(copy2, "p1CView");
-                }, 3000);
-            }
+                prettyPrint(p1,"p1BView");
+                prettyPrint(copy2, "p1CView");
+            }, 2000);
         }
+    }
     p2.turn = false;
     p1.turn = true;
     scoreUpdate();
 }
+
 
 /**
  * Defines how the hard AI is to shoot player one's board
@@ -1534,7 +1563,8 @@ function hardMode() {
                document.getElementById('game-Over').hidden = false;
                document.getElementById('attack').hidden = true;
                document.getElementById('p1win').hidden = true;
-               document.getElementById('p2win').hidden = false;
+               document.getElementById('p2win').hidden = true;
+               document.getElementById('aiwin').hidden = false;
                prettyPrint(p1,"p1FB");
                prettyPrint(p2,"p2FB");
            }
@@ -1570,11 +1600,11 @@ var down = false;
  */
 function orthogonal(x,y)
 {
-    if (right == false)
+    if (right == false )
     {
         let x = lastx[0] + 1;
         let y = lasty[0];
-        if(lastx[0] != 9)
+        if(lastx[0] != 9 &&  p1.board[y][x] != boom)
         {
             p2.setHitX(x);
             p2.setHitY(y);
@@ -1591,11 +1621,13 @@ function orthogonal(x,y)
             {
                 //p1.shipMiss(p2.hitX, p2.hitY);
                 p1.shipHit(p2.hitX,p2.hitY);
-                alert("AI Missed at [" + xchar + ", " + p2.hitY + "]");
+                alert("AI missed at [" + xchar + ", " + p2.hitY + "]");
             }
             right = true;
+            firedX.push(x);
+            firedY.push(y);
         }
-        else if (p1.board[y][x] == 'X' || p1.board[y][x] == '0' || lastx[0] == 9)
+        else if (p1.board[y][x] == boom || p1.board[y][x] == '0' || lastx[0] == 9)
         {
             right = true;
             mediumMode();
@@ -1605,7 +1637,7 @@ function orthogonal(x,y)
     {
         let x = lastx[0] - 1;
         let y = lasty[0];
-        if(lastx[0] != 1)
+        if(lastx[0] != 1 &&  p1.board[y][x] != boom)
         {
             let x = lastx[0] - 1;
             let y = lasty[0];
@@ -1637,8 +1669,10 @@ function orthogonal(x,y)
                 alert("AI missed at [" + xchar + ", " + p2.hitY + "]");
             }
             left = true;
+            firedX.push(x);
+            firedY.push(y);
         }
-        else if (p1.board[y][x] == 'X' || p1.board[y][x] == '0' || lastx[0] == 1)
+        else if (p1.board[y][x] == boom || p1.board[y][x] == '0' || lastx[0] == 1)
         {
             let x = lastx[0];
             let y = lasty[0] + 1;
@@ -1670,30 +1704,30 @@ function orthogonal(x,y)
                 alert("AI missed at [" + xchar + ", " + p2.hitY + "]");
             }
             down = true;
+            firedX.push(x);
+            firedY.push(y);
         }
-        else if (p1.board[y][x] == 'X' || p1.board[y][x] == '0' || lasty[0] == 9 )
+        else if (p1.board[y][x] == boom || p1.board[y][x] == '0' || lasty[0] == 9 )
         {
-            let x = lastx[0];
-            let y = lasty[0] - 1;
-            if(lasty[0] != 1)
-            {
-                p2.setHitX(x);
-                p2.setHitY(y);
-                xchar = converttoLetter(x);
-                if(p1.checkBoard(p2.hitX,p2.hitY)){
-                    lastx.push(x);
-                    lasty.push(y);
-                    alert("Ship hit at [" + xchar + ", " + p2.hitY + "]");
-                    p1.shipHit(p2.hitX,p2.hitY);
-                    //copy1.shipHit(p2.hitX,p2.hitY);
-                }
-                else
-                {
-                    //p1.shipMiss(p2.hitX, p2.hitY);
-                    p1.shipHit(p2.hitX,p2.hitY);
-                    alert("AI Missed at [" + xchar + ", " + p2.hitY + "]");
-                }
-                up = true;
+            down = true;
+            mediumMode();   
+        }
+    }
+    else if (up == false)
+    {
+        let x = lastx[0];
+        let y = lasty[0] - 1;
+        if(lasty[0] != 1 &&  p1.board[y][x] != boom)
+        {
+            p2.setHitX(x);
+            p2.setHitY(y);
+            xchar = converttoLetter(x);
+            if(p1.checkBoard(p2.hitX,p2.hitY)){
+                lastx.push(x);
+                lasty.push(y);
+                alert("AI hit a ship at [" + xchar + ", " + p2.hitY + "]");
+                p1.shipHit(p2.hitX,p2.hitY);
+                //copy1.shipHit(p2.hitX,p2.hitY);
             }
             else
             {
@@ -1702,8 +1736,10 @@ function orthogonal(x,y)
                 alert("AI missed at [" + xchar + ", " + p2.hitY + "]");
             }
             up = true;
+            firedX.push(x);
+            firedY.push(y);
         }
-        else if (p1.board[y][x] == 'X' || p1.board[y][x] == '0' || lasty[0] == 1)
+        else if (p1.board[y][x] == boom || p1.board[y][x] == '0' || lasty[0] == 1)
         {
             up = true;
             mediumMode(); 
@@ -1711,7 +1747,10 @@ function orthogonal(x,y)
     }
     else if ( right && left && up && down)
     {
-        right,left,up,down = false
+        right = false;
+        left = false;
+        up = false;
+        down = false;
         console.log(lastx);
         lastx.shift();
         lasty.shift();
