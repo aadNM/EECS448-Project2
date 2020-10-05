@@ -1,7 +1,9 @@
-canvas
-{
-    border: 5px solid #534C58;
-    background-size: 100%; 
+/*audio{
+	visibility: hidden;
+}*/
+
+body{
+    text-align: center;
 }
 
 section.screen {
@@ -30,3 +32,51 @@ td:first-child {
     border-right: 1px solid;
     border-radius: 13%;
 }
+
+#score-board {
+    width: 400px;
+    display: flex;
+    background: #003459;
+    color: #ffffff;
+    border-radius: 14px;
+    margin: auto;	 
+}
+
+#player1-score {
+}
+
+#score-board > div {
+    width: 200px;
+    text-align: center;
+    font-size: 24px;
+    border-top-right-radius: 14px;
+
+}
+
+#player1-score {
+    border-right: 3px solid #e8000d;
+}
+
+#score-board h4 {
+    border-bottom: 1px dashed #e8000d;
+}
+
+#game-Over {
+    font-weight: bold;
+    font-size: 25px;
+    border-bottom-right-radius: 3px;
+    border-top-left-radius: 3px;
+    background: #73cbf2;
+    color: #ffffff;
+}
+
+#p1win, #p2win, #aiwin {
+    font-size: 30px;
+    text-align: center;
+    border: 2px solid;
+    margin: 3%;
+    background: #ffc82d;
+    color: #000;
+}
+
+
