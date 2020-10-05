@@ -1473,7 +1473,6 @@ function mediumMode()
             p1.shipHit(p2.hitX,p2.hitY);
             alert("AI missed at [" + xchar + ", " + p2.hitY + "]");
             }
-    }
     if(validShot)
     {
         p1.turn = true;
